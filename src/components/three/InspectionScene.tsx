@@ -6,7 +6,6 @@ import * as THREE from "three";
 import PackageModel from "./PackageModel";
 import ScanBeam from "./ScanBeam";
 import BoundingBox from "./BoundingBox";
-import InspectorHand from "./InspectorHand";
 import InspectionTable from "./InspectionTable";
 import RecordNodes from "./RecordNodes";
 import { DECLARATIONS } from "@/lib/constants";
@@ -127,7 +126,6 @@ export default function InspectionScene() {
         <PackageModel>
           <BoundingBoxes />
         </PackageModel>
-        <InspectorHand />
         <ScanBeam />
         <RecordNodes />
 
