@@ -1,10 +1,12 @@
 import type {
+  BackendReport,
   ComplianceCheck,
   ComplianceOutcome,
   ComplianceRule,
   ServiceAvailability,
   Violation,
 } from "@/types/inspection";
+import { apiClient } from "@/lib/apiClient";
 
 export interface ComplianceResponse {
   status: ServiceAvailability;
@@ -12,6 +14,7 @@ export interface ComplianceResponse {
   outcome: ComplianceOutcome | null;
   checks: ComplianceCheck[];
   violations: Violation[];
+  backendReport?: BackendReport;
 }
 
 export const COMPLIANCE_RULES: ComplianceRule[] = [
@@ -53,11 +56,59 @@ export const COMPLIANCE_RULES: ComplianceRule[] = [
   },
 ];
 
+interface RunFullResponse {
+  labelData: unknown;
+  ocrResults: unknown[];
+  visionResults: unknown[];
+  report: BackendReport;
+  meta: { totalMs: number; imageCount: number };
+}
+
 export const complianceService = {
   rules(): ComplianceRule[] {
     return COMPLIANCE_RULES;
   },
-  async evaluate(_labelPresent: boolean, demo: boolean): Promise<ComplianceResponse> {
+
+  async evaluate(
+    _labelPresent: boolean,
+    demo: boolean,
+    backendImageUrls?: string[]
+  ): Promise<ComplianceResponse> {
+    // Real pipeline: call backend when image URLs from MinIO are available.
+    if (backendImageUrls && backendImageUrls.length > 0) {
+      try {
+        const data = await apiClient.post<RunFullResponse>("/api/inspections/run-full", {
+          imageUrls: backendImageUrls,
+        });
+        const report = data.report;
+        const outcome: ComplianceOutcome =
+          report.overallStatus === "compliant"
+            ? "COMPLIANT"
+            : report.overallStatus === "partially_compliant"
+            ? "REVIEW_REQUIRED"
+            : "VIOLATIONS_DETECTED";
+
+        return {
+          status: "AVAILABLE",
+          message: `AI compliance check complete. Score: ${report.complianceScore}/100`,
+          outcome,
+          checks: [],
+          violations: [],
+          backendReport: report,
+        };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Unknown error";
+        return {
+          status: "ERROR",
+          message: `Compliance check failed: ${msg}`,
+          outcome: null,
+          checks: [],
+          violations: [],
+        };
+      }
+    }
+
+    // Demo / offline fallback.
     await wait(demo ? 1100 : 600);
     if (!demo) {
       return {

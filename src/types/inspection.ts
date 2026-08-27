@@ -40,6 +40,31 @@ export interface EvidenceItem {
   sizeBytes: number;
   previewUrl: string;
   capturedAt: string;
+  /** MinIO-hosted URL, set after successful upload to the backend. */
+  backendUrl?: string;
+  /** MinIO file key, for future presigned URL refresh. */
+  fileKey?: string;
+}
+
+export interface BackendRuleResult {
+  ruleCode: string;
+  title: string;
+  status: "pass" | "fail" | "warning" | "na";
+  detail: string;
+}
+
+export interface BackendReport {
+  reportId: string;
+  generatedAt: string;
+  overallStatus: "compliant" | "non_compliant" | "partially_compliant";
+  complianceScore: number;
+  ruleResults: BackendRuleResult[];
+  failedRules: BackendRuleResult[];
+  warningRules: BackendRuleResult[];
+  passedRules: BackendRuleResult[];
+  summary: string;
+  violationCategories: string[];
+  riskLevel: "low" | "medium" | "high";
 }
 
 export interface ImageQualityResult {
@@ -135,6 +160,8 @@ export interface InspectionDraft {
   checks: ComplianceCheck[];
   violations: Violation[];
   decision: OfficerDecision;
+  /** Full AI compliance report from the backend, set after run-full completes. */
+  backendReport?: BackendReport;
 }
 
 export interface InspectionSummary {

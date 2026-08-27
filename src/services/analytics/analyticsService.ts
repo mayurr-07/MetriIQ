@@ -3,6 +3,7 @@ import { complaintService } from "@/services/inspection/complaintService";
 import { adminService } from "@/services/admin/adminService";
 import { COMPLIANCE_RULES } from "@/services/inspection/complianceService";
 import { ISSUE_TYPE_LABELS } from "@/types/complaint";
+import { apiClient } from "@/lib/apiClient";
 import {
   SCOPE_LOCAL,
   SCOPE_UNAVAILABLE,
@@ -12,6 +13,15 @@ import {
   type GeographicalMetric,
   type TrendSeries,
 } from "@/types/analytics";
+
+interface BackendSummary {
+  totalInspections: number;
+  totalComplaints: number;
+  openComplaints: number;
+  complianceRate: number | null;
+  riskBreakdown: { low: number; medium: number; high: number };
+  topViolations: Array<{ category: string; count: number }>;
+}
 
 function monthKey(iso: string): string {
   const d = new Date(iso);
@@ -31,6 +41,31 @@ function monthLabel(key: string): string {
  * UI can render an honest empty state instead of a fabricated chart.
  */
 export const analyticsService = {
+  async dashboardMetricsFromApi(): Promise<DashboardMetrics | null> {
+    try {
+      const data = await apiClient.get<BackendSummary>("/api/analytics/summary");
+      const hasData = data.totalInspections > 0 || data.totalComplaints > 0;
+      return {
+        scope: hasData ? SCOPE_LOCAL : SCOPE_UNAVAILABLE,
+        metrics: [
+          { key: "inspections", label: "Inspection records", value: data.totalInspections },
+          { key: "complaints", label: "Consumer complaints", value: data.totalComplaints },
+          { key: "open", label: "Open complaints", value: data.openComplaints, tone: "review" },
+          {
+            key: "compliance",
+            label: "Avg. compliance score",
+            value: data.complianceRate,
+            hint: data.complianceRate != null ? `${data.complianceRate}/100` : undefined,
+          },
+          { key: "risk_high", label: "High-risk inspections", value: data.riskBreakdown.high, tone: "issue" },
+          { key: "risk_low", label: "Low-risk inspections", value: data.riskBreakdown.low },
+        ],
+      };
+    } catch {
+      return null;
+    }
+  },
+
   dashboardMetrics(): DashboardMetrics {
     const c = adminService.counts();
     const hasData = c.inspections > 0 || c.complaints > 0;

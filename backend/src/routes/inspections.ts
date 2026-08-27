@@ -1,11 +1,13 @@
 import { Router, Request, Response } from "express";
-import { requireAuth } from "../middleware/requireAuth.js";
+import { randomUUID } from "crypto";
+import { requireAuth, type AuthRequest } from "../middleware/requireAuth.js";
 import { requireRole } from "../middleware/requireRole.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import { extractLabelData } from "../services/ocrService.js";
 import { checkOcrRules } from "../services/ruleEngine.js";
 import { checkVisionRules } from "../services/visionRuleEngine.js";
 import { generateReport } from "../services/reportService.js";
+import { Inspection } from "../models/Inspection.js";
 import type { LabelData } from "../types/labelData.js";
 
 const router = Router();
@@ -157,6 +159,193 @@ router.post(
       visionResults,
       report,
       meta: { totalMs, imageCount: imageUrls.length },
+    });
+  })
+);
+
+// ── POST /api/inspections ─────────────────────────────────────────────────────
+// Create a new inspection record.
+
+router.post(
+  "/",
+  requireRole("officer", "admin", "senior"),
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { productDescription, location, complaintRef } = req.body as {
+      productDescription?: string;
+      location?: string;
+      complaintRef?: string;
+    };
+    if (!productDescription?.trim()) {
+      res.status(400).json({ error: "'productDescription' is required." });
+      return;
+    }
+
+    const inspection = await Inspection.create({
+      inspectionId: `INS-${Date.now().toString(36).toUpperCase()}`,
+      officerId: req.user!._id,
+      productDescription: productDescription.trim(),
+      location: location?.trim(),
+      complaintRef: complaintRef || undefined,
+      status: "draft",
+      images: [],
+    });
+
+    res.status(201).json({ inspection });
+  })
+);
+
+// ── GET /api/inspections ──────────────────────────────────────────────────────
+// List inspections, optionally filtered by status or officerId.
+
+router.get(
+  "/",
+  requireRole("officer", "admin", "senior"),
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { status, officerId, limit = "50", skip = "0" } = req.query as Record<string, string>;
+    const filter: Record<string, unknown> = {};
+
+    // Officers see only their own; admins/seniors can see all or filter by officer
+    if (req.user!.role === "officer") {
+      filter.officerId = req.user!._id;
+    } else if (officerId) {
+      filter.officerId = officerId;
+    }
+    if (status) filter.status = status;
+
+    const [inspections, total] = await Promise.all([
+      Inspection.find(filter)
+        .sort({ updatedAt: -1 })
+        .skip(parseInt(skip, 10))
+        .limit(Math.min(parseInt(limit, 10), 100))
+        .select("-extractedData -complianceReport"),
+      Inspection.countDocuments(filter),
+    ]);
+
+    res.json({ inspections, total });
+  })
+);
+
+// ── GET /api/inspections/:id ──────────────────────────────────────────────────
+// Get a single inspection with full report.
+
+router.get(
+  "/:id",
+  requireRole("officer", "admin", "senior"),
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    const inspection = await Inspection.findOne({ inspectionId: req.params.id });
+    if (!inspection) {
+      res.status(404).json({ error: "Inspection not found." });
+      return;
+    }
+    // Officers can only view their own
+    if (req.user!.role === "officer" && !inspection.officerId.equals(req.user!._id)) {
+      res.status(403).json({ error: "Access denied." });
+      return;
+    }
+    res.json({ inspection });
+  })
+);
+
+// ── PATCH /api/inspections/:id/images ────────────────────────────────────────
+// Add image entries to an existing inspection.
+
+router.patch(
+  "/:id/images",
+  requireRole("officer", "admin", "senior"),
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { images } = req.body as {
+      images?: Array<{ fileKey: string; url: string; type: string }>;
+    };
+    if (!Array.isArray(images) || images.length === 0) {
+      res.status(400).json({ error: "'images' must be a non-empty array." });
+      return;
+    }
+
+    const inspection = await Inspection.findOneAndUpdate(
+      { inspectionId: req.params.id, officerId: req.user!._id },
+      { $push: { images: { $each: images } } },
+      { new: true }
+    );
+    if (!inspection) {
+      res.status(404).json({ error: "Inspection not found or access denied." });
+      return;
+    }
+    res.json({ inspection });
+  })
+);
+
+// ── PATCH /api/inspections/:id/status ────────────────────────────────────────
+// Update inspection status and optional review notes.
+
+router.patch(
+  "/:id/status",
+  requireRole("officer", "admin", "senior"),
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { status, reviewNotes } = req.body as {
+      status?: string;
+      reviewNotes?: string;
+    };
+    const allowed = ["draft", "submitted", "reviewed", "closed"];
+    if (!status || !allowed.includes(status)) {
+      res.status(400).json({ error: `'status' must be one of: ${allowed.join(", ")}` });
+      return;
+    }
+
+    const inspection = await Inspection.findOneAndUpdate(
+      { inspectionId: req.params.id },
+      { status, ...(reviewNotes !== undefined && { reviewNotes }) },
+      { new: true }
+    );
+    if (!inspection) {
+      res.status(404).json({ error: "Inspection not found." });
+      return;
+    }
+    res.json({ inspection });
+  })
+);
+
+// ── POST /api/inspections/:id/run-compliance ──────────────────────────────────
+// Run the full compliance pipeline on an existing stored inspection.
+
+router.post(
+  "/:id/run-compliance",
+  requireRole("officer", "admin", "senior"),
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    const inspection = await Inspection.findOne({ inspectionId: req.params.id });
+    if (!inspection) {
+      res.status(404).json({ error: "Inspection not found." });
+      return;
+    }
+    if (inspection.images.length === 0) {
+      res.status(400).json({ error: "Inspection has no images. Add images first." });
+      return;
+    }
+
+    const imageUrls = inspection.images.map((img) => img.url);
+    const totalStart = Date.now();
+
+    const labelData = await extractLabelData(imageUrls[0]);
+    const [ocrResults, visionResults] = await Promise.all([
+      checkOcrRules(labelData),
+      checkVisionRules(imageUrls, labelData),
+    ]);
+    const report = await generateReport(ocrResults, visionResults, labelData);
+
+    inspection.extractedData = labelData as unknown as Record<string, unknown>;
+    inspection.complianceReport = {
+      ...report,
+      reportId: randomUUID(),
+      generatedAt: new Date(),
+    };
+    inspection.status = "submitted";
+    await inspection.save();
+
+    res.json({
+      labelData,
+      ocrResults,
+      visionResults,
+      report: inspection.complianceReport,
+      meta: { totalMs: Date.now() - totalStart, imageCount: imageUrls.length },
     });
   })
 );

@@ -8,6 +8,7 @@ import { Dialog } from "@/components/design-system/Dialog";
 import WorkflowProgress from "@/components/inspection/WorkflowProgress";
 import DemoBanner from "@/components/inspection/DemoBanner";
 import WorkflowStatusBadge from "@/components/inspection/WorkflowStatusBadge";
+import ComplianceReportView from "@/components/inspection/ComplianceReportView";
 import { inspectionService } from "@/services/inspection/inspectionService";
 import { StorageError } from "@/services/storage";
 import { evidenceService } from "@/services/inspection/evidenceService";
@@ -124,8 +125,14 @@ export default function NewInspectionPage() {
         draft.evidence.map((item) => item.id),
         demo,
       );
-      setStage("Preparing compliance checks");
-      const compliance = await complianceService.evaluate(Boolean(ocr.label), demo);
+
+      // Collect MinIO URLs from evidence items that were successfully uploaded.
+      const backendImageUrls = draft.evidence
+        .filter((item) => item.backendUrl)
+        .map((item) => item.backendUrl!);
+
+      setStage(backendImageUrls.length > 0 ? "Running AI compliance check (30–45s)…" : "Preparing compliance checks");
+      const compliance = await complianceService.evaluate(Boolean(ocr.label), demo, backendImageUrls.length > 0 ? backendImageUrls : undefined);
       const extracted = ocr.label;
       update({
         ...draft,
@@ -138,6 +145,7 @@ export default function NewInspectionPage() {
         complianceOutcome: compliance.outcome,
         checks: compliance.checks,
         violations: compliance.violations,
+        backendReport: compliance.backendReport,
         currentStep: 3,
       });
     } catch {
@@ -480,6 +488,9 @@ function ExtractStep({
 }
 
 function ComplianceStep({ draft, onAnalyse }: { draft: InspectionDraft; onAnalyse: () => void }) {
+  const hasBackend = Boolean(draft.backendReport);
+  const hasBackendUrls = draft.evidence.some((e) => e.backendUrl);
+
   return (
     <div className="space-y-4">
       <Card>
@@ -487,36 +498,46 @@ function ComplianceStep({ draft, onAnalyse }: { draft: InspectionDraft; onAnalys
           <div>
             <h2 className="font-display text-xl text-[#F0F2F5]">Compliance check</h2>
             <p className="mt-1 text-sm text-[#94A3B8]">
-              {draft.complianceStatus === "UNAVAILABLE" || !draft.complianceOutcome
-                ? "The rule engine is not connected. No official finding has been produced."
+              {hasBackend
+                ? "AI compliance analysis complete against 38 LM and FSSAI rules."
+                : hasBackendUrls
+                ? "Images uploaded. Click 'Run AI check' to start the full compliance pipeline."
+                : draft.complianceStatus === "UNAVAILABLE" || !draft.complianceOutcome
+                ? "Images not yet uploaded to backend. Demo mode only."
                 : "Demo checks only. Review each item before making a decision."}
             </p>
           </div>
-          <Button variant="secondary" size="sm" onClick={onAnalyse}>Refresh checks</Button>
+          <Button variant="secondary" size="sm" onClick={onAnalyse}>
+            {hasBackend ? "Re-run check" : "Run AI check"}
+          </Button>
         </div>
-        {draft.complianceOutcome && (
+        {!hasBackend && draft.complianceOutcome && (
           <p className="mt-4 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-[#F59E0B]">
             {draft.complianceOutcome.replace(/_/g, " ")}
           </p>
         )}
       </Card>
-      {draft.checks.length === 0 ? (
+
+      {/* Full backend report when available */}
+      {hasBackend && <ComplianceReportView report={draft.backendReport!} />}
+
+      {/* Fallback demo checks when no backend report */}
+      {!hasBackend && draft.checks.length === 0 && (
         <Card>
           <p className="text-sm text-[#94A3B8]">No compliance results yet. Request analysis or continue to record an officer decision.</p>
         </Card>
-      ) : (
-        draft.checks.map((check) => (
-          <Card key={check.id}>
-            <p className="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-[#94A3B8]">{check.title}</p>
-            <p className="mt-2 text-sm text-[#F0F2F5]">{check.requirement}</p>
-            <p className="mt-2 text-sm text-[#94A3B8]">Detected: {check.detectedValue}</p>
-            <p className="mt-3 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#F59E0B]">
-              {check.outcome.replace(/_/g, " ")}
-            </p>
-          </Card>
-        ))
       )}
-      {draft.violations.length > 0 && (
+      {!hasBackend && draft.checks.map((check) => (
+        <Card key={check.id}>
+          <p className="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-[#94A3B8]">{check.title}</p>
+          <p className="mt-2 text-sm text-[#F0F2F5]">{check.requirement}</p>
+          <p className="mt-2 text-sm text-[#94A3B8]">Detected: {check.detectedValue}</p>
+          <p className="mt-3 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#F59E0B]">
+            {check.outcome.replace(/_/g, " ")}
+          </p>
+        </Card>
+      ))}
+      {!hasBackend && draft.violations.length > 0 && (
         <div className="border border-[#F59E0B]/30 bg-[#F59E0B]/8 px-4 py-3">
           <p className="text-[0.8rem] leading-relaxed text-[#F0F2F5]/90">
             <span className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-[#F59E0B]">
@@ -527,7 +548,7 @@ function ComplianceStep({ draft, onAnalyse }: { draft: InspectionDraft; onAnalys
           </p>
         </div>
       )}
-      {draft.violations.map((item) => (
+      {!hasBackend && draft.violations.map((item) => (
         <Card key={item.id}>
           <p className="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-[#F59E0B]">
             Potential issue · {item.severity} · {item.ruleReference}

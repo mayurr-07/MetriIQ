@@ -6,6 +6,9 @@ import { initMinio } from "./lib/minio.js";
 import authRoutes from "./routes/auth.js";
 import uploadRoutes from "./routes/uploads.js";
 import inspectionRoutes from "./routes/inspections.js";
+import complaintRoutes from "./routes/complaints.js";
+import analyticsRoutes from "./routes/analytics.js";
+import rulesRoutes from "./routes/rules.js";
 
 const app = express();
 const PORT = parseInt(process.env.PORT ?? "4000", 10);
@@ -24,6 +27,9 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth",        authRoutes);
 app.use("/api/uploads",     uploadRoutes);
 app.use("/api/inspections", inspectionRoutes);
+app.use("/api/complaints",  complaintRoutes);
+app.use("/api/analytics",   analyticsRoutes);
+app.use("/api/rules",       rulesRoutes);
 
 // ── Global error handler ──────────────────────────────────────────────────────
 

@@ -1,6 +1,19 @@
 import type { User, Role } from "@/types";
 import { STORAGE_KEYS, readJson, removeKey, writeJson } from "@/services/storage";
 import { ROLE_DEFINITIONS } from "@/lib/roles";
+import { apiClient, storeToken, clearToken } from "@/lib/apiClient";
+
+const BACKEND_TO_ROLE: Record<string, Role> = {
+  officer: "INSPECTION_OFFICER",
+  admin: "ADMIN",
+  senior: "SENIOR_OFFICER",
+  consumer: "CONSUMER",
+};
+
+interface BackendLoginResponse {
+  token: string;
+  user: { _id: string; name: string; email: string; role: string; designation?: string; district?: string; badgeNumber?: string };
+}
 
 export interface LoginCredentials {
   email?: string;
@@ -69,14 +82,37 @@ export const authService = {
   },
 
   async login(credentials: LoginCredentials): Promise<User> {
-    // Simulate brief network latency so loading states are observable.
-    await new Promise((res) => setTimeout(res, 400));
-
-    // Development quick access — role selected directly.
+    // Development quick access — role selected directly (no backend needed).
     if (credentials.role && DEMO_USERS[credentials.role]) {
       const user = DEMO_USERS[credentials.role].user;
       this.setCurrentUser(user);
       return user;
+    }
+
+    // Try real backend first when email + password are provided.
+    if (credentials.email && credentials.password) {
+      try {
+        const resp = await apiClient.post<BackendLoginResponse>("/api/auth/login", {
+          email: credentials.email.trim(),
+          password: credentials.password,
+        });
+        storeToken(resp.token);
+        const role: Role = BACKEND_TO_ROLE[resp.user.role] ?? "INSPECTION_OFFICER";
+        const user: User = {
+          id: resp.user._id,
+          name: resp.user.name,
+          email: resp.user.email,
+          role,
+          designation: resp.user.designation ?? "",
+          department: "Government of India — Legal Metrology",
+          district: resp.user.district,
+          badgeNumber: resp.user.badgeNumber,
+        };
+        this.setCurrentUser(user);
+        return user;
+      } catch {
+        // Backend unreachable — fall through to demo credentials check.
+      }
     }
 
     if (credentials.email) {
@@ -102,6 +138,7 @@ export const authService = {
   },
 
   logout(): void {
+    clearToken();
     this.setCurrentUser(null);
   },
 };
