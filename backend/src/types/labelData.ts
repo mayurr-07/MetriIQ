@@ -42,3 +42,17 @@ export interface RuleResult {
   status: "pass" | "fail" | "warning" | "na";
   detail: string;
 }
+
+export interface ComplianceReport {
+  reportId: string;
+  generatedAt: Date;
+  overallStatus: "compliant" | "non_compliant" | "partially_compliant";
+  complianceScore: number;
+  ruleResults: RuleResult[];
+  failedRules: RuleResult[];
+  warningRules: RuleResult[];
+  passedRules: RuleResult[];
+  summary: string;
+  violationCategories: string[];
+  riskLevel: "low" | "medium" | "high";
+}

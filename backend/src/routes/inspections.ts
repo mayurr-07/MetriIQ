@@ -4,64 +4,160 @@ import { requireRole } from "../middleware/requireRole.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import { extractLabelData } from "../services/ocrService.js";
 import { checkOcrRules } from "../services/ruleEngine.js";
+import { checkVisionRules } from "../services/visionRuleEngine.js";
+import { generateReport } from "../services/reportService.js";
 import type { LabelData } from "../types/labelData.js";
 
 const router = Router();
 
-// All inspection routes require a logged-in user
 router.use(requireAuth);
 
-// POST /api/inspections/extract
-// Accepts an image URL, runs GPT-4o Vision extraction, returns LabelData.
+// ── POST /api/inspections/extract ─────────────────────────────────────────────
+// Runs GPT-4o Vision on an image URL and returns structured LabelData.
+
 router.post(
   "/extract",
   requireRole("officer", "admin", "senior"),
   asyncHandler(async (req: Request, res: Response) => {
     const { imageUrl } = req.body as { imageUrl?: string };
-
     if (!imageUrl?.trim()) {
-      res.status(400).json({ error: "'imageUrl' is required in the request body." });
+      res.status(400).json({ error: "'imageUrl' is required." });
       return;
     }
 
-    console.log(`[extract] Starting OCR extraction for: ${imageUrl.slice(0, 80)}...`);
-    const start = Date.now();
-
+    console.log(`[extract] Starting extraction...`);
+    const t = Date.now();
     const labelData = await extractLabelData(imageUrl.trim());
+    console.log(`[extract] Done in ${Date.now() - t}ms`);
 
-    console.log(`[extract] Done in ${Date.now() - start}ms`);
     res.json({ labelData });
   })
 );
 
-// POST /api/inspections/check-ocr
-// Accepts a LabelData body, runs all OCR+LLM compliance rules, returns RuleResult[].
+// ── POST /api/inspections/check-ocr ──────────────────────────────────────────
+// Runs all OCR+LLM compliance rules on a pre-extracted LabelData object.
+
 router.post(
   "/check-ocr",
   requireRole("officer", "admin", "senior"),
   asyncHandler(async (req: Request, res: Response) => {
     const labelData = req.body as LabelData;
-
     if (!labelData || typeof labelData !== "object") {
       res.status(400).json({ error: "Request body must be a LabelData JSON object." });
       return;
     }
 
-    console.log(`[check-ocr] Running compliance rule checks...`);
-    const start = Date.now();
-
+    console.log(`[check-ocr] Running OCR+LLM rule checks...`);
+    const t = Date.now();
     const results = await checkOcrRules(labelData);
 
     const passed  = results.filter((r) => r.status === "pass").length;
     const failed  = results.filter((r) => r.status === "fail").length;
     const warning = results.filter((r) => r.status === "warning").length;
-
-    console.log(
-      `[check-ocr] Done in ${Date.now() - start}ms — ` +
-      `${passed} pass, ${failed} fail, ${warning} warning out of ${results.length} rules`
-    );
+    console.log(`[check-ocr] ${passed}✓ ${failed}✗ ${warning}⚠ in ${Date.now() - t}ms`);
 
     res.json({ results, summary: { total: results.length, passed, failed, warning } });
+  })
+);
+
+// ── POST /api/inspections/check-vision ───────────────────────────────────────
+// Runs all 6 vision rule groups in parallel on provided image URLs.
+
+router.post(
+  "/check-vision",
+  requireRole("officer", "admin", "senior"),
+  asyncHandler(async (req: Request, res: Response) => {
+    const { imageUrls, labelData } = req.body as {
+      imageUrls?: string[];
+      labelData?: LabelData;
+    };
+
+    if (!Array.isArray(imageUrls) || imageUrls.length === 0) {
+      res.status(400).json({ error: "'imageUrls' must be a non-empty array of image URLs." });
+      return;
+    }
+    if (!labelData || typeof labelData !== "object") {
+      res.status(400).json({ error: "'labelData' is required for vision checks." });
+      return;
+    }
+
+    console.log(`[check-vision] Running ${imageUrls.length} image(s) through 6 vision checks in parallel...`);
+    const t = Date.now();
+    const results = await checkVisionRules(imageUrls, labelData);
+
+    const passed  = results.filter((r) => r.status === "pass").length;
+    const failed  = results.filter((r) => r.status === "fail").length;
+    const warning = results.filter((r) => r.status === "warning").length;
+    console.log(`[check-vision] ${passed}✓ ${failed}✗ ${warning}⚠ in ${Date.now() - t}ms`);
+
+    res.json({ results, summary: { total: results.length, passed, failed, warning } });
+  })
+);
+
+// ── POST /api/inspections/run-full ────────────────────────────────────────────
+// Full pipeline: extract → OCR rules → vision rules → compliance report.
+// This is the primary demo endpoint for SIH judges.
+
+router.post(
+  "/run-full",
+  requireRole("officer", "admin", "senior"),
+  asyncHandler(async (req: Request, res: Response) => {
+    const { imageUrls, labelData: providedLabelData } = req.body as {
+      imageUrls?: string[];
+      labelData?: LabelData;
+    };
+
+    if (!Array.isArray(imageUrls) || imageUrls.length === 0) {
+      res.status(400).json({ error: "'imageUrls' must be a non-empty array of image URLs." });
+      return;
+    }
+
+    const totalStart = Date.now();
+    console.log(`[run-full] Starting full compliance pipeline for ${imageUrls.length} image(s)...`);
+
+    // Step 1: Extract label data from the first image (front) if not already provided
+    let labelData: LabelData;
+    if (providedLabelData && typeof providedLabelData === "object") {
+      console.log(`[run-full] Using pre-extracted labelData — skipping OCR step.`);
+      labelData = providedLabelData;
+    } else {
+      console.log(`[run-full] Step 1/3 — Extracting label data from front image...`);
+      const t1 = Date.now();
+      labelData = await extractLabelData(imageUrls[0]);
+      console.log(`[run-full] Extraction done in ${Date.now() - t1}ms`);
+    }
+
+    // Step 2: Run OCR rules and vision rules in parallel
+    console.log(`[run-full] Step 2/3 — Running OCR+LLM rules and vision checks in parallel...`);
+    const t2 = Date.now();
+    const [ocrResults, visionResults] = await Promise.all([
+      checkOcrRules(labelData),
+      checkVisionRules(imageUrls, labelData),
+    ]);
+    console.log(`[run-full] Rule checks done in ${Date.now() - t2}ms — ` +
+      `OCR: ${ocrResults.length} rules, Vision: ${visionResults.length} rules`);
+
+    // Step 3: Generate compliance report
+    console.log(`[run-full] Step 3/3 — Generating compliance report...`);
+    const t3 = Date.now();
+    const report = await generateReport(ocrResults, visionResults, labelData);
+    console.log(`[run-full] Report generated in ${Date.now() - t3}ms`);
+
+    const totalMs = Date.now() - totalStart;
+    console.log(
+      `[run-full] ✓ Complete in ${totalMs}ms — ` +
+      `Score: ${report.complianceScore}/100, Risk: ${report.riskLevel}, ` +
+      `Status: ${report.overallStatus}, ` +
+      `${report.failedRules.length} fail / ${report.warningRules.length} warn / ${report.passedRules.length} pass`
+    );
+
+    res.json({
+      labelData,
+      ocrResults,
+      visionResults,
+      report,
+      meta: { totalMs, imageCount: imageUrls.length },
+    });
   })
 );
 
