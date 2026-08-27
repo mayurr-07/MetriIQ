@@ -3,14 +3,17 @@
  *
  * 1. Checks if MongoDB (27017) and MinIO (9000) are reachable.
  * 2. If not → runs `docker-compose up -d` and waits up to 60 s.
- * 3. If Docker fails (daemon not running etc.) → clear error, exit 1.
- * 4. Once infra is ready → starts frontend (Vite) + backend (tsx watch)
- *    side-by-side via `concurrently` with colour-coded prefixed output.
+ * 3. Once infra is ready → starts frontend (Vite) + backend (tsx watch) in parallel.
  */
 
 import net from "net";
 import { execSync, spawn } from "child_process";
 import { setTimeout as sleep } from "timers/promises";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, "..");
 
 const BOLD  = "\x1b[1m";
 const CYAN  = "\x1b[36m";
@@ -19,12 +22,12 @@ const GREEN = "\x1b[32m";
 const RED   = "\x1b[31m";
 const RESET = "\x1b[0m";
 
+const NPM = "npm";
+
 const INFRA = [
   { name: "MongoDB", host: "localhost", port: 27017 },
   { name: "MinIO",   host: "localhost", port: 9000  },
 ];
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function checkPort(host, port, timeoutMs = 1500) {
   return new Promise((resolve) => {
@@ -65,23 +68,19 @@ async function waitUntilReady(maxMs = 60_000) {
   return false;
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
+// ── Infra check ───────────────────────────────────────────────────────────────
 
 const initial = await getStatuses();
 const allUp   = initial.every((s) => s.up);
 
 if (allUp) {
-  console.log(
-    `${BOLD}[infra]${RESET} ${statusLine(initial)} — already running, skipping Docker.`
-  );
+  console.log(`${BOLD}[infra]${RESET} ${statusLine(initial)} — already running, skipping Docker.`);
 } else {
-  console.log(
-    `${BOLD}[infra]${RESET} ${statusLine(initial)}`
-  );
+  console.log(`${BOLD}[infra]${RESET} ${statusLine(initial)}`);
   console.log(`${BOLD}[infra]${RESET} Starting infrastructure via Docker Compose...`);
 
   try {
-    execSync("docker-compose up -d", { stdio: "inherit" });
+    execSync("docker-compose up -d", { stdio: "inherit", cwd: ROOT });
   } catch {
     console.error(
       `\n${RED}${BOLD}[infra] docker-compose up failed.${RESET}\n` +
@@ -102,8 +101,7 @@ if (allUp) {
     process.exit(1);
   }
 
-  const final = await getStatuses();
-  console.log(`${BOLD}[infra]${RESET} ${statusLine(final)} — ready.`);
+  console.log(`${BOLD}[infra]${RESET} ${statusLine(await getStatuses())} — ready.`);
 }
 
 console.log(
@@ -111,19 +109,36 @@ console.log(
   `${YEL}backend${RESET} on ${BOLD}http://localhost:4000${RESET}\n`
 );
 
-const proc = spawn(
-  "npx",
-  [
-    "concurrently",
-    "--kill-others-on-fail",       // if one crashes, kill the other too
-    "--names",         "frontend,backend",
-    "--prefix-colors", "cyan.bold,yellow.bold",
-    "--prefix",        "[{name}]",
-    "npm run dev:frontend",
-    "npm run dev:backend",
-  ],
-  { stdio: "inherit", shell: true }
-);
+// ── Launch processes ──────────────────────────────────────────────────────────
 
-// Forward exit code so CI / shell knows if something crashed
-proc.on("exit", (code) => process.exit(code ?? 0));
+function prefix(name, color) {
+  return (data) => {
+    const lines = data.toString().replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    for (const line of lines.split("\n")) {
+      if (line.trim()) console.log(`${color}[${name}]${RESET} ${line}`);
+    }
+  };
+}
+
+const frontend = spawn(NPM, ["run", "dev:frontend"], { cwd: ROOT, shell: true });
+const backend  = spawn(NPM, ["run", "dev:backend"],  { cwd: ROOT, shell: true });
+
+frontend.stdout.on("data", prefix("frontend", CYAN));
+frontend.stderr.on("data", prefix("frontend", CYAN));
+backend.stdout.on("data",  prefix("backend",  YEL));
+backend.stderr.on("data",  prefix("backend",  YEL));
+
+frontend.on("exit", (code) => {
+  console.log(`${RED}[frontend] exited with code ${code}${RESET}`);
+  backend.kill();
+  process.exit(code ?? 1);
+});
+
+backend.on("exit", (code) => {
+  console.log(`${RED}[backend] exited with code ${code}${RESET}`);
+  frontend.kill();
+  process.exit(code ?? 1);
+});
+
+process.on("SIGINT",  () => { frontend.kill(); backend.kill(); });
+process.on("SIGTERM", () => { frontend.kill(); backend.kill(); });
