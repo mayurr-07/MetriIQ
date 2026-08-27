@@ -1,12 +1,18 @@
 {
-  "name": "react-vite-tailwind",
+  "name": "metriq",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/dev.js",
+    "dev:frontend": "vite",
+    "dev:backend": "npm run start:dev --prefix backend",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "infra:up": "docker-compose up -d",
+    "infra:down": "docker-compose down",
+    "infra:logs": "docker-compose logs -f",
+    "install:all": "npm install && npm install --prefix backend"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -31,9 +37,10 @@
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "5.1.1",
+    "concurrently": "^9.2.4",
     "tailwindcss": "4.1.17",
     "typescript": "5.9.3",
-    "vite": "7.3.2",
+    "vite": "^7.3.6",
     "vite-plugin-singlefile": "2.3.0"
   }
 }
