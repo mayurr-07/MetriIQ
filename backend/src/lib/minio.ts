@@ -32,7 +32,18 @@ export async function uploadBuffer(
   return key;
 }
 
-/** Generate a presigned URL valid for 1 hour. */
+/** Generate a presigned URL valid for 1 hour.
+ *  In production, replaces the internal MinIO hostname with MINIO_PUBLIC_URL
+ *  so browsers can reach the file directly (e.g. https://storage.yourdomain.com).
+ */
 export async function getPresignedUrl(key: string): Promise<string> {
-  return minioClient.presignedGetObject(BUCKET, key, 3600);
+  const url = await minioClient.presignedGetObject(BUCKET, key, 3600);
+  const publicUrl = process.env.MINIO_PUBLIC_URL?.replace(/\/$/, "");
+  if (publicUrl) {
+    const ssl = process.env.MINIO_USE_SSL === "true";
+    const proto = ssl ? "https" : "http";
+    const internal = `${proto}://${process.env.MINIO_ENDPOINT ?? "localhost"}:${process.env.MINIO_PORT ?? "9000"}`;
+    return url.replace(internal, publicUrl);
+  }
+  return url;
 }

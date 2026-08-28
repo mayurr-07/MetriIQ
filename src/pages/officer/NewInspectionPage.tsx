@@ -16,10 +16,33 @@ import { qualityService } from "@/services/inspection/qualityService";
 import { labelExtractionService } from "@/services/inspection/labelExtractionService";
 import { complianceService } from "@/services/inspection/complianceService";
 import { deriveWorkflowState, reviewsFromLabel } from "@/features/inspection/draftFactory";
-import type { EvidenceKind, InspectionDraft, ProductContext } from "@/types/inspection";
+import type { EvidenceKind, ExtractedLabel, ImageQualityResult, InspectionDraft, ProductContext, ServiceAvailability } from "@/types/inspection";
 import { INSPECTION_STEPS } from "@/types/inspection";
+import { apiClient } from "@/lib/apiClient";
 
 const CATEGORIES = ["Packaged food", "Edible oil", "Spices", "Beverages", "Other packaged commodity"];
+
+function mapLabelData(ld: Record<string, unknown>): ExtractedLabel {
+  const nq = ld.netQuantity as { value?: number; unit?: string } | null;
+  const mrpObj = ld.mrp as { rawText?: string } | null;
+  const parts: string[] = [];
+  if (ld.fssaiLicenseNo) parts.push(`FSSAI: ${ld.fssaiLicenseNo}`);
+  if (ld.storageInstructions) parts.push(String(ld.storageInstructions));
+  if (ld.bestBeforeDate) parts.push(`Best before: ${ld.bestBeforeDate}`);
+  return {
+    productName: String(ld.productName ?? ""),
+    brand: String(ld.manufacturerName ?? ld.genericName ?? ""),
+    netQuantity: nq ? `${nq.value ?? ""} ${nq.unit ?? ""}`.trim() : "",
+    mrp: mrpObj?.rawText ?? "",
+    manufacturingDate: String(ld.manufactureDate ?? ""),
+    batchNumber: String(ld.batchNumber ?? ""),
+    customerCarePhone: String(ld.consumerCarePhone ?? ""),
+    customerCareEmail: String(ld.consumerCareEmail ?? ""),
+    manufacturer: String(ld.manufacturerName ?? ""),
+    countryOfOrigin: String(ld.countryOfOrigin ?? ""),
+    otherDeclarations: parts.join(" | "),
+  };
+}
 
 function persist(draft: InspectionDraft): InspectionDraft {
   return inspectionService.save({ ...draft, workflowState: deriveWorkflowState(draft) });
@@ -118,27 +141,50 @@ export default function NewInspectionPage() {
     setBusy(true);
     setError(null);
     try {
-      setStage("Checking image readiness");
-      const quality = await qualityService.analyse(draft.evidence.length, demo);
-      setStage("Reading package text");
-      const ocr = await labelExtractionService.extract(
-        draft.evidence.map((item) => item.id),
-        demo,
-      );
-
-      // Collect MinIO URLs from evidence items that were successfully uploaded.
       const backendImageUrls = draft.evidence
         .filter((item) => item.backendUrl)
         .map((item) => item.backendUrl!);
+      const hasBackend = backendImageUrls.length > 0;
 
-      setStage(backendImageUrls.length > 0 ? "Running AI compliance check (30–45s)…" : "Preparing compliance checks");
-      const compliance = await complianceService.evaluate(Boolean(ocr.label), demo, backendImageUrls.length > 0 ? backendImageUrls : undefined);
-      const extracted = ocr.label;
+      let quality: ImageQualityResult;
+      let extractionStatus: ServiceAvailability;
+      let extracted: ExtractedLabel | null;
+
+      if (hasBackend) {
+        quality = { status: "READY", message: "Image uploaded and ready for analysis." };
+        setStage("Extracting label data via AI…");
+        try {
+          const resp = await apiClient.post<{ labelData: Record<string, unknown> }>(
+            "/api/inspections/extract",
+            { imageUrl: backendImageUrls[0] },
+          );
+          extracted = mapLabelData(resp.labelData);
+          extractionStatus = "AVAILABLE";
+        } catch (err) {
+          console.warn("[extract] Backend OCR call failed:", err);
+          extracted = null;
+          extractionStatus = "ERROR";
+        }
+      } else {
+        setStage("Checking image readiness");
+        quality = await qualityService.analyse(draft.evidence.length, demo);
+        setStage("Reading package text");
+        const ocr = await labelExtractionService.extract(
+          draft.evidence.map((item) => item.id),
+          demo,
+        );
+        extracted = ocr.label;
+        extractionStatus = ocr.status;
+      }
+
+      setStage(hasBackend ? "Running AI compliance check (30–45s)…" : "Preparing compliance checks");
+      const compliance = await complianceService.evaluate(Boolean(extracted), demo, hasBackend ? backendImageUrls : undefined);
+
       update({
         ...draft,
         isDemo: demo || draft.isDemo,
         quality,
-        extractionStatus: ocr.status,
+        extractionStatus,
         extractedLabel: extracted,
         fieldReviews: extracted ? reviewsFromLabel(extracted) : draft.fieldReviews,
         complianceStatus: compliance.status,
@@ -146,7 +192,7 @@ export default function NewInspectionPage() {
         checks: compliance.checks,
         violations: compliance.violations,
         backendReport: compliance.backendReport,
-        currentStep: 3,
+        currentStep: 4,
       });
     } catch {
       setError("Analysis could not be completed. Please try again.");
@@ -393,9 +439,15 @@ function EvidenceStep({
                     <img src={item.previewUrl} alt={`${slot.title} preview`} className="h-48 w-full object-cover" />
                     <figcaption className="flex items-center justify-between px-3 py-2">
                       <span className="truncate font-mono text-[0.62rem] text-[#94A3B8]">{item.fileName}</span>
-                      <button type="button" onClick={() => onRemove(item.id)} className="text-[#EF4444]" aria-label="Remove image">
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                      <div className="flex items-center gap-2">
+                        {item.backendUrl
+                          ? <span className="font-mono text-[0.55rem] uppercase tracking-widest text-emerald-400">✓ Uploaded</span>
+                          : <span className="font-mono text-[0.55rem] uppercase tracking-widest text-amber-400">⚠ Local only</span>
+                        }
+                        <button type="button" onClick={() => onRemove(item.id)} className="text-[#EF4444]" aria-label="Remove image">
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
                     </figcaption>
                   </figure>
                 ))}
@@ -438,7 +490,12 @@ function ExtractStep({
       <Card>
         <h2 className="font-display text-xl text-[#F0F2F5]">Label extraction</h2>
         <p className="mt-2 text-sm leading-relaxed text-[#94A3B8]">
-          OCR is not connected. You can wait for the service, enter values manually, or run a labelled demo preview.
+          {draft.evidence.some((e) => e.backendUrl)
+            ? "Images uploaded to AI pipeline. Click 'Request analysis' to extract label data."
+            : draft.evidence.length > 0
+              ? "Images are stored locally only — backend upload failed. Check that the backend is running and you are logged in with a real account (not quick-access demo). See browser console for details."
+              : "Add an image first, then click 'Request analysis'."
+          }
         </p>
         {busy && (
           <div className="mt-4 border border-white/8 bg-white/[0.02] px-4 py-3 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-[#F59E0B]">
@@ -462,6 +519,9 @@ function ExtractStep({
         </p>
         {draft.extractionStatus === "UNAVAILABLE" && (
           <p className="mt-3 text-sm text-[#F59E0B]">Analysis unavailable. Enter the declarations manually if needed.</p>
+        )}
+        {draft.extractionStatus === "ERROR" && (
+          <p className="mt-3 text-sm text-[#EF4444]">AI extraction failed. Check the browser console for the error. You can still enter fields manually.</p>
         )}
         <div className="mt-5 grid gap-4">
           {draft.fieldReviews.map((field) => (

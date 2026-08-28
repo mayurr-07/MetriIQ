@@ -80,7 +80,7 @@ if (allUp) {
   console.log(`${BOLD}[infra]${RESET} Starting infrastructure via Docker Compose...`);
 
   try {
-    execSync("docker-compose up -d", { stdio: "inherit", cwd: ROOT });
+    execSync("docker-compose -f docker-compose.local.yml up -d", { stdio: "inherit", cwd: ROOT });
   } catch {
     console.error(
       `\n${RED}${BOLD}[infra] docker-compose up failed.${RESET}\n` +

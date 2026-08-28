@@ -1,0 +1,36 @@
+# Local development — starts MongoDB and MinIO only.
+# The frontend + backend dev servers run separately via: npm run dev
+#
+# Usage:
+#   docker-compose -f docker-compose.local.yml up -d
+#   docker-compose -f docker-compose.local.yml down
+
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: metriq_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: metriq
+
+  minio:
+    image: minio/minio:latest
+    container_name: metriq_minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"   # S3 API  (backend connects here)
+      - "9001:9001"   # Web console  →  http://localhost:9001
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: metriq_admin
+      MINIO_ROOT_PASSWORD: metriq_secret
+    command: server /data --console-address ":9001"
+
+volumes:
+  mongo_data:
+  minio_data:

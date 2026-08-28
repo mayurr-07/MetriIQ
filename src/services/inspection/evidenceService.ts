@@ -24,9 +24,10 @@ export const evidenceService = {
       if (uploaded[0]) {
         base.backendUrl = uploaded[0].url;
         base.fileKey = uploaded[0].fileKey;
+        console.log(`[evidence] Uploaded ${file.name} → ${uploaded[0].fileKey}`);
       }
-    } catch {
-      // Backend not running — proceed in offline/demo mode.
+    } catch (err) {
+      console.warn("[evidence] Upload failed — AI features will be unavailable for this image.", err);
     }
 
     return base;

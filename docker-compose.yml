@@ -1,29 +1,114 @@
+# Production deployment — deploy via Coolify.
+#
+# Set ALL ${} variables in the Coolify environment panel before deploying.
+# Required vars:
+#   MINIO_ACCESS_KEY     MinIO root username
+#   MINIO_SECRET_KEY     MinIO root password (min 8 chars)
+#   OPENAI_API_KEY       sk-...
+#   JWT_SECRET           64+ random hex chars
+# Optional vars (have defaults):
+#   MINIO_BUCKET         default: metriq-evidence
+#   JWT_EXPIRES_IN       default: 7d
+#
+# MinIO is internal-only — no public port needed.
+# The backend fetches images as base64 server-side, OpenAI never contacts MinIO.
+
 services:
+
+  # ── Database ────────────────────────────────────────────────────────────────
   mongo:
     image: mongo:7.0
-    container_name: metriq_mongo
     restart: unless-stopped
-    ports:
-      - "27017:27017"
     volumes:
       - mongo_data:/data/db
     environment:
       MONGO_INITDB_DATABASE: metriq
+    networks:
+      - metriq_internal
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
 
+  # ── Object storage ──────────────────────────────────────────────────────────
+  # No ports exposed — MinIO is internal only.
+  # The backend fetches images as base64 server-side before sending to OpenAI,
+  # so the browser never needs direct access to MinIO.
   minio:
     image: minio/minio:latest
-    container_name: metriq_minio
     restart: unless-stopped
-    ports:
-      - "9000:9000"   # S3 API
-      - "9001:9001"   # Web console
     volumes:
       - minio_data:/data
     environment:
-      MINIO_ROOT_USER: metriq_admin
-      MINIO_ROOT_PASSWORD: metriq_secret
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
     command: server /data --console-address ":9001"
+    networks:
+      - metriq_internal
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ── API server ──────────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      PORT: 4000
+      NODE_ENV: production
+      MONGO_URI: mongodb://mongo:27017/metriq
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_USE_SSL: "false"
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      MINIO_BUCKET: ${MINIO_BUCKET:-metriq-evidence}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+    networks:
+      - metriq_internal
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ── Frontend (Nginx — serves SPA + proxies /api to backend) ─────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        # Empty string → frontend uses relative /api paths, proxied by Nginx.
+        # No CORS issues, no domain hard-coding in the JS bundle.
+        VITE_API_BASE_URL: ""
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3002:80"   # Coolify Traefik routes metriq.qdeploy.online → this port
+    networks:
+      - metriq_internal
 
 volumes:
   mongo_data:
   minio_data:
+
+networks:
+  metriq_internal:
+    driver: bridge

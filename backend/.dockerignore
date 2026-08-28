@@ -1,0 +1,6 @@
+# Backend .dockerignore — used by backend/Dockerfile build context
+node_modules/
+dist/
+.env
+.env.local
+*.log

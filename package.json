@@ -9,9 +9,9 @@
     "dev:backend": "npm run start:dev --prefix backend",
     "build": "vite build",
     "preview": "vite preview",
-    "infra:up": "docker-compose up -d",
-    "infra:down": "docker-compose down",
-    "infra:logs": "docker-compose logs -f",
+    "infra:up": "docker-compose -f docker-compose.local.yml up -d",
+    "infra:down": "docker-compose -f docker-compose.local.yml down",
+    "infra:logs": "docker-compose -f docker-compose.local.yml logs -f",
     "install:all": "npm install && npm install --prefix backend"
   },
   "dependencies": {
