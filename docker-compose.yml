@@ -100,8 +100,8 @@ services:
     depends_on:
       backend:
         condition: service_healthy
-    ports:
-      - "3002:80"   # Coolify Traefik routes metriq.qdeploy.online → this port
+    expose:
+      - "80"   # Coolify Traefik handles external routing — no host port needed
     networks:
       - metriq_internal
 
