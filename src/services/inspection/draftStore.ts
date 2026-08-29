@@ -32,6 +32,7 @@ export const draftStore = {
       isDemo: draft.isDemo,
       evidenceCount: draft.evidence.length,
       currentStep: draft.currentStep,
+      hasReport: Boolean(draft.backendReport),
     }));
   },
 

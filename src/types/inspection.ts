@@ -65,6 +65,8 @@ export interface BackendReport {
   summary: string;
   violationCategories: string[];
   riskLevel: "low" | "medium" | "high";
+  /** Set after the report is persisted to MongoDB via run-full. */
+  savedInspectionId?: string;
 }
 
 export interface ImageQualityResult {
@@ -174,6 +176,7 @@ export interface InspectionSummary {
   isDemo: boolean;
   evidenceCount: number;
   currentStep: number;
+  hasReport: boolean;
 }
 
 export const EMPTY_PRODUCT: ProductContext = {

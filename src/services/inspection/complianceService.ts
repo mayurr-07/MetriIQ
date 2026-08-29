@@ -61,7 +61,14 @@ interface RunFullResponse {
   ocrResults: unknown[];
   visionResults: unknown[];
   report: BackendReport;
+  savedInspectionId?: string;
   meta: { totalMs: number; imageCount: number };
+}
+
+export interface EvidenceForUpload {
+  fileKey: string;
+  url: string;
+  type: string;
 }
 
 export const complianceService = {
@@ -72,15 +79,22 @@ export const complianceService = {
   async evaluate(
     _labelPresent: boolean,
     demo: boolean,
-    backendImageUrls?: string[]
+    backendImageUrls?: string[],
+    productContext?: { name?: string; location?: string; category?: string },
+    fileKeys?: EvidenceForUpload[]
   ): Promise<ComplianceResponse> {
     // Real pipeline: call backend when image URLs from MinIO are available.
     if (backendImageUrls && backendImageUrls.length > 0) {
       try {
         const data = await apiClient.post<RunFullResponse>("/api/inspections/run-full", {
           imageUrls: backendImageUrls,
+          productContext,
+          fileKeys,
         });
-        const report = data.report;
+        const report: BackendReport = {
+          ...data.report,
+          savedInspectionId: data.savedInspectionId,
+        };
         const outcome: ComplianceOutcome =
           report.overallStatus === "compliant"
             ? "COMPLIANT"

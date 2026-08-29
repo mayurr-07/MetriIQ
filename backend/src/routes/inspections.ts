@@ -104,9 +104,16 @@ router.post(
   "/run-full",
   requireRole("officer", "admin", "senior"),
   asyncHandler(async (req: Request, res: Response) => {
-    const { imageUrls, labelData: providedLabelData } = req.body as {
+    const {
+      imageUrls,
+      labelData: providedLabelData,
+      productContext,
+      fileKeys,
+    } = req.body as {
       imageUrls?: string[];
       labelData?: LabelData;
+      productContext?: { name?: string; location?: string; category?: string };
+      fileKeys?: Array<{ fileKey: string; url: string; type: string }>;
     };
 
     if (!Array.isArray(imageUrls) || imageUrls.length === 0) {
@@ -153,11 +160,40 @@ router.post(
       `${report.failedRules.length} fail / ${report.warningRules.length} warn / ${report.passedRules.length} pass`
     );
 
+    // Persist to MongoDB when the caller supplies product context.
+    let savedInspectionId: string | undefined;
+    try {
+      const authReq = req as AuthRequest;
+      if (authReq.user && productContext) {
+        const inspectionId = `INS-${Date.now().toString(36).toUpperCase()}`;
+        const images = (fileKeys ?? []).map((f) => ({
+          fileKey: f.fileKey,
+          url: f.url,
+          type: (["front", "back", "side", "extra"].includes(f.type) ? f.type : "extra") as "front" | "back" | "side" | "extra",
+        }));
+        await Inspection.create({
+          inspectionId,
+          officerId: authReq.user._id,
+          productDescription: [productContext.name, productContext.category].filter(Boolean).join(" — ") || "Unnamed product",
+          location: productContext.location,
+          status: "submitted",
+          images,
+          extractedData: labelData as unknown as Record<string, unknown>,
+          complianceReport: { ...report, reportId: randomUUID() },
+        });
+        savedInspectionId = inspectionId;
+        console.log(`[run-full] Saved to MongoDB as ${inspectionId}`);
+      }
+    } catch (err) {
+      console.error("[run-full] MongoDB save failed (non-fatal):", err);
+    }
+
     res.json({
       labelData,
       ocrResults,
       visionResults,
       report,
+      savedInspectionId,
       meta: { totalMs, imageCount: imageUrls.length },
     });
   })

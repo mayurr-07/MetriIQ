@@ -178,7 +178,16 @@ export default function NewInspectionPage() {
       }
 
       setStage(hasBackend ? "Running AI compliance check (30–45s)…" : "Preparing compliance checks");
-      const compliance = await complianceService.evaluate(Boolean(extracted), demo, hasBackend ? backendImageUrls : undefined);
+      const fileKeys = draft.evidence
+        .filter((e) => e.backendUrl && e.fileKey)
+        .map((e) => ({ fileKey: e.fileKey!, url: e.backendUrl!, type: e.kind.toLowerCase() }));
+      const compliance = await complianceService.evaluate(
+        Boolean(extracted),
+        demo,
+        hasBackend ? backendImageUrls : undefined,
+        hasBackend ? { name: draft.product.productName, location: draft.product.location, category: draft.product.category } : undefined,
+        hasBackend ? fileKeys : undefined,
+      );
 
       update({
         ...draft,

@@ -118,9 +118,16 @@ export default function InspectionListPage() {
                 <WorkflowStatusBadge state={item.workflowState} />
               </TableCell>
               <TableCell>
-                <Link to={`/officer/inspections/${item.id}`} className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#F59E0B]">
-                  Open
-                </Link>
+                <div className="flex items-center gap-4">
+                  <Link to={`/officer/inspections/${item.id}`} className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#F59E0B]">
+                    Open
+                  </Link>
+                  {item.hasReport && (
+                    <Link to={`/officer/inspections/${item.id}`} className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#10B981]">
+                      View Report
+                    </Link>
+                  )}
+                </div>
               </TableCell>
             </TableRow>
           ))

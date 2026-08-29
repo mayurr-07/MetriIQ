@@ -6,6 +6,7 @@ import { Card } from "@/components/design-system/Card";
 import { Dialog } from "@/components/design-system/Dialog";
 import DemoBanner from "@/components/inspection/DemoBanner";
 import WorkflowStatusBadge from "@/components/inspection/WorkflowStatusBadge";
+import ComplianceReportView from "@/components/inspection/ComplianceReportView";
 import { inspectionService } from "@/services/inspection/inspectionService";
 import { DECISION_LABEL } from "@/lib/inspectionStatus";
 import { deriveWorkflowState } from "@/features/inspection/draftFactory";
@@ -96,21 +97,25 @@ export default function InspectionReviewPage() {
             </dl>
           </Card>
 
-          <Card>
-            <h2 className="font-display text-xl text-[#F0F2F5]">Compliance findings</h2>
-            {draft.checks.length === 0 ? (
-              <p className="mt-3 text-sm text-[#94A3B8]">No compliance engine result is available for this draft.</p>
-            ) : (
-              <div className="mt-4 space-y-3">
-                {draft.checks.map((check) => (
-                  <div key={check.id} className="border border-white/8 px-3 py-3">
-                    <p className="text-sm text-[#F0F2F5]">{check.title}</p>
-                    <p className="mt-1 text-[0.78rem] text-[#94A3B8]">{check.detectedValue}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </Card>
+          {draft.backendReport ? (
+            <ComplianceReportView report={draft.backendReport} />
+          ) : (
+            <Card>
+              <h2 className="font-display text-xl text-[#F0F2F5]">Compliance findings</h2>
+              {draft.checks.length === 0 ? (
+                <p className="mt-3 text-sm text-[#94A3B8]">No compliance engine result is available for this draft.</p>
+              ) : (
+                <div className="mt-4 space-y-3">
+                  {draft.checks.map((check) => (
+                    <div key={check.id} className="border border-white/8 px-3 py-3">
+                      <p className="text-sm text-[#F0F2F5]">{check.title}</p>
+                      <p className="mt-1 text-[0.78rem] text-[#94A3B8]">{check.detectedValue}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
+          )}
         </div>
 
         <aside className="space-y-4">
