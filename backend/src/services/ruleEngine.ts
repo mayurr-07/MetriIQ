@@ -270,6 +270,10 @@ function runDeterministicChecks(d: LabelData): RuleResult[] {
     results.push(
       rule("FS-06", "fail", "No nutritional information table found on label.")
     );
+  } else if (!d.nutritionalInfo.per100g) {
+    results.push(
+      rule("FS-06", "fail", "Nutritional table found but per-100g values are missing.")
+    );
   } else {
     const missing = missingNutrients(d.nutritionalInfo.per100g);
     if (missing.length > 0) {
@@ -292,7 +296,7 @@ function runDeterministicChecks(d: LabelData): RuleResult[] {
     results.push(
       rule("FS-07", "fail", "No nutritional table found — per-serving column cannot be verified.")
     );
-  } else if (!d.nutritionalInfo.perServing.servingSize) {
+  } else if (!d.nutritionalInfo.perServing || !d.nutritionalInfo.perServing.servingSize) {
     results.push(
       rule("FS-07", "fail", "Nutritional table present but per-serving column / serving size missing.")
     );
