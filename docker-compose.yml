@@ -23,8 +23,6 @@ services:
       - mongo_data:/data/db
     environment:
       MONGO_INITDB_DATABASE: metriq
-    ports:
-      - "27017:27017"
     networks:
       - metriq_internal
     healthcheck:

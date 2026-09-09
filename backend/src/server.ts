@@ -1,8 +1,10 @@
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
+import bcrypt from "bcryptjs";
 import { connectDB } from "./lib/db.js";
 import { initMinio } from "./lib/minio.js";
+import { User } from "./models/User.js";
 import authRoutes from "./routes/auth.js";
 import uploadRoutes from "./routes/uploads.js";
 import inspectionRoutes from "./routes/inspections.js";
@@ -42,11 +44,30 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   });
 });
 
+// ── Demo seed (idempotent — skips existing accounts) ─────────────────────────
+
+async function seedDemoUsers() {
+  const DEMO = [
+    { name: "Priya Sharma",  email: "officer@legalmetrology.dev",  password: "officer123",  role: "officer"  as const, district: "Mumbai Suburban" },
+    { name: "Vikram Desai",  email: "admin@legalmetrology.dev",    password: "admin123",    role: "admin"    as const, district: "Mumbai" },
+    { name: "Anita Kulkarni",email: "senior@legalmetrology.dev",   password: "senior123",   role: "senior"   as const, district: "Maharashtra" },
+    { name: "Rahul Mehta",   email: "consumer@legalmetrology.dev", password: "consumer123", role: "consumer" as const, district: "Pune" },
+  ];
+  for (const u of DEMO) {
+    const exists = await User.findOne({ email: u.email });
+    if (exists) continue;
+    const passwordHash = await bcrypt.hash(u.password, 10);
+    await User.create({ ...u, passwordHash });
+    console.log(`[seed] Created demo user: ${u.email}`);
+  }
+}
+
 // ── Startup ───────────────────────────────────────────────────────────────────
 
 async function start() {
   await connectDB();
   await initMinio();
+  await seedDemoUsers();
   app.listen(PORT, () =>
     console.log(`[server] MetriIQ API running on http://localhost:${PORT}`)
   );
