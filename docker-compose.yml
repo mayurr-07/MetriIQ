@@ -101,7 +101,6 @@ services:
       - "80"
     networks:
       - metriq_internal
-      - coolify
 
 volumes:
   mongo_data:
@@ -110,5 +109,3 @@ volumes:
 networks:
   metriq_internal:
     driver: bridge
-  coolify:
-    external: true   # Coolify's Traefik network — already exists on the host
