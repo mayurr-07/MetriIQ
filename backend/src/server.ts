@@ -38,7 +38,17 @@ app.use("/api/rules",       rulesRoutes);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error("[error]", err.message);
-  const status = (err as { status?: number }).status ?? 500;
+  const typedErr = err as { status?: number; code?: string; message: string };
+  // OpenAI rate-limit: surface 429 with a friendly message instead of masking as 500
+  const isRateLimit =
+    typedErr.status === 429 ||
+    typedErr.code === "rate_limit_exceeded" ||
+    typedErr.message?.toLowerCase().includes("rate limit");
+  if (isRateLimit) {
+    res.status(429).json({ error: "AI service is temporarily rate-limited. Please wait 30 seconds and try again." });
+    return;
+  }
+  const status = typedErr.status ?? 500;
   res.status(status).json({
     error: process.env.NODE_ENV === "production" ? "Internal server error" : err.message,
   });
