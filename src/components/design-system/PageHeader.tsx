@@ -25,15 +25,15 @@ export interface PageHeaderProps {
  */
 export function PageHeader({ crumbs, title, description, action, className }: PageHeaderProps) {
   return (
-    <div className={cn("mb-7 border-b border-white/8 pb-6", className)}>
+    <div className={cn("mb-7 border-b border-slate-200 pb-6", className)}>
       {crumbs && crumbs.length > 0 && (
         <nav aria-label="Breadcrumb" className="mb-2.5 flex items-center gap-1.5">
           {crumbs.map((crumb, i) => (
             <span key={crumb} className="flex items-center gap-1.5">
               <span
                 className={cn(
-                  "font-mono text-[0.62rem] uppercase tracking-[0.18em]",
-                  i === crumbs.length - 1 ? "text-[#F59E0B]" : "text-[#64748B]",
+                  "font-mono text-[0.68rem] uppercase tracking-[0.18em]",
+                  i === crumbs.length - 1 ? "text-[#F59E0B]" : "text-slate-500",
                 )}
               >
                 {crumb}
@@ -48,11 +48,11 @@ export function PageHeader({ crumbs, title, description, action, className }: Pa
 
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="font-display text-[1.7rem] leading-tight text-[#F0F2F5] sm:text-[2rem]">
+          <h1 className="font-display text-[1.85rem] leading-tight text-slate-900 sm:text-[2.15rem]">
             {title}
           </h1>
           {description && (
-            <p className="mt-1.5 max-w-2xl text-[0.9rem] leading-relaxed text-[#94A3B8]">
+            <p className="mt-1.5 max-w-2xl text-[0.95rem] leading-relaxed text-slate-500">
               {description}
             </p>
           )}

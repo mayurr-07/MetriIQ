@@ -16,21 +16,21 @@ export default function MetricCard({ metric }: { metric: Metric }) {
         ? "text-[#F59E0B]"
         : metric.tone === "issue"
           ? "text-[#EF4444]"
-          : "text-[#F0F2F5]";
+          : "text-app-text";
 
   return (
     <Card className="p-4 md:p-5">
-      <p className="font-mono text-[0.56rem] uppercase tracking-[0.2em] text-[#94A3B8]">
+      <p className="font-mono text-[0.64rem] uppercase tracking-[0.2em] text-app-text-secondary">
         {metric.label}
       </p>
       {metric.value === null ? (
-        <p className="mt-3 font-mono text-[0.78rem] text-[#64748B]">Awaiting data</p>
+        <p className="mt-3 font-mono text-[0.84rem] text-app-text-secondary">Awaiting data</p>
       ) : (
         <p className={cn("mt-2 font-display text-[2rem] leading-none tabular-nums", tone)}>
           {metric.value.toLocaleString()}
         </p>
       )}
-      {metric.hint && <p className="mt-2 text-[0.72rem] text-[#64748B]">{metric.hint}</p>}
+      {metric.hint && <p className="mt-2 text-[0.8rem] text-app-text-secondary">{metric.hint}</p>}
     </Card>
   );
 }

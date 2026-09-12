@@ -45,7 +45,7 @@ export function Dialog({ open, onClose, title, description, children, className 
           <motion.button
             type="button"
             aria-label="Close dialog"
-            className="absolute inset-0 h-full w-full cursor-default bg-[#080C14]/80 backdrop-blur-sm"
+            className="absolute inset-0 h-full w-full cursor-default bg-slate-50/80 backdrop-blur-sm"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -69,11 +69,11 @@ export function Dialog({ open, onClose, title, description, children, className 
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 id="dialog-title" className="font-display text-xl text-[#F0F2F5]">
+                <h2 id="dialog-title" className="font-display text-2xl text-slate-900">
                   {title}
                 </h2>
                 {description && (
-                  <p className="mt-1.5 text-[0.85rem] leading-relaxed text-[#94A3B8]">
+                  <p className="mt-1.5 text-[0.9rem] leading-relaxed text-slate-500">
                     {description}
                   </p>
                 )}
@@ -82,7 +82,7 @@ export function Dialog({ open, onClose, title, description, children, className 
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="grid h-9 w-9 shrink-0 place-items-center border border-white/12 text-[#94A3B8] transition hover:border-white/25 hover:text-[#F0F2F5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/60"
+                className="grid h-9 w-9 shrink-0 place-items-center border border-slate-200 text-slate-500 transition hover:border-slate-300 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/60"
               >
                 <X className="h-4 w-4" />
               </button>

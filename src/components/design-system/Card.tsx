@@ -16,7 +16,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           "glass relative p-5 md:p-6",
           glow && "warm-glow",
           interactive &&
-            "cursor-pointer transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-white/16 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55",
+          "cursor-pointer transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-white/16 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55",
           className,
         )}
         {...props}
@@ -34,13 +34,13 @@ export function CardHeader({ className, children }: { className?: string; childr
 }
 
 export function CardTitle({ className, children }: { className?: string; children: ReactNode }) {
-  return <h3 className={cn("font-display text-lg text-[#F0F2F5]", className)}>{children}</h3>;
+  return <h3 className={cn("font-display text-xl text-slate-900", className)}>{children}</h3>;
 }
 
 export function CardDescription({ className, children }: { className?: string; children: ReactNode }) {
-  return <p className={cn("mt-1 text-[0.82rem] leading-relaxed text-[#94A3B8]", className)}>{children}</p>;
+  return <p className={cn("mt-1 text-[0.875rem] leading-relaxed text-slate-500", className)}>{children}</p>;
 }
 
 export function CardFooter({ className, children }: { className?: string; children: ReactNode }) {
-  return <div className={cn("mt-5 border-t border-white/8 pt-4", className)}>{children}</div>;
+  return <div className={cn("mt-5 border-t border-slate-200 pt-4", className)}>{children}</div>;
 }

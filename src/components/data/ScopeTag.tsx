@@ -17,10 +17,10 @@ export default function ScopeTag({ scope, className }: { scope: DataScope; class
     <span
       title={scope.note}
       className={cn(
-        "inline-flex shrink-0 items-center gap-1.5 border px-2 py-1 font-mono text-[0.55rem] uppercase tracking-[0.16em]",
-        scope.provenance === "LOCAL" && "border-white/12 bg-white/[0.03] text-[#94A3B8]",
+        "inline-flex shrink-0 items-center gap-1.5 border px-2 py-1 font-mono text-[0.62rem] uppercase tracking-[0.16em]",
+        scope.provenance === "LOCAL" && "border-app-border bg-app-surface/[0.03] text-app-text-secondary",
         scope.provenance === "DEMO" && "border-[#F59E0B]/40 bg-[#F59E0B]/10 text-[#F59E0B]",
-        scope.provenance === "UNAVAILABLE" && "border-white/10 bg-white/[0.02] text-[#64748B]",
+        scope.provenance === "UNAVAILABLE" && "border-app-border bg-app-surface/[0.02] text-app-text-secondary",
         className,
       )}
     >

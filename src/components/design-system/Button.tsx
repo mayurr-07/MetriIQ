@@ -35,21 +35,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080C14]",
           "cursor-pointer disabled:cursor-not-allowed",
           // sizes
-          size === "sm" && "min-h-[36px] px-3 text-[0.6rem]",
-          size === "md" && "min-h-[44px] px-5 text-[0.68rem]",
-          size === "lg" && "min-h-[50px] px-7 text-[0.74rem]",
-          size === "icon" && "h-10 w-10 p-0 text-[0.68rem]",
+          size === "sm" && "min-h-[36px] px-3 text-[0.68rem]",
+          size === "md" && "min-h-[44px] px-5 text-[0.75rem]",
+          size === "lg" && "min-h-[50px] px-7 text-[0.8rem]",
+          size === "icon" && "h-10 w-10 p-0 text-[0.75rem]",
           // variants
           variant === "primary" &&
-            "border border-[#F59E0B]/45 bg-[#F59E0B]/10 text-[#F59E0B] hover:border-[#F59E0B]/60 hover:bg-[#F59E0B]/20",
+          "border border-[#F59E0B]/45 bg-[#F59E0B]/10 text-[#F59E0B] hover:border-[#F59E0B]/60 hover:bg-[#F59E0B]/20",
           variant === "secondary" &&
-            "border border-white/12 bg-[#111827] text-[#F0F2F5] hover:border-white/25 hover:bg-[#161f2e]",
+          "border border-slate-200 bg-white text-slate-900 hover:border-slate-300 hover:bg-[#161f2e]",
           (variant === "outline" || variant === "tertiary") &&
-            "border border-white/15 bg-transparent text-[#94A3B8] hover:border-white/30 hover:text-[#F0F2F5]",
+          "border border-white/15 bg-transparent text-slate-500 hover:border-white/30 hover:text-slate-900",
           variant === "ghost" &&
-            "border border-transparent bg-transparent text-[#94A3B8] hover:bg-white/5 hover:text-[#F0F2F5]",
+          "border border-transparent bg-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-900",
           (variant === "danger" || variant === "destructive") &&
-            "border border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444] hover:border-[#EF4444]/60 hover:bg-[#EF4444]/20",
+          "border border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444] hover:border-[#EF4444]/60 hover:bg-[#EF4444]/20",
           className,
         )}
         {...props}
