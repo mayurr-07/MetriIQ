@@ -43,11 +43,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           variant === "primary" &&
           "border border-[#F59E0B]/45 bg-[#F59E0B]/10 text-[#F59E0B] hover:border-[#F59E0B]/60 hover:bg-[#F59E0B]/20",
           variant === "secondary" &&
-          "border border-slate-200 bg-white text-slate-900 hover:border-slate-300 hover:bg-[#161f2e]",
+          "border border-white/15 bg-white/5 text-[#F0F2F5] hover:border-white/25 hover:bg-white/10",
           (variant === "outline" || variant === "tertiary") &&
-          "border border-white/15 bg-transparent text-slate-500 hover:border-white/30 hover:text-slate-900",
+          "border border-white/15 bg-transparent text-[#94A3B8] hover:border-white/30 hover:text-[#F0F2F5]",
           variant === "ghost" &&
-          "border border-transparent bg-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-900",
+          "border border-transparent bg-transparent text-[#94A3B8] hover:bg-white/5 hover:text-[#F0F2F5]",
           (variant === "danger" || variant === "destructive") &&
           "border border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444] hover:border-[#EF4444]/60 hover:bg-[#EF4444]/20",
           className,
