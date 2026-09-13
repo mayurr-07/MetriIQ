@@ -10,7 +10,7 @@ export interface TableProps {
 export function Table({ columns, children, className }: TableProps) {
   return (
     <div className={cn("overflow-x-auto border border-app-edge", className)}>
-      <table className="w-full min-w-[560px] border-collapse text-left">
+      <table className="w-full min-w-[480px] border-collapse text-left sm:min-w-[560px]">
         <thead>
           <tr className="border-b border-app-edge bg-app-ghost">
             {columns.map((col) => (

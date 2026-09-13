@@ -97,7 +97,7 @@ export default function ContactModal({
             role="dialog"
             aria-modal="true"
             aria-label="Request department access"
-            className="glass relative z-10 max-h-[92vh] w-full max-w-lg overflow-y-auto border-t border-[#F59E0B]/25 p-6"
+            className="glass relative z-10 max-h-[92vh] w-full max-w-lg overflow-y-auto border-t border-[#F59E0B]/25 p-4 sm:p-6"
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 30, opacity: 0 }}
@@ -106,7 +106,7 @@ export default function ContactModal({
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="eyebrow">Official correspondence</p>
-                <h3 className="mt-2 font-display text-[1.9rem] leading-tight text-[#F0F2F5]">
+                <h3 className="mt-2 font-display text-[1.45rem] leading-tight text-[#F0F2F5] sm:text-[1.9rem]">
                   Request department access
                 </h3>
               </div>

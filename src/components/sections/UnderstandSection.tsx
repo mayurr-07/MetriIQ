@@ -14,7 +14,7 @@ export default function UnderstandSection() {
     <section id="understand" aria-label="Act II — Understand">
       {/* 04 — AI SEES THE LABEL */}
       <StoryBlock vh={100}>
-        <div className="mx-auto w-full max-w-7xl px-6 md:px-10">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10">
           <div className="max-w-md">
             <div data-reveal className="flex items-center gap-3">
               <Boxes className="h-4 w-4 text-[#F59E0B]" />
@@ -22,7 +22,7 @@ export default function UnderstandSection() {
                 Act II · 04 — Understand
               </span>
             </div>
-            <h2 data-reveal className="mt-4 font-display text-[2.45rem] leading-tight text-[#F0F2F5]">
+            <h2 data-reveal className="mt-4 font-display text-[1.7rem] sm:text-[2.45rem] leading-tight text-[#F0F2F5]">
               The model reads the label,
               <br />
               not a description of it.
@@ -49,7 +49,7 @@ export default function UnderstandSection() {
 
       {/* 05 — RULES CHECK */}
       <StoryBlock vh={110}>
-        <div className="mx-auto w-full max-w-7xl px-6 md:px-10">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10">
           <div className="ml-auto max-w-xl">
             <div data-reveal className="flex items-center gap-3">
               <Scale className="h-4 w-4 text-[#F59E0B]" />
@@ -57,7 +57,7 @@ export default function UnderstandSection() {
                 05 — Rules check
               </span>
             </div>
-            <h2 data-reveal className="mt-4 mb-6 font-display text-[2.45rem] leading-tight text-[#F0F2F5]">
+            <h2 data-reveal className="mt-4 mb-6 font-display text-[1.7rem] sm:text-[2.45rem] leading-tight text-[#F0F2F5]">
               Every declaration,
               <br />
               against the Rule.

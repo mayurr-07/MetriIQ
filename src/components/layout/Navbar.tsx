@@ -61,21 +61,21 @@ export default function Navbar({ onOpenContact }: { onOpenContact: () => void })
       <nav className="border-b border-white/[0.07] bg-[#080C14]/80 backdrop-blur-xl">
         {/* 3-column grid keeps the act links optically centred regardless of
             how wide the brand block or the right-hand controls become. */}
-        <div className="mx-auto grid w-full max-w-[90rem] grid-cols-[auto_1fr_auto] items-center gap-6 px-5 py-5 md:px-10">
+        <div className="mx-auto grid w-full max-w-[90rem] grid-cols-[minmax(0,auto)_1fr_auto] items-center gap-3 px-4 py-3 sm:gap-5 sm:px-5 sm:py-4 md:px-10 md:py-5">
           {/* ── brand ── */}
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-4 text-left"
+            className="flex min-w-0 items-center gap-2.5 text-left sm:gap-4"
           >
-            <span className="grid h-14 w-14 shrink-0 place-items-center border border-[#F59E0B]/30 bg-[#F59E0B]/[0.07]">
-              <Scale className="h-7 w-7 text-[#F59E0B]" />
+            <span className="grid h-10 w-10 shrink-0 place-items-center border border-[#F59E0B]/30 bg-[#F59E0B]/[0.07] sm:h-14 sm:w-14">
+              <Scale className="h-5 w-5 text-[#F59E0B] sm:h-7 sm:w-7" />
             </span>
-            <span className="hidden flex-col justify-center sm:flex">
-              <span className="font-display text-[1.85rem] leading-[1.1] text-[#F0F2F5] md:text-[2.15rem]">
+            <span className="flex min-w-0 flex-col justify-center">
+              <span className="truncate font-display text-[1.15rem] leading-[1.1] text-[#F0F2F5] sm:text-[1.5rem] md:text-[2.15rem]">
                 Legal Metrology
               </span>
-              <span className="mt-1.5 font-display text-[0.85rem] uppercase leading-none tracking-[0.16em] text-[#94A3B8]">
+              <span className="mt-1 hidden font-display text-[0.75rem] uppercase leading-none tracking-[0.16em] text-[#94A3B8] sm:block md:text-[0.85rem]">
                 AI Inspection Assistant
               </span>
             </span>
@@ -114,7 +114,7 @@ export default function Navbar({ onOpenContact }: { onOpenContact: () => void })
           </div>
 
           {/* ── right controls ── */}
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-3">
             {/* Fixed width prevents layout shift as the caption text changes. */}
             <span className="hidden w-[220px] text-right font-mono text-[0.7rem] uppercase leading-none tracking-[0.18em] text-[#64748B] xl:block">
               <span className="text-[#F59E0B]">{ACTS[act].index}</span>

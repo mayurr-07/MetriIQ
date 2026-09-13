@@ -4,10 +4,10 @@ import { ACTS, PRODUCT } from "@/lib/constants";
 export default function Footer({ onOpenContact }: { onOpenContact: () => void }) {
   return (
     <footer className="relative z-10 border-t border-white/8 bg-[#080C14]">
-      <div className="mx-auto w-full max-w-7xl px-6 py-16 md:px-10">
+      <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 md:px-10">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
-            <p className="font-display text-[1.9rem] leading-tight text-[#F0F2F5]">
+            <p className="font-display text-[1.5rem] leading-tight text-[#F0F2F5] sm:text-[1.9rem]">
               AI Legal Metrology
               <br />
               Inspection Assistant

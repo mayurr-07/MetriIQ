@@ -34,7 +34,7 @@ export function Dialog({ open, onClose, title, description, children, className 
   return createPortal(
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[200] flex items-end justify-center p-0 sm:items-center sm:p-4">
           <motion.button
             type="button"
             aria-label="Close dialog"
@@ -52,7 +52,7 @@ export function Dialog({ open, onClose, title, description, children, className 
             aria-labelledby="dialog-title"
             tabIndex={-1}
             className={cn(
-              "glass relative z-10 w-full max-w-md p-6 outline-none",
+              "glass relative z-10 w-full max-w-md p-5 outline-none sm:p-6",
               className,
             )}
             initial={{ opacity: 0, y: 12, scale: 0.98 }}

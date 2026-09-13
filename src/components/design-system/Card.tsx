@@ -13,7 +13,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          "glass relative p-5 md:p-6",
+          "glass relative p-4 sm:p-5 md:p-6",
           glow && "warm-glow",
           interactive &&
           "cursor-pointer transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-app-edge-mid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd",
@@ -34,7 +34,7 @@ export function CardHeader({ className, children }: { className?: string; childr
 }
 
 export function CardTitle({ className, children }: { className?: string; children: ReactNode }) {
-  return <h3 className={cn("font-display text-[1.4rem] text-app-ink", className)}>{children}</h3>;
+  return <h3 className={cn("font-display text-[1.2rem] text-app-ink sm:text-[1.4rem]", className)}>{children}</h3>;
 }
 
 export function CardDescription({ className, children }: { className?: string; children: ReactNode }) {

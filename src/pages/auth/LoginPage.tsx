@@ -56,14 +56,14 @@ export default function LoginPage() {
 
       {/* header */}
       <header className="relative z-10 border-b border-white/8 bg-[#080C14]/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-24 w-full max-w-[90rem] items-center justify-between gap-3 px-5 md:px-10">
-          <Link to="/" className="flex min-w-0 items-center gap-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55">
-            <span className="grid h-14 w-14 shrink-0 place-items-center border border-[#F59E0B]/30 bg-[#F59E0B]/[0.07]">
-              <Scale className="h-7 w-7 text-[#F59E0B]" />
+        <div className="mx-auto flex h-[var(--app-header-h)] w-full max-w-[90rem] items-center justify-between gap-3 px-4 sm:px-5 md:px-10">
+          <Link to="/" className="flex min-w-0 items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55 sm:gap-3.5">
+            <span className="grid h-10 w-10 shrink-0 place-items-center border border-[#F59E0B]/30 bg-[#F59E0B]/[0.07] sm:h-14 sm:w-14">
+              <Scale className="h-5 w-5 text-[#F59E0B] sm:h-7 sm:w-7" />
             </span>
             <span className="min-w-0 leading-tight">
-              <span className="block truncate font-display text-[1.85rem] text-[#F0F2F5] md:text-[2.15rem]">Legal Metrology</span>
-              <span className="hidden font-display text-[0.85rem] uppercase tracking-[0.16em] text-[#94A3B8] sm:block">
+              <span className="block truncate font-display text-[1.15rem] text-[#F0F2F5] sm:text-[1.5rem] md:text-[2.15rem]">Legal Metrology</span>
+              <span className="hidden font-display text-[0.75rem] uppercase tracking-[0.16em] text-[#94A3B8] sm:block md:text-[0.85rem]">
                 Compliance Platform
               </span>
             </span>
@@ -81,7 +81,7 @@ export default function LoginPage() {
       </header>
 
       {/* main */}
-      <main className="relative z-10 mx-auto w-full max-w-2xl px-5 py-10 sm:px-6 sm:py-12">
+      <main className="relative z-10 mx-auto w-full max-w-2xl px-4 py-8 sm:px-6 sm:py-12">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -89,10 +89,8 @@ export default function LoginPage() {
           className="text-center"
         >
           <span className="eyebrow">SIH PS:26034</span>
-          <h1 className="mt-3 font-display text-4xl font-semibold leading-tight tracking-tight text-[#F0F2F5] sm:text-5xl">
-            AI-Assisted Food Compliance,
-            <br />
-            Legal Metrology &amp; Consumer Protection Platform
+          <h1 className="mt-3 font-display text-[1.7rem] font-semibold leading-tight tracking-tight text-[#F0F2F5] sm:text-4xl lg:text-5xl">
+            AI-Assisted Food Compliance, Legal Metrology &amp; Consumer Protection Platform
           </h1>
           <p className="mt-3 text-base text-[#94A3B8]">Select your workspace to continue.</p>
         </motion.div>
@@ -178,7 +176,7 @@ export default function LoginPage() {
                 return (
                   <div
                     key={role}
-                    className="flex flex-wrap items-center justify-between gap-2 font-mono text-[0.75rem] text-[#64748B]"
+                    className="flex flex-col gap-0.5 font-mono text-[0.75rem] text-[#64748B] sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-2"
                   >
                     <span className="text-[#94A3B8]">{def.label}</span>
                     <span>
@@ -192,7 +190,7 @@ export default function LoginPage() {
         </Card>
       </main>
 
-      <footer className="relative z-10 border-t border-white/8 bg-[#080C14] py-6 text-center font-mono text-[0.75rem] uppercase tracking-[0.18em] text-[#64748B]">
+      <footer className="relative z-10 border-t border-white/8 bg-[#080C14] px-4 py-6 text-center font-mono text-[0.75rem] uppercase tracking-[0.14em] text-[#64748B] sm:tracking-[0.18em]">
         SIH 2026 · PS:26034 · AI-Assisted Legal Metrology Compliance Platform
       </footer>
     </div>

@@ -50,23 +50,23 @@ export default function AppShellChrome({
     <div className="min-h-screen bg-app-bg text-app-ink">
       {/* ── top header ── */}
       <header className="fixed inset-x-0 top-0 z-50 border-b border-app-edge bg-app-bg-90 backdrop-blur-xl">
-        <div className="mx-auto flex h-24 w-full max-w-[90rem] items-center justify-between px-5 md:px-10">
-          <div className="flex min-w-0 items-center gap-4">
+        <div className="mx-auto flex h-[var(--app-header-h)] w-full max-w-[90rem] items-center justify-between gap-3 px-4 sm:px-5 md:px-10">
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-4">
             <button
               type="button"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
               aria-expanded={mobileOpen}
-              className="grid h-12 w-12 shrink-0 place-items-center border border-app-edge text-app-ink-dim transition hover:border-app-edge-mid hover:text-app-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd md:hidden"
+              className="grid h-10 w-10 shrink-0 place-items-center border border-app-edge text-app-ink-dim transition hover:border-app-edge-mid hover:text-app-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd sm:h-12 sm:w-12 md:hidden"
             >
-              {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
             <Link
               to="/"
-              className="flex min-w-0 items-center gap-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd"
+              className="flex min-w-0 items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd sm:gap-3.5"
             >
-              <Scale className="h-8 w-8 shrink-0 text-app-accent" />
-              <span className="truncate font-display text-[1.85rem] leading-tight text-app-ink md:text-[2.15rem]">Legal Metrology</span>
+              <Scale className="h-6 w-6 shrink-0 text-app-accent sm:h-8 sm:w-8" />
+              <span className="truncate font-display text-[1.15rem] leading-tight text-app-ink sm:text-[1.5rem] lg:text-[2.15rem]">Legal Metrology</span>
             </Link>
             <span className="hidden h-6 w-px shrink-0 bg-app-edge-mid md:block" />
             <span className="hidden shrink-0 font-display text-[1.05rem] uppercase tracking-[0.12em] text-app-accent md:inline">
@@ -74,7 +74,7 @@ export default function AppShellChrome({
             </span>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2.5">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
             <RoleSwitcher fallback={fallbackRole} />
 
             <div className="hidden text-right sm:block">
@@ -102,8 +102,8 @@ export default function AppShellChrome({
       </header>
 
       {/* ── main layout with sidebar ── */}
-      <div className="mx-auto flex w-full max-w-[90rem] pt-24">
-        <aside className="fixed inset-y-0 left-0 top-24 z-40 hidden w-72 overflow-y-auto border-r border-app-edge bg-app-bg-95 pb-8 pt-6 backdrop-blur-md md:block">
+      <div className="mx-auto flex w-full max-w-[90rem] pt-[var(--app-header-h)]">
+        <aside className="fixed inset-y-0 left-0 top-[var(--app-header-h)] z-40 hidden w-64 overflow-y-auto border-r border-app-edge bg-app-bg-95 pb-8 pt-6 backdrop-blur-md md:block lg:w-72">
           <div className="px-5">
             <p className="font-mono text-[0.75rem] uppercase tracking-[0.24em] text-app-ink-faint">
               {navHeading}
@@ -139,7 +139,7 @@ export default function AppShellChrome({
 
         {/* mobile menu */}
         {mobileOpen && (
-          <div className="fixed inset-x-0 bottom-0 top-24 z-40 overflow-y-auto bg-app-bg-98 p-5 backdrop-blur-xl md:hidden">
+          <div className="fixed inset-x-0 bottom-0 top-[var(--app-header-h)] z-40 overflow-y-auto bg-app-bg-98 p-4 backdrop-blur-xl sm:p-5 md:hidden">
             <nav className="space-y-1.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -165,7 +165,7 @@ export default function AppShellChrome({
         )}
 
         {/* content area */}
-        <main className="min-h-[calc(100vh-6rem)] w-full flex-1 px-5 py-8 md:ml-72 md:px-10">
+        <main className="min-h-[calc(100vh-var(--app-header-h))] w-full min-w-0 flex-1 px-4 py-6 sm:px-5 sm:py-8 md:ml-64 md:px-8 lg:ml-72 lg:px-10">
           {children}
         </main>
       </div>

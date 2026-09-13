@@ -107,7 +107,7 @@ export default function ProtectSection() {
     <section id="protect" aria-label="Act IV — Protect">
       {/* 10 — STORED IN SYSTEM */}
       <StoryBlock vh={100}>
-        <div className="mx-auto w-full max-w-7xl px-6 md:px-10">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10">
           <div className="max-w-md">
             <div data-reveal className="flex items-center gap-3">
               <Database className="h-4 w-4 text-[#F59E0B]" />
@@ -115,7 +115,7 @@ export default function ProtectSection() {
                 Act IV · 10 — Protect
               </span>
             </div>
-            <h2 data-reveal className="mt-4 font-display text-[2.45rem] leading-tight text-[#F0F2F5]">
+            <h2 data-reveal className="mt-4 font-display text-[1.7rem] sm:text-[2.45rem] leading-tight text-[#F0F2F5]">
               One record enters
               <br />
               the department system.
@@ -145,7 +145,7 @@ export default function ProtectSection() {
 
       {/* 11 — DEPARTMENT DASHBOARD */}
       <StoryBlock vh={130}>
-        <div ref={dash} className="mx-auto w-full max-w-7xl px-6 md:px-10">
+        <div ref={dash} className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10">
           <div className="ml-auto max-w-2xl">
             <div data-reveal className="flex items-center gap-3">
               <LayoutDashboard className="h-4 w-4 text-[#F59E0B]" />
@@ -317,7 +317,7 @@ export default function ProtectSection() {
 
       {/* 12 — THE BIG PICTURE */}
       <StoryBlock vh={120} align="end">
-        <div className="mx-auto w-full max-w-7xl px-6 pb-20 text-center md:px-10 md:pb-24">
+        <div className="mx-auto w-full max-w-7xl px-4 pb-20 text-center sm:px-6 md:px-10 md:pb-24">
           <div className="mx-auto max-w-3xl">
             <div data-reveal className="flex items-center justify-center gap-3">
               <Users className="h-4 w-4 text-[#F59E0B]" />

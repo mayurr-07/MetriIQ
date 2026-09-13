@@ -44,7 +44,7 @@ export default function InspectSection() {
       <StoryBlock vh={100} className="items-center">
         <div
           ref={hero}
-          className="mx-auto w-full max-w-7xl px-6 pt-28 md:px-10 md:pt-24 lg:pt-16"
+          className="mx-auto w-full max-w-7xl px-4 pt-24 sm:px-6 sm:pt-28 md:px-10 md:pt-24 lg:pt-16"
         >
           <div className="max-w-2xl">
             <div className="flex items-center gap-3">
@@ -55,7 +55,7 @@ export default function InspectSection() {
             </div>
             <div data-reveal className="rule-line mt-5 w-44" />
 
-            <h1 className="mt-7 font-display text-[clamp(2.8rem,8vw,5.8rem)] font-semibold leading-[0.94] tracking-[-0.02em] text-[#F0F2F5]">
+            <h1 className="mt-7 font-display text-[clamp(2.1rem,9vw,5.8rem)] font-semibold leading-[0.94] tracking-[-0.02em] text-[#F0F2F5]">
               <span className="block overflow-hidden pb-1">
                 <span className="hero-line block">One Package.</span>
               </span>
@@ -79,11 +79,11 @@ export default function InspectSection() {
               court-ready visual evidence in a single pass.
             </p>
 
-            <div data-reveal className="mt-9 flex flex-wrap items-center gap-3">
+            <div data-reveal className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <button
                 type="button"
                 onClick={() => scrollTo("understand")}
-                className="inline-flex min-h-[44px] items-center gap-2 border border-[#F59E0B]/45 bg-[#F59E0B]/10 px-5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#F59E0B] transition hover:bg-[#F59E0B]/20"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 border border-[#F59E0B]/45 bg-[#F59E0B]/10 px-5 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#F59E0B] transition hover:bg-[#F59E0B]/20 sm:tracking-[0.2em]"
               >
                 <ScanLine className="h-4 w-4" />
                 Interactive Story
@@ -98,7 +98,7 @@ export default function InspectSection() {
                     navigate("/login");
                   }
                 }}
-                className="inline-flex min-h-[44px] items-center gap-2 border border-[#10B981]/45 bg-[#10B981]/10 px-5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#10B981] transition hover:bg-[#10B981]/20"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 border border-[#10B981]/45 bg-[#10B981]/10 px-5 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#10B981] transition hover:bg-[#10B981]/20 sm:tracking-[0.2em]"
               >
                 <LogIn className="h-4 w-4" />
                 {isAuthenticated ? "My Workspace" : "Official Portal Sign In"}
@@ -107,7 +107,7 @@ export default function InspectSection() {
               <button
                 type="button"
                 onClick={() => scrollTo("verify")}
-                className="inline-flex min-h-[44px] items-center gap-2 border border-white/12 px-5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#94A3B8] transition hover:border-white/25 hover:text-[#F0F2F5]"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 border border-white/12 px-5 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#94A3B8] transition hover:border-white/25 hover:text-[#F0F2F5] sm:tracking-[0.2em]"
               >
                 <BadgeCheck className="h-4 w-4" />
                 See the evidence
@@ -152,7 +152,7 @@ export default function InspectSection() {
 
       {/* 02 — PICK UP */}
       <StoryBlock vh={100}>
-        <div className="mx-auto w-full max-w-7xl px-6 md:px-10">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10">
           <div className="ml-auto max-w-md">
             <div data-reveal className="glass warm-glow relative p-6">
               <div className="flex items-center gap-3">
@@ -161,7 +161,7 @@ export default function InspectSection() {
                   Step 02 — Pick up
                 </span>
               </div>
-              <h2 className="mt-4 font-display text-[2.35rem] leading-tight text-[#F0F2F5]">
+              <h2 className="mt-4 font-display text-[1.65rem] sm:text-[2.35rem] leading-tight text-[#F0F2F5]">
                 The officer lifts the pack.
               </h2>
               <p className="mt-3 text-[1.05rem] leading-relaxed text-[#94A3B8]">
@@ -186,7 +186,7 @@ export default function InspectSection() {
 
       {/* 03 — SCAN */}
       <StoryBlock vh={110}>
-        <div className="mx-auto w-full max-w-7xl px-6 md:px-10">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10">
           <div className="max-w-md">
             <div data-reveal className="flex items-center gap-3">
               <Camera className="h-4 w-4 text-[#F59E0B]" />
@@ -194,7 +194,7 @@ export default function InspectSection() {
                 Step 03 — Scan
               </span>
             </div>
-            <h2 data-reveal className="mt-4 font-display text-[2.35rem] leading-tight text-[#F0F2F5]">
+            <h2 data-reveal className="mt-4 font-display text-[1.65rem] sm:text-[2.35rem] leading-tight text-[#F0F2F5]">
               One pass of the beam.
             </h2>
             <div data-reveal className="glass mt-6 divide-y divide-white/8">

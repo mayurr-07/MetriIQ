@@ -115,8 +115,23 @@
 }
 
 html {
-  /* 16px → 18px so rem-based type (most of the UI) is easier to read. */
-  font-size: 112.5%;
+  font-size: 100%;
+  --app-header-h: 4.25rem;
+}
+
+@media (min-width: 640px) {
+  html {
+    font-size: 106.25%;
+    --app-header-h: 5.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    /* 16px → 18px on desktop so rem-based type stays readable. */
+    font-size: 112.5%;
+    --app-header-h: 6rem;
+  }
 }
 
 html,
@@ -181,6 +196,32 @@ body {
 
 * {
   -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+}
+
+table {
+  max-width: 100%;
+}
+
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 639px) {
+  .eyebrow {
+    letter-spacing: 0.16em;
+    overflow-wrap: anywhere;
+  }
 }
 
 button,

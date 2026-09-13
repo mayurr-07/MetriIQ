@@ -23,7 +23,7 @@ export default function VerifySection() {
     <section id="verify" aria-label="Act III — Verify">
       {/* 06 — ISSUE DETECTED */}
       <StoryBlock vh={100} align="start">
-        <div className="mx-auto w-full max-w-7xl px-6 pt-28 md:px-10 md:pt-32">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 pt-28 md:px-10 md:pt-32">
           <div className="mx-auto max-w-2xl text-center">
             <div
               data-reveal
@@ -61,7 +61,7 @@ export default function VerifySection() {
 
       {/* 07 — EVIDENCE CAPTURED */}
       <StoryBlock vh={110}>
-        <div className="mx-auto w-full max-w-7xl px-6 md:px-10">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10">
           <div className="ml-auto max-w-lg">
             <div data-reveal className="flex items-center gap-3">
               <ScanSearch className="h-4 w-4 text-[#F59E0B]" />
@@ -134,7 +134,7 @@ export default function VerifySection() {
 
       {/* 08 — INSPECTION COMPLETE */}
       <StoryBlock vh={90} align="end">
-        <div className="mx-auto w-full max-w-7xl px-6 pb-16 md:px-10 md:pb-20">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 pb-16 md:px-10 md:pb-20">
           <div data-reveal className="mx-auto max-w-3xl text-center">
             <span className="font-mono text-[0.62rem] uppercase tracking-[0.3em] text-[#94A3B8]">
               08 — Inspection complete
@@ -165,7 +165,7 @@ export default function VerifySection() {
 
       {/* 09 — REPORT GENERATED */}
       <StoryBlock vh={110}>
-        <div className="mx-auto w-full max-w-7xl px-6 md:px-10">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10">
           <div className="ml-auto max-w-2xl">
             <div data-reveal className="flex items-center gap-3">
               <FileCheck2 className="h-4 w-4 text-[#F59E0B]" />
