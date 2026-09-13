@@ -53,9 +53,9 @@ export default function AppShellChrome({
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-[#080C14] text-[#F0F2F5]">
       {/* ── top header ── */}
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-slate-50/90 backdrop-blur-xl">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/8 bg-[#080C14]/90 backdrop-blur-xl">
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 md:px-10">
           <div className="flex min-w-0 items-center gap-3">
             <button
@@ -63,7 +63,7 @@ export default function AppShellChrome({
               onClick={() => setMobileOpen((v) => !v)}
               aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
               aria-expanded={mobileOpen}
-              className="grid h-10 w-10 shrink-0 place-items-center border border-slate-200 text-slate-500 transition hover:border-slate-300 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55 md:hidden"
+              className="grid h-10 w-10 shrink-0 place-items-center border border-white/12 text-[#94A3B8] transition hover:border-white/25 hover:text-[#F0F2F5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55 md:hidden"
             >
               {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
@@ -72,7 +72,7 @@ export default function AppShellChrome({
               className="flex min-w-0 items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55"
             >
               <Scale className="h-5 w-5 shrink-0 text-[#F59E0B]" />
-              <span className="truncate font-display text-lg text-slate-900">Legal Metrology</span>
+              <span className="truncate font-display text-lg text-[#F0F2F5]">Legal Metrology</span>
             </Link>
             <span className="hidden h-4 w-px shrink-0 bg-white/12 md:block" />
             <span className="hidden shrink-0 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-[#F59E0B] md:inline">
@@ -84,8 +84,8 @@ export default function AppShellChrome({
             <RoleSwitcher fallback={fallbackRole} />
 
             <div className="hidden text-right sm:block">
-              <p className="font-mono text-[0.75rem] text-slate-900">{user?.name}</p>
-              <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-slate-500">
+              <p className="font-mono text-[0.75rem] text-[#F0F2F5]">{user?.name}</p>
+              <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#94A3B8]">
                 {user?.badgeNumber || user?.district || "Demo access"}
               </p>
             </div>
@@ -99,9 +99,9 @@ export default function AppShellChrome({
 
       {/* ── main layout with sidebar ── */}
       <div className="mx-auto flex w-full max-w-7xl pt-16">
-        <aside className="fixed inset-y-0 left-0 top-16 z-40 hidden w-64 overflow-y-auto border-r border-slate-200 bg-slate-50/95 pb-8 pt-6 backdrop-blur-md md:block">
+        <aside className="fixed inset-y-0 left-0 top-16 z-40 hidden w-64 overflow-y-auto border-r border-white/8 bg-[#080C14]/95 pb-8 pt-6 backdrop-blur-md md:block">
           <div className="px-5">
-            <p className="font-mono text-[0.62rem] uppercase tracking-[0.28em] text-slate-500">
+            <p className="font-mono text-[0.62rem] uppercase tracking-[0.28em] text-[#64748B]">
               {navHeading}
             </p>
             <nav className="mt-4 space-y-0.5">
@@ -114,14 +114,14 @@ export default function AppShellChrome({
                     key={item.path}
                     to={href}
                     aria-current={active ? "page" : undefined}
-                    className={`group relative flex min-h-[40px] items-center gap-3 px-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55 ${active
+                    className={`group relative flex min-h-[40px] items-center gap-3 px-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55 ${
+                      active
                         ? "bg-[#F59E0B]/10 text-[#F59E0B]"
-                        : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-                      }`}
+                        : "text-[#94A3B8] hover:bg-white/5 hover:text-[#F0F2F5]"
+                    }`}
                   >
                     <span
-                      className={`absolute inset-y-0 left-0 w-0.5 bg-[#F59E0B] transition-opacity ${active ? "opacity-100" : "opacity-0"
-                        }`}
+                      className={`absolute inset-y-0 left-0 w-0.5 bg-[#F59E0B] transition-opacity ${active ? "opacity-100" : "opacity-0"}`}
                       aria-hidden="true"
                     />
                     <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -135,7 +135,7 @@ export default function AppShellChrome({
 
         {/* mobile menu */}
         {mobileOpen && (
-          <div className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-slate-50/98 p-5 backdrop-blur-xl md:hidden">
+          <div className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-[#080C14]/98 p-5 backdrop-blur-xl md:hidden">
             <nav className="space-y-1.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -145,10 +145,11 @@ export default function AppShellChrome({
                   <Link
                     key={item.path}
                     to={href}
-                    className={`flex min-h-[48px] items-center gap-3 px-4 font-mono text-[0.7rem] uppercase tracking-[0.2em] transition ${active
+                    className={`flex min-h-[48px] items-center gap-3 px-4 font-mono text-[0.7rem] uppercase tracking-[0.2em] transition ${
+                      active
                         ? "border border-[#F59E0B]/40 bg-[#F59E0B]/10 text-[#F59E0B]"
-                        : "border border-slate-200 bg-white text-slate-500"
-                      }`}
+                        : "border border-white/10 bg-white/5 text-[#94A3B8]"
+                    }`}
                   >
                     <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                     {item.navLabel}
