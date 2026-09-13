@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* Landing page static palette — intentionally always dark */
   --color-steel: #080c14;
   --color-steel-2: #0b111c;
   --color-surface: #111827;
@@ -13,48 +14,109 @@
   --color-issue: #ef4444;
   --color-paper: #f5f0e6;
 
-  --color-app-bg: #080c14;
-  --color-app-surface: #111827;
-  --color-app-surface-elevated: #161f2e;
-  --color-app-input-bg: #0b111c;
-  --color-app-border: rgba(255, 255, 255, 0.08);
-  --color-app-text: #f8fafc;
-  --color-app-text-secondary: #cbd5e1;
-  --color-app-text-muted: #94a3b8;
-
   --font-display: "Playfair Display", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --font-quote: "Instrument Serif", ui-serif, Georgia, serif;
 }
 
+/* ── App shell theme tokens (runtime-switchable) ── */
 :root {
   color-scheme: dark;
+
+  --app-bg:          #080c14;
+  --app-bg-90:       rgba(8,  12,  20,  0.90);
+  --app-bg-95:       rgba(8,  12,  20,  0.95);
+  --app-bg-98:       rgba(8,  12,  20,  0.98);
+
+  --app-surface:     #0e1521;
+  --app-edge:        rgba(255, 255, 255, 0.08);
+  --app-edge-mid:    rgba(255, 255, 255, 0.15);
+  --app-edge-hi:     rgba(255, 255, 255, 0.25);
+
+  --app-ink:         #f0f2f5;
+  --app-ink-dim:     #94a3b8;
+  --app-ink-faint:   #64748b;
+
+  --app-hover:       rgba(255, 255, 255, 0.05);
+  --app-hover-hi:    rgba(255, 255, 255, 0.10);
+  --app-ghost:       rgba(255, 255, 255, 0.02);
+
+  --app-accent:      #f59e0b;
+  --app-accent-bg:   rgba(245, 158, 11, 0.10);
+  --app-accent-bd:   rgba(245, 158, 11, 0.45);
+  --app-accent-bd-h: rgba(245, 158, 11, 0.65);
+  --app-accent-bg-h: rgba(245, 158, 11, 0.20);
+
+  --app-glass-from:  rgba(17,  24,  39,  0.92);
+  --app-glass-to:    rgba(11,  17,  28,  0.86);
+
+  --app-scrollbar:       #1f2937;
+  --app-scrollbar-hover: #374151;
 }
 
-[data-dashboard-theme="dark"],
-:root:not([data-dashboard-theme="light"]) {
-  --color-app-text: #f8fafc;
-  --color-app-text-secondary: #cbd5e1;
-  --color-app-text-muted: #94a3b8;
-  --color-app-bg: #080c14;
-  --color-app-surface: #111827;
-  --color-app-border: rgba(255, 255, 255, 0.08);
+[data-theme="light"] {
+  color-scheme: light;
+
+  --app-bg:          #f5f0e8;
+  --app-bg-90:       rgba(245, 240, 232, 0.90);
+  --app-bg-95:       rgba(245, 240, 232, 0.95);
+  --app-bg-98:       rgba(245, 240, 232, 0.98);
+
+  --app-surface:     #ede8dc;
+  --app-edge:        rgba(0, 0, 0, 0.09);
+  --app-edge-mid:    rgba(0, 0, 0, 0.14);
+  --app-edge-hi:     rgba(0, 0, 0, 0.22);
+
+  --app-ink:         #1a1612;
+  --app-ink-dim:     #5a5248;
+  --app-ink-faint:   #7a7268;
+
+  --app-hover:       rgba(0, 0, 0, 0.04);
+  --app-hover-hi:    rgba(0, 0, 0, 0.08);
+  --app-ghost:       rgba(0, 0, 0, 0.02);
+
+  --app-accent:      #b45309;
+  --app-accent-bg:   rgba(180, 83, 9, 0.10);
+  --app-accent-bd:   rgba(180, 83, 9, 0.45);
+  --app-accent-bd-h: rgba(180, 83, 9, 0.65);
+  --app-accent-bg-h: rgba(180, 83, 9, 0.20);
+
+  --app-glass-from:  rgba(245, 240, 232, 0.92);
+  --app-glass-to:    rgba(237, 232, 220, 0.88);
+
+  --app-scrollbar:       #c5bfb5;
+  --app-scrollbar-hover: #b0a99f;
 }
 
-[data-dashboard-theme="light"] {
-  --color-app-text: #0f172a;
-  --color-app-text-secondary: #475569;
-  --color-app-text-muted: #64748b;
-  --color-app-bg: #f8fafc;
-  --color-app-surface: #ffffff;
-  --color-app-border: #e2e8f0;
+/* Expose runtime vars as Tailwind utility classes */
+@theme inline {
+  --color-app-bg:         var(--app-bg);
+  --color-app-bg-90:      var(--app-bg-90);
+  --color-app-bg-95:      var(--app-bg-95);
+  --color-app-bg-98:      var(--app-bg-98);
+  --color-app-surface:    var(--app-surface);
+  --color-app-edge:       var(--app-edge);
+  --color-app-edge-mid:   var(--app-edge-mid);
+  --color-app-edge-hi:    var(--app-edge-hi);
+  --color-app-ink:        var(--app-ink);
+  --color-app-ink-dim:    var(--app-ink-dim);
+  --color-app-ink-faint:  var(--app-ink-faint);
+  --color-app-hover:      var(--app-hover);
+  --color-app-hover-hi:   var(--app-hover-hi);
+  --color-app-ghost:      var(--app-ghost);
+  --color-app-accent:      var(--app-accent);
+  --color-app-accent-bg:   var(--app-accent-bg);
+  --color-app-accent-bd:   var(--app-accent-bd);
+  --color-app-accent-bd-h: var(--app-accent-bd-h);
+  --color-app-accent-bg-h: var(--app-accent-bg-h);
 }
 
 html,
 body {
-  background: #080c14;
-  color: #f8fafc;
+  background: var(--app-bg);
+  color: var(--app-ink);
+  transition: background-color 0.25s ease, color 0.25s ease;
   overflow-x: clip;
   max-width: 100%;
   -webkit-font-smoothing: antialiased;
@@ -245,9 +307,10 @@ a {
 
 /* ---------- Surfaces ---------- */
 .glass {
-  background: linear-gradient(160deg, rgba(17, 24, 39, 0.92), rgba(11, 17, 28, 0.86));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(160deg, var(--app-glass-from), var(--app-glass-to));
+  border: 1px solid var(--app-edge);
   backdrop-filter: blur(14px);
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 
 .paper {
@@ -272,16 +335,16 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #080c14;
+  background: var(--app-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1f2937;
+  background: var(--app-scrollbar);
   border-radius: 99px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+  background: var(--app-scrollbar-hover);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -343,4 +406,91 @@ a {
     animation: none !important;
     background-image: none;
   }
+}
+
+/* ── Light mode: global dark-palette corrections ──────────────────────────
+   Page components still use hardcoded dark-mode colors. These overrides
+   remap them to theme-aware values so every screen is readable on cream.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* Near-white text → primary ink */
+[data-theme="light"] .text-\[\#F0F2F5\],
+[data-theme="light"] .text-\[\#F8FAFC\],
+[data-theme="light"] .text-\[\#E2E8F0\],
+[data-theme="light"] .text-\[\#FFFFFF\] {
+  color: var(--app-ink) !important;
+}
+
+/* Slate-200 text → secondary ink */
+[data-theme="light"] .text-\[\#CBD5E1\] {
+  color: var(--app-ink-dim) !important;
+}
+
+/* Slate-400 text → secondary ink */
+[data-theme="light"] .text-\[\#94A3B8\],
+[data-theme="light"] .text-\[\#A0AEC0\] {
+  color: var(--app-ink-dim) !important;
+}
+
+/* Slate-500 / slate-600 text → faint ink */
+[data-theme="light"] .text-\[\#64748B\],
+[data-theme="light"] .text-\[\#475569\],
+[data-theme="light"] .text-\[\#334155\] {
+  color: var(--app-ink-faint) !important;
+}
+
+/* Amber accent → darker amber for contrast on cream */
+[data-theme="light"] .text-\[\#F59E0B\] {
+  color: var(--app-accent) !important;
+}
+
+/* White-opacity borders → opaque edge */
+[data-theme="light"] .border-white\/8,
+[data-theme="light"] .border-white\/10,
+[data-theme="light"] .border-white\/12,
+[data-theme="light"] .border-white\/15,
+[data-theme="light"] .border-white\/16,
+[data-theme="light"] .border-white\/20,
+[data-theme="light"] .border-white\/25 {
+  border-color: var(--app-edge) !important;
+}
+
+/* White-opacity divide lines */
+[data-theme="light"] .divide-white\/6 > :not([hidden]) ~ :not([hidden]),
+[data-theme="light"] .divide-white\/8 > :not([hidden]) ~ :not([hidden]),
+[data-theme="light"] .divide-white\/10 > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--app-edge) !important;
+}
+
+/* Very subtle white backgrounds → barely-there cream tint */
+[data-theme="light"] .bg-white\/\[0\.02\],
+[data-theme="light"] .bg-white\/\[0\.025\],
+[data-theme="light"] .bg-white\/\[0\.03\],
+[data-theme="light"] .bg-white\/\[0\.04\] {
+  background-color: var(--app-ghost) !important;
+}
+
+/* White/5, white/10 panel backgrounds → subtle hover tint */
+[data-theme="light"] .bg-white\/5,
+[data-theme="light"] .bg-white\/10,
+[data-theme="light"] .bg-white\/15 {
+  background-color: var(--app-hover) !important;
+}
+
+/* Subtle white hover backgrounds → app-hover token */
+[data-theme="light"] .hover\:bg-white\/5:hover,
+[data-theme="light"] .hover\:bg-white\/10:hover,
+[data-theme="light"] .hover\:bg-white\/\[0\.025\]:hover {
+  background-color: var(--app-hover-hi) !important;
+}
+
+/* Ring offset on focus rings */
+[data-theme="light"] .focus-visible\:ring-offset-\[\#080C14\]:focus-visible {
+  --tw-ring-offset-color: var(--app-bg) !important;
+}
+
+/* Selection highlight adapted for light mode */
+[data-theme="light"] ::selection {
+  background: rgba(180, 83, 9, 0.18);
+  color: var(--app-ink);
 }

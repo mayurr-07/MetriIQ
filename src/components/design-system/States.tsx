@@ -8,10 +8,10 @@ export function LoadingState({ message = "Loading…" }: { message?: string }) {
   return (
     <div className="state-enter flex flex-col items-center justify-center py-20 text-center">
       <div className="relative h-10 w-10">
-        <span className="absolute inset-0 rounded-full border border-white/12" />
-        <span className="absolute inset-0 animate-spin rounded-full border border-transparent border-t-[#F59E0B]" />
+        <span className="absolute inset-0 rounded-full border border-app-edge-mid" />
+        <span className="absolute inset-0 animate-spin rounded-full border border-transparent border-t-app-accent" />
       </div>
-      <p className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-[#94A3B8]">
+      <p className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-app-ink-dim">
         {message}
       </p>
     </div>
@@ -33,11 +33,11 @@ export function EmptyState({
 }) {
   return (
     <div className={cn("state-enter flex flex-col items-center justify-center py-16 text-center", className)}>
-      <div className={cn(tile, "border-white/12 bg-white/[0.03] text-[#94A3B8]")}>
-        {icon ?? <Search className="h-6 w-6 text-[#F59E0B]" />}
+      <div className={cn(tile, "border-app-edge-mid bg-app-ghost text-app-ink-dim")}>
+        {icon ?? <Search className="h-6 w-6 text-app-accent" />}
       </div>
-      <h3 className="mt-4 font-display text-xl text-[#F0F2F5]">{title}</h3>
-      <p className="mt-2 max-w-sm text-[0.92rem] leading-relaxed text-[#94A3B8]">
+      <h3 className="mt-4 font-display text-xl text-app-ink">{title}</h3>
+      <p className="mt-2 max-w-sm text-[0.92rem] leading-relaxed text-app-ink-dim">
         {description}
       </p>
       {action && (
@@ -65,8 +65,8 @@ export function ErrorState({
       <div className={cn(tile, "border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444]")}>
         <AlertCircle className="h-6 w-6" />
       </div>
-      <h3 className="mt-4 font-display text-xl text-[#F0F2F5]">{title}</h3>
-      <p className="mt-2 max-w-md text-[0.92rem] leading-relaxed text-[#94A3B8]">
+      <h3 className="mt-4 font-display text-xl text-app-ink">{title}</h3>
+      <p className="mt-2 max-w-md text-[0.92rem] leading-relaxed text-app-ink-dim">
         {message}
       </p>
       {onRetry && (
@@ -84,11 +84,11 @@ export function ErrorState({
 export function ForbiddenState() {
   return (
     <div className="state-enter flex flex-col items-center justify-center py-24 text-center">
-      <div className={cn(tile, "border-[#F59E0B]/40 bg-[#F59E0B]/10 text-[#F59E0B]")}>
+      <div className={cn(tile, "border-app-accent-bd bg-app-accent-bg text-app-accent")}>
         <Lock className="h-6 w-6" />
       </div>
-      <h3 className="mt-4 font-display text-2xl text-[#F0F2F5]">Restricted Workspace</h3>
-      <p className="mt-2 max-w-md text-[0.92rem] leading-relaxed text-[#94A3B8]">
+      <h3 className="mt-4 font-display text-2xl text-app-ink">Restricted Workspace</h3>
+      <p className="mt-2 max-w-md text-[0.92rem] leading-relaxed text-app-ink-dim">
         Your current role does not have access to this area. Switch to an authorized
         workspace or return to your own dashboard.
       </p>
@@ -99,11 +99,11 @@ export function ForbiddenState() {
 export function NotFoundState() {
   return (
     <div className="state-enter flex flex-col items-center justify-center py-24 text-center">
-      <div className={cn(tile, "border-white/12 bg-white/[0.03] text-[#94A3B8]")}>
-        <FileQuestion className="h-6 w-6 text-[#F59E0B]" />
+      <div className={cn(tile, "border-app-edge-mid bg-app-ghost text-app-ink-dim")}>
+        <FileQuestion className="h-6 w-6 text-app-accent" />
       </div>
-      <h3 className="mt-4 font-display text-2xl text-[#F0F2F5]">Page not found</h3>
-      <p className="mt-2 max-w-md text-[0.88rem] leading-relaxed text-[#94A3B8]">
+      <h3 className="mt-4 font-display text-2xl text-app-ink">Page not found</h3>
+      <p className="mt-2 max-w-md text-[0.88rem] leading-relaxed text-app-ink-dim">
         The page you're looking for doesn't exist in this workspace.
       </p>
       <div className="mt-6">

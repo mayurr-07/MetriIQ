@@ -16,16 +16,9 @@ export interface PageHeaderProps {
   className?: string;
 }
 
-/**
- * Standard page header used across every module screen.
- *
- * Establishes one consistent information hierarchy — breadcrumb context,
- * title, supporting description and an optional primary action — so every
- * screen in the application reads as part of the same product.
- */
 export function PageHeader({ crumbs, title, description, action, className }: PageHeaderProps) {
   return (
-    <div className={cn("mb-7 border-b border-white/8 pb-6", className)}>
+    <div className={cn("mb-7 border-b border-app-edge pb-6", className)}>
       {crumbs && crumbs.length > 0 && (
         <nav aria-label="Breadcrumb" className="mb-2.5 flex items-center gap-1.5">
           {crumbs.map((crumb, i) => (
@@ -33,13 +26,13 @@ export function PageHeader({ crumbs, title, description, action, className }: Pa
               <span
                 className={cn(
                   "font-mono text-[0.68rem] uppercase tracking-[0.18em]",
-                  i === crumbs.length - 1 ? "text-[#F59E0B]" : "text-[#94A3B8]",
+                  i === crumbs.length - 1 ? "text-app-accent" : "text-app-ink-dim",
                 )}
               >
                 {crumb}
               </span>
               {i < crumbs.length - 1 && (
-                <ChevronRight className="h-3 w-3 text-[#334155]" aria-hidden="true" />
+                <ChevronRight className="h-3 w-3 text-app-ink-faint" aria-hidden="true" />
               )}
             </span>
           ))}
@@ -48,11 +41,11 @@ export function PageHeader({ crumbs, title, description, action, className }: Pa
 
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="font-display text-[1.85rem] leading-tight text-[#F0F2F5] sm:text-[2.15rem]">
+          <h1 className="font-display text-[1.85rem] leading-tight text-app-ink sm:text-[2.15rem]">
             {title}
           </h1>
           {description && (
-            <p className="mt-1.5 max-w-2xl text-[0.95rem] leading-relaxed text-[#94A3B8]">
+            <p className="mt-1.5 max-w-2xl text-[0.95rem] leading-relaxed text-app-ink-dim">
               {description}
             </p>
           )}

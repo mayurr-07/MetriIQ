@@ -7,31 +7,24 @@ export interface TableProps {
   className?: string;
 }
 
-/**
- * Operational table shell.
- *
- * Renders real column headers so a module's data shape is communicated even
- * before any records exist. Horizontal scroll on narrow viewports keeps the
- * table usable instead of forcing a cramped, illegible layout.
- */
 export function Table({ columns, children, className }: TableProps) {
   return (
-    <div className={cn("overflow-x-auto border border-white/8", className)}>
+    <div className={cn("overflow-x-auto border border-app-edge", className)}>
       <table className="w-full min-w-[560px] border-collapse text-left">
         <thead>
-          <tr className="border-b border-white/8 bg-white/[0.02]">
+          <tr className="border-b border-app-edge bg-app-ghost">
             {columns.map((col) => (
               <th
                 key={col}
                 scope="col"
-                className="px-4 py-3 font-mono text-[0.68rem] font-medium uppercase tracking-[0.16em] text-[#94A3B8]"
+                className="px-4 py-3 font-mono text-[0.68rem] font-medium uppercase tracking-[0.16em] text-app-ink-dim"
               >
                 {col}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-white/6">{children}</tbody>
+        <tbody className="divide-y divide-app-edge">{children}</tbody>
       </table>
     </div>
   );
@@ -39,22 +32,18 @@ export function Table({ columns, children, className }: TableProps) {
 
 export function TableRow({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <tr className={cn("transition-colors hover:bg-white/[0.025]", className)}>{children}</tr>
+    <tr className={cn("transition-colors hover:bg-app-hover", className)}>{children}</tr>
   );
 }
 
 export function TableCell({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <td className={cn("px-4 py-3.5 align-middle text-[0.885rem] text-[#E2E8F0]", className)}>
+    <td className={cn("px-4 py-3.5 align-middle text-[0.885rem] text-app-ink", className)}>
       {children}
     </td>
   );
 }
 
-/**
- * A full-width empty row communicating (1) what's empty, (2) why, and
- * (3) what to do next — never a bare "No data found."
- */
 export function TableEmptyRow({
   colSpan,
   icon,
@@ -73,12 +62,12 @@ export function TableEmptyRow({
       <td colSpan={colSpan} className="px-4 py-14 text-center">
         <div className="mx-auto flex max-w-sm flex-col items-center">
           {icon && (
-            <div className="grid h-12 w-12 place-items-center border border-white/12 bg-white/[0.03] text-[#F59E0B]">
+            <div className="grid h-12 w-12 place-items-center border border-app-edge-mid bg-app-ghost text-app-accent">
               {icon}
             </div>
           )}
-          <p className="mt-4 font-display text-[1.125rem] text-[#F0F2F5]">{title}</p>
-          <p className="mt-1.5 text-[0.875rem] leading-relaxed text-[#94A3B8]">{description}</p>
+          <p className="mt-4 font-display text-[1.125rem] text-app-ink">{title}</p>
+          <p className="mt-1.5 text-[0.875rem] leading-relaxed text-app-ink-dim">{description}</p>
           {action && <div className="mt-5">{action}</div>}
         </div>
       </td>

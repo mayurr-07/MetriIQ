@@ -32,7 +32,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           "transition-[background-color,border-color,color,transform,opacity] duration-150 ease-out",
           "active:scale-[0.98]",
           "disabled:pointer-events-none disabled:opacity-45 disabled:active:scale-100",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080C14]",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd focus-visible:ring-offset-2 focus-visible:ring-offset-app-bg",
           "cursor-pointer disabled:cursor-not-allowed",
           // sizes
           size === "sm" && "min-h-[36px] px-3 text-[0.68rem]",
@@ -41,13 +41,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           size === "icon" && "h-10 w-10 p-0 text-[0.75rem]",
           // variants
           variant === "primary" &&
-          "border border-[#F59E0B]/45 bg-[#F59E0B]/10 text-[#F59E0B] hover:border-[#F59E0B]/60 hover:bg-[#F59E0B]/20",
+          "border border-app-accent-bd bg-app-accent-bg text-app-accent hover:border-app-accent-bd-h hover:bg-app-accent-bg-h",
           variant === "secondary" &&
-          "border border-white/15 bg-white/5 text-[#F0F2F5] hover:border-white/25 hover:bg-white/10",
+          "border border-app-edge-mid bg-app-hover text-app-ink hover:border-app-edge-hi hover:bg-app-hover-hi",
           (variant === "outline" || variant === "tertiary") &&
-          "border border-white/15 bg-transparent text-[#94A3B8] hover:border-white/30 hover:text-[#F0F2F5]",
+          "border border-app-edge-mid bg-transparent text-app-ink-dim hover:border-app-edge-hi hover:text-app-ink",
           variant === "ghost" &&
-          "border border-transparent bg-transparent text-[#94A3B8] hover:bg-white/5 hover:text-[#F0F2F5]",
+          "border border-transparent bg-transparent text-app-ink-dim hover:bg-app-hover hover:text-app-ink",
           (variant === "danger" || variant === "destructive") &&
           "border border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444] hover:border-[#EF4444]/60 hover:bg-[#EF4444]/20",
           className,
