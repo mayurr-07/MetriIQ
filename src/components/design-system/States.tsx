@@ -11,7 +11,7 @@ export function LoadingState({ message = "Loading…" }: { message?: string }) {
         <span className="absolute inset-0 rounded-full border border-app-edge-mid" />
         <span className="absolute inset-0 animate-spin rounded-full border border-transparent border-t-app-accent" />
       </div>
-      <p className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-app-ink-dim">
+      <p className="mt-4 font-mono text-[0.82rem] uppercase tracking-[0.2em] text-app-ink-dim">
         {message}
       </p>
     </div>
@@ -36,8 +36,8 @@ export function EmptyState({
       <div className={cn(tile, "border-app-edge-mid bg-app-ghost text-app-ink-dim")}>
         {icon ?? <Search className="h-6 w-6 text-app-accent" />}
       </div>
-      <h3 className="mt-4 font-display text-xl text-app-ink">{title}</h3>
-      <p className="mt-2 max-w-sm text-[0.92rem] leading-relaxed text-app-ink-dim">
+      <h3 className="mt-4 font-display text-2xl text-app-ink">{title}</h3>
+      <p className="mt-2 max-w-sm text-[1.02rem] leading-relaxed text-app-ink-dim">
         {description}
       </p>
       {action && (
@@ -65,8 +65,8 @@ export function ErrorState({
       <div className={cn(tile, "border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444]")}>
         <AlertCircle className="h-6 w-6" />
       </div>
-      <h3 className="mt-4 font-display text-xl text-app-ink">{title}</h3>
-      <p className="mt-2 max-w-md text-[0.92rem] leading-relaxed text-app-ink-dim">
+      <h3 className="mt-4 font-display text-2xl text-app-ink">{title}</h3>
+      <p className="mt-2 max-w-md text-[1.02rem] leading-relaxed text-app-ink-dim">
         {message}
       </p>
       {onRetry && (
@@ -88,7 +88,7 @@ export function ForbiddenState() {
         <Lock className="h-6 w-6" />
       </div>
       <h3 className="mt-4 font-display text-2xl text-app-ink">Restricted Workspace</h3>
-      <p className="mt-2 max-w-md text-[0.92rem] leading-relaxed text-app-ink-dim">
+      <p className="mt-2 max-w-md text-[1.02rem] leading-relaxed text-app-ink-dim">
         Your current role does not have access to this area. Switch to an authorized
         workspace or return to your own dashboard.
       </p>
@@ -103,7 +103,7 @@ export function NotFoundState() {
         <FileQuestion className="h-6 w-6 text-app-accent" />
       </div>
       <h3 className="mt-4 font-display text-2xl text-app-ink">Page not found</h3>
-      <p className="mt-2 max-w-md text-[0.88rem] leading-relaxed text-app-ink-dim">
+      <p className="mt-2 max-w-md text-[1.02rem] leading-relaxed text-app-ink-dim">
         The page you're looking for doesn't exist in this workspace.
       </p>
       <div className="mt-6">

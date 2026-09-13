@@ -43,13 +43,13 @@ function drawPhoneScreen(
   ctx.fillStyle = "rgba(8,12,20,0.94)";
   ctx.fillRect(0, 0, w, 54);
   ctx.fillStyle = "#94A3B8";
-  ctx.font = "600 18px Inter, system-ui, sans-serif";
+  ctx.font = "600 18px 'Times New Roman', Times, Georgia, serif";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
   ctx.fillText("LM Inspect", 28, 28);
   ctx.textAlign = "right";
   ctx.fillStyle = beam > 0.08 ? "#F59E0B" : "#64748B";
-  ctx.font = "600 16px 'JetBrains Mono', monospace";
+  ctx.font = "600 16px 'Times New Roman', Times, Georgia, serif";
   ctx.fillText(beam > 0.08 ? "LIVE" : "READY", w - 28, 28);
 
   // notch / sensor strip
@@ -121,7 +121,7 @@ function drawPhoneScreen(
     ctx.strokeRect(feedX + 12, feedY + 12, feedW - 24, feedH - 24);
     ctx.setLineDash([]);
     ctx.fillStyle = "#64748B";
-    ctx.font = "600 15px 'JetBrains Mono', monospace";
+    ctx.font = "600 15px 'Times New Roman', Times, Georgia, serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("AWAITING PACKET", feedX + feedW * 0.5, feedY + feedH * 0.5);
@@ -177,7 +177,7 @@ function drawPhoneScreen(
     ctx.fillStyle = "rgba(8,12,20,0.82)";
     ctx.fillRect(rx, ry - 18, Math.max(42, r.id.length * 10 + 16), 16);
     ctx.fillStyle = r.tone;
-    ctx.font = "700 11px 'JetBrains Mono', monospace";
+    ctx.font = "700 11px 'Times New Roman', Times, Georgia, serif";
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
     ctx.fillText(r.id, rx + 6, ry - 10);
@@ -219,7 +219,7 @@ function drawPhoneScreen(
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = chip.ok ? "#6EE7B7" : "#94A3B8";
-    ctx.font = "700 12px 'JetBrains Mono', monospace";
+    ctx.font = "700 12px 'Times New Roman', Times, Georgia, serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(chip.label, cx + chipW * 0.5, cy + 14);
@@ -238,7 +238,7 @@ function drawPhoneScreen(
   ctx.fillStyle = "rgba(8,12,20,0.96)";
   ctx.fillRect(0, h - 108, w, 108);
   ctx.fillStyle = beam > 0.08 ? "#F59E0B" : "#94A3B8";
-  ctx.font = "700 20px Inter, system-ui, sans-serif";
+  ctx.font = "700 20px 'Times New Roman', Times, Georgia, serif";
   ctx.textAlign = "center";
   ctx.fillText(
     beam > 0.08
@@ -253,7 +253,7 @@ function drawPhoneScreen(
   );
 
   ctx.fillStyle = "#94A3B8";
-  ctx.font = "500 15px 'JetBrains Mono', monospace";
+  ctx.font = "500 15px 'Times New Roman', Times, Georgia, serif";
   if (beam > 0.08) {
     const pct = Math.min(99, Math.round(beam * 100 + Math.sin(time * 8) * 2));
     ctx.fillText(`LABEL FEED  ·  OPTICAL LOCK ${pct}%`, w * 0.5, h - 38);

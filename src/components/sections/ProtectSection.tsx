@@ -115,12 +115,12 @@ export default function ProtectSection() {
                 Act IV · 10 — Protect
               </span>
             </div>
-            <h2 data-reveal className="mt-4 font-display text-[2.1rem] leading-tight text-[#F0F2F5]">
+            <h2 data-reveal className="mt-4 font-display text-[2.45rem] leading-tight text-[#F0F2F5]">
               One record enters
               <br />
               the department system.
             </h2>
-            <p data-reveal className="mt-4 text-[0.92rem] leading-relaxed text-[#94A3B8]">
+            <p data-reveal className="mt-4 text-[1.05rem] leading-relaxed text-[#94A3B8]">
               The inspection closes on the spot and syncs as a single signed record. Multiply that
               by every officer in the field and the department sees compliance form in real time.
             </p>
@@ -348,7 +348,7 @@ export default function ProtectSection() {
 
             <h2
               data-reveal
-              className="mt-10 font-display text-[clamp(2.3rem,7vw,5rem)] font-semibold leading-[1] tracking-[-0.02em] text-[#F0F2F5]"
+              className="mt-10 font-display text-[clamp(2.6rem,7.4vw,5.4rem)] font-semibold leading-[1] tracking-[-0.02em] text-[#F0F2F5]"
             >
               Inspect Smarter.
               <br />
@@ -356,13 +356,13 @@ export default function ProtectSection() {
             </h2>
             <p
               data-reveal
-              className="mx-auto mt-6 max-w-xl font-quote text-[1.15rem] italic leading-relaxed text-[#94A3B8]"
+              className="mx-auto mt-6 max-w-2xl font-quote text-[1.3rem] italic leading-relaxed text-[#94A3B8]"
             >
               “Government-grade AI assistance for packaged-product compliance.”
             </p>
             <p
               data-reveal
-              className="mt-6 font-mono text-[0.62rem] uppercase tracking-[0.26em] text-[#64748B]"
+              className="mt-6 font-mono text-[0.75rem] uppercase tracking-[0.22em] text-[#64748B]"
             >
               {PRODUCT.licence} · Reference inspection {PRODUCT.inspectionId}
             </p>

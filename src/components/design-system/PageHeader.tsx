@@ -18,21 +18,21 @@ export interface PageHeaderProps {
 
 export function PageHeader({ crumbs, title, description, action, className }: PageHeaderProps) {
   return (
-    <div className={cn("mb-7 border-b border-app-edge pb-6", className)}>
+    <div className={cn("mb-8 border-b border-app-edge pb-7", className)}>
       {crumbs && crumbs.length > 0 && (
-        <nav aria-label="Breadcrumb" className="mb-2.5 flex items-center gap-1.5">
+        <nav aria-label="Breadcrumb" className="mb-3 flex items-center gap-1.5">
           {crumbs.map((crumb, i) => (
             <span key={crumb} className="flex items-center gap-1.5">
               <span
                 className={cn(
-                  "font-mono text-[0.68rem] uppercase tracking-[0.18em]",
+                  "font-mono text-[0.8rem] uppercase tracking-[0.16em]",
                   i === crumbs.length - 1 ? "text-app-accent" : "text-app-ink-dim",
                 )}
               >
                 {crumb}
               </span>
               {i < crumbs.length - 1 && (
-                <ChevronRight className="h-3 w-3 text-app-ink-faint" aria-hidden="true" />
+                <ChevronRight className="h-3.5 w-3.5 text-app-ink-faint" aria-hidden="true" />
               )}
             </span>
           ))}
@@ -40,12 +40,12 @@ export function PageHeader({ crumbs, title, description, action, className }: Pa
       )}
 
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="min-w-0">
-          <h1 className="font-display text-[1.85rem] leading-tight text-app-ink sm:text-[2.15rem]">
+        <div className="min-w-0 max-w-4xl">
+          <h1 className="font-display text-[2.7rem] leading-tight text-app-ink sm:text-[3.25rem]">
             {title}
           </h1>
           {description && (
-            <p className="mt-1.5 max-w-2xl text-[0.95rem] leading-relaxed text-app-ink-dim">
+            <p className="mt-2 max-w-3xl text-[1.08rem] leading-relaxed text-app-ink-dim">
               {description}
             </p>
           )}

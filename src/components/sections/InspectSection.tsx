@@ -55,7 +55,7 @@ export default function InspectSection() {
             </div>
             <div data-reveal className="rule-line mt-5 w-44" />
 
-            <h1 className="mt-7 font-display text-[clamp(2.5rem,7.4vw,5.2rem)] font-semibold leading-[0.94] tracking-[-0.02em] text-[#F0F2F5]">
+            <h1 className="mt-7 font-display text-[clamp(2.8rem,8vw,5.8rem)] font-semibold leading-[0.94] tracking-[-0.02em] text-[#F0F2F5]">
               <span className="block overflow-hidden pb-1">
                 <span className="hero-line block">One Package.</span>
               </span>
@@ -72,7 +72,7 @@ export default function InspectSection() {
 
             <p
               data-reveal
-              className="mt-7 max-w-xl text-[0.98rem] leading-relaxed text-[#94A3B8] md:text-[1.05rem]"
+              className="mt-7 max-w-2xl text-[1.08rem] leading-relaxed text-[#94A3B8] md:text-[1.18rem]"
             >
               An AI-assisted inspection assistant that reads every mandatory declaration on a
               pre-packaged commodity — price, quantity, date and consumer care — and produces
@@ -161,10 +161,10 @@ export default function InspectSection() {
                   Step 02 — Pick up
                 </span>
               </div>
-              <h2 className="mt-4 font-display text-[1.9rem] leading-tight text-[#F0F2F5]">
+              <h2 className="mt-4 font-display text-[2.35rem] leading-tight text-[#F0F2F5]">
                 The officer lifts the pack.
               </h2>
-              <p className="mt-3 text-[0.9rem] leading-relaxed text-[#94A3B8]">
+              <p className="mt-3 text-[1.05rem] leading-relaxed text-[#94A3B8]">
                 No lab, no sample preparation. The inspector picks the commodity off the counter,
                 turns it to the principal display panel and holds it in front of the handheld
                 scanning device — exactly as filed inspections happen today.
@@ -194,7 +194,7 @@ export default function InspectSection() {
                 Step 03 — Scan
               </span>
             </div>
-            <h2 data-reveal className="mt-4 font-display text-[2rem] leading-tight text-[#F0F2F5]">
+            <h2 data-reveal className="mt-4 font-display text-[2.35rem] leading-tight text-[#F0F2F5]">
               One pass of the beam.
             </h2>
             <div data-reveal className="glass mt-6 divide-y divide-white/8">

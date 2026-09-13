@@ -24,8 +24,8 @@ export default function LandingPage() {
       </div>
 
       {/* legibility scrims + atmosphere */}
-      <div className="pointer-events-none fixed inset-0 z-[1] bg-[linear-gradient(180deg,rgba(8,12,20,0.92)_0%,rgba(8,12,20,0.22)_22%,rgba(8,12,20,0.18)_60%,rgba(8,12,20,0.72)_100%)]" />
-      <div className="pointer-events-none fixed inset-0 z-[1] hidden bg-[linear-gradient(90deg,rgba(8,12,20,0.85)_0%,rgba(8,12,20,0)_38%),linear-gradient(270deg,rgba(8,12,20,0.85)_0%,rgba(8,12,20,0)_38%)] lg:block" />
+      <div className="pointer-events-none fixed inset-0 z-[1] bg-[linear-gradient(180deg,rgba(8,12,20,0.94)_0%,rgba(8,12,20,0.68)_22%,rgba(8,12,20,0.64)_60%,rgba(8,12,20,0.90)_100%)]" />
+      <div className="pointer-events-none fixed inset-0 z-[1] hidden bg-[linear-gradient(90deg,rgba(8,12,20,0.90)_0%,rgba(8,12,20,0.28)_38%),linear-gradient(270deg,rgba(8,12,20,0.90)_0%,rgba(8,12,20,0.28)_38%)] lg:block" />
       <div className="fx-vignette" />
       <div className="fx-scanlines" />
       <div className="fx-grain" />

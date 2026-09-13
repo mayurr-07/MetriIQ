@@ -56,14 +56,14 @@ export default function LoginPage() {
 
       {/* header */}
       <header className="relative z-10 border-b border-white/8 bg-[#080C14]/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-3 px-5 md:px-10">
-          <Link to="/" className="flex min-w-0 items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55">
-            <span className="grid h-9 w-9 shrink-0 place-items-center border border-[#F59E0B]/30 bg-[#F59E0B]/[0.07]">
-              <Scale className="h-[15px] w-[15px] text-[#F59E0B]" />
+        <div className="mx-auto flex h-24 w-full max-w-[90rem] items-center justify-between gap-3 px-5 md:px-10">
+          <Link to="/" className="flex min-w-0 items-center gap-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B]/55">
+            <span className="grid h-14 w-14 shrink-0 place-items-center border border-[#F59E0B]/30 bg-[#F59E0B]/[0.07]">
+              <Scale className="h-7 w-7 text-[#F59E0B]" />
             </span>
             <span className="min-w-0 leading-tight">
-              <span className="block truncate font-display text-base text-[#F0F2F5]">Legal Metrology</span>
-              <span className="hidden font-mono text-[0.52rem] uppercase tracking-[0.26em] text-[#94A3B8] sm:block">
+              <span className="block truncate font-display text-[1.85rem] text-[#F0F2F5] md:text-[2.15rem]">Legal Metrology</span>
+              <span className="hidden font-display text-[0.85rem] uppercase tracking-[0.16em] text-[#94A3B8] sm:block">
                 Compliance Platform
               </span>
             </span>
@@ -89,16 +89,16 @@ export default function LoginPage() {
           className="text-center"
         >
           <span className="eyebrow">SIH PS:26034</span>
-          <h1 className="mt-3 font-display text-2xl font-semibold leading-tight tracking-tight text-[#F0F2F5] sm:text-3xl">
+          <h1 className="mt-3 font-display text-4xl font-semibold leading-tight tracking-tight text-[#F0F2F5] sm:text-5xl">
             AI-Assisted Food Compliance,
             <br />
             Legal Metrology &amp; Consumer Protection Platform
           </h1>
-          <p className="mt-3 text-sm text-[#94A3B8]">Select your workspace to continue.</p>
+          <p className="mt-3 text-base text-[#94A3B8]">Select your workspace to continue.</p>
         </motion.div>
 
         {from && (
-          <div className="mt-6 flex items-center gap-3 border border-[#F59E0B]/35 bg-[#F59E0B]/10 px-4 py-3 text-xs text-[#F59E0B]">
+          <div className="mt-6 flex items-center gap-3 border border-[#F59E0B]/35 bg-[#F59E0B]/10 px-4 py-3 text-sm text-[#F59E0B]">
             <Lock className="h-4 w-4 shrink-0" />
             <span>
               Authentication required to access <code className="font-mono">{from}</code>.
@@ -112,7 +112,7 @@ export default function LoginPage() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               transition={{ duration: 0.2 }}
-              className="mb-6 flex items-start gap-3 border border-[#EF4444]/40 bg-[#EF4444]/10 p-4 text-xs text-[#EF4444]"
+              className="mb-6 flex items-start gap-3 border border-[#EF4444]/40 bg-[#EF4444]/10 p-4 text-sm text-[#EF4444]"
             >
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
               <div>
@@ -126,7 +126,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="login-email"
-                className="block font-mono text-xs uppercase tracking-wider text-[#94A3B8]"
+                className="block font-mono text-sm uppercase tracking-wider text-[#94A3B8]"
               >
                 Email Address
               </label>
@@ -138,7 +138,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border border-white/12 bg-[#0B111C] py-2.5 pl-10 pr-3.5 font-mono text-xs text-[#F0F2F5] outline-none transition focus:border-[#F59E0B]"
+                  className="w-full border border-white/12 bg-[#0B111C] py-3 pl-10 pr-3.5 font-mono text-sm text-[#F0F2F5] outline-none transition focus:border-[#F59E0B]"
                   placeholder="officer@legalmetrology.dev"
                 />
               </div>
@@ -147,7 +147,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="login-password"
-                className="block font-mono text-xs uppercase tracking-wider text-[#94A3B8]"
+                className="block font-mono text-sm uppercase tracking-wider text-[#94A3B8]"
               >
                 Password
               </label>
@@ -159,7 +159,7 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border border-white/12 bg-[#0B111C] py-2.5 pl-10 pr-3.5 font-mono text-xs text-[#F0F2F5] outline-none transition focus:border-[#F59E0B]"
+                  className="w-full border border-white/12 bg-[#0B111C] py-3 pl-10 pr-3.5 font-mono text-sm text-[#F0F2F5] outline-none transition focus:border-[#F59E0B]"
                   placeholder="••••••••"
                 />
               </div>
@@ -170,7 +170,7 @@ export default function LoginPage() {
             </Button>
 
             <div className="mt-4 space-y-1.5 border-t border-white/8 pt-4">
-              <p className="font-mono text-[0.6rem] uppercase tracking-wider text-[#64748B]">
+              <p className="font-mono text-[0.75rem] uppercase tracking-wider text-[#64748B]">
                 Demo accounts
               </p>
               {ROLE_ORDER.map((role) => {
@@ -178,7 +178,7 @@ export default function LoginPage() {
                 return (
                   <div
                     key={role}
-                    className="flex flex-wrap items-center justify-between gap-2 font-mono text-[0.6rem] text-[#64748B]"
+                    className="flex flex-wrap items-center justify-between gap-2 font-mono text-[0.75rem] text-[#64748B]"
                   >
                     <span className="text-[#94A3B8]">{def.label}</span>
                     <span>
@@ -192,7 +192,7 @@ export default function LoginPage() {
         </Card>
       </main>
 
-      <footer className="relative z-10 border-t border-white/8 bg-[#080C14] py-6 text-center font-mono text-[0.6rem] uppercase tracking-[0.2em] text-[#64748B]">
+      <footer className="relative z-10 border-t border-white/8 bg-[#080C14] py-6 text-center font-mono text-[0.75rem] uppercase tracking-[0.18em] text-[#64748B]">
         SIH 2026 · PS:26034 · AI-Assisted Legal Metrology Compliance Platform
       </footer>
     </div>

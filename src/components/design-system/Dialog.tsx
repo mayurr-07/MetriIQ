@@ -66,7 +66,7 @@ export function Dialog({ open, onClose, title, description, children, className 
                   {title}
                 </h2>
                 {description && (
-                  <p className="mt-1.5 text-[0.9rem] leading-relaxed text-app-ink-dim">
+                  <p className="mt-1.5 text-[1.02rem] leading-relaxed text-app-ink-dim">
                     {description}
                   </p>
                 )}

@@ -17,7 +17,7 @@ export default function ScopeTag({ scope, className }: { scope: DataScope; class
     <span
       title={scope.note}
       className={cn(
-        "inline-flex shrink-0 items-center gap-1.5 border px-2 py-1 font-mono text-[0.62rem] uppercase tracking-[0.16em]",
+        "inline-flex shrink-0 items-center gap-1.5 border px-2 py-1 font-mono text-[0.74rem] uppercase tracking-[0.14em]",
         scope.provenance === "LOCAL" && "border-app-border bg-app-surface/[0.03] text-app-text-secondary",
         scope.provenance === "DEMO" && "border-[#F59E0B]/40 bg-[#F59E0B]/10 text-[#F59E0B]",
         scope.provenance === "UNAVAILABLE" && "border-app-border bg-app-surface/[0.02] text-app-text-secondary",

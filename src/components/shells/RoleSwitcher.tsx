@@ -28,7 +28,7 @@ export default function RoleSwitcher({ fallback }: { fallback: Role }) {
           switchRole(next);
           navigate(getDefaultRouteForRole(next));
         }}
-        className="cursor-pointer bg-transparent font-mono text-[0.62rem] text-[#F0F2F5] outline-none"
+        className="cursor-pointer bg-transparent font-mono text-[0.75rem] text-[#F0F2F5] outline-none"
       >
         {ROLE_ORDER.map((role) => (
           <option key={role} value={role} className="bg-[#111827]">

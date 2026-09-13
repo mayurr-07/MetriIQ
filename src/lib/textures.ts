@@ -209,20 +209,20 @@ export function drawLabelFace(): HTMLCanvasElement {
   ctx.fillStyle = "#7b1e2b";
   ctx.fillRect(38, 34, W - 76, 58);
   ctx.fillStyle = "#f7f0e2";
-  ctx.font = "700 34px Inter, 'Helvetica Neue', Arial, sans-serif";
+  ctx.font = "700 34px 'Times New Roman', Times, Georgia, serif";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
   ctx.fillText("SHUDH AHAAR", 62, 64);
   // Kept short and left of x≈583 so it never reaches the MRP box (starts x=610.4).
-  ctx.font = "500 17px Inter, Arial, sans-serif";
+  ctx.font = "500 17px 'Times New Roman', Times, Georgia, serif";
   ctx.fillStyle = "rgba(247,240,226,0.82)";
   ctx.fillText("LEGAL METROLOGY TEST PACK", 340, 65);
 
   // ── Product title & subtitle (left column) ─────────────  y 118–192
   ctx.fillStyle = INK;
-  ctx.font = "700 48px 'Playfair Display', Georgia, serif";
+  ctx.font = "700 48px 'Times New Roman', Times, Georgia, serif";
   ctx.fillText("Classic Salted", 62, 148);
-  ctx.font = "400 22px Inter, Arial, sans-serif";
+  ctx.font = "400 22px 'Times New Roman', Times, Georgia, serif";
   ctx.fillStyle = "#4a3a26";
   // Shortened so the line ends well clear of the MRP box (starts x=610.4).
   ctx.fillText("Crispy Potato Chips  ·  Sunflower Oil", 62, 186);
@@ -249,20 +249,20 @@ export function drawLabelFace(): HTMLCanvasElement {
   ctx.lineWidth = 2;
   ctx.strokeRect(mrpX, mrpY, mrpW, mrpH);
   ctx.fillStyle = INK;
-  ctx.font = "700 26px Inter, Arial, sans-serif";
+  ctx.font = "700 26px 'Times New Roman', Times, Georgia, serif";
   ctx.fillText("MRP", mrpX + 12, mrpY + 32);
-  ctx.font = "800 72px Inter, Arial, sans-serif";
+  ctx.font = "800 72px 'Times New Roman', Times, Georgia, serif";
   ctx.fillText("₹120", mrpX + 86, mrpY + 46);
-  ctx.font = "500 17px Inter, Arial, sans-serif";
+  ctx.font = "500 17px 'Times New Roman', Times, Georgia, serif";
   ctx.fillStyle = "#4a3a26";
   ctx.fillText("(incl. of all taxes)", mrpX + 14, mrpY + 88);
 
   // ── MFD block ── declaration, centre-left ───────  y 294–378
   const mfdY = 0.42 * H;
   ctx.fillStyle = INK;
-  ctx.font = "700 25px Inter, Arial, sans-serif";
+  ctx.font = "700 25px 'Times New Roman', Times, Georgia, serif";
   ctx.fillText("MFD  07 / 26", 62, mfdY + 18);
-  ctx.font = "500 18px Inter, Arial, sans-serif";
+  ctx.font = "500 18px 'Times New Roman', Times, Georgia, serif";
   ctx.fillStyle = "#4a3a26";
   ctx.fillText("BEST BEFORE: 04 MONTHS FROM MFG", 62, mfdY + 46);
   ctx.fillText("BATCH NO. CP-2607-A19", 62, mfdY + 70);
@@ -271,7 +271,7 @@ export function drawLabelFace(): HTMLCanvasElement {
   // Three tightly-set lines, kept to the left column so the barcode on the
   // right has its own gutter. No y-value collides with any declaration.
   const legalY = 396;
-  ctx.font = "500 15px Inter, Arial, sans-serif";
+  ctx.font = "500 15px 'Times New Roman', Times, Georgia, serif";
   ctx.fillStyle = "#3c2f20";
   ctx.fillText(
     "MKT BY: Shudh Ahaar Foods Pvt. Ltd., Plot 14, Jaipur (Raj.) 302013",
@@ -292,7 +292,7 @@ export function drawLabelFace(): HTMLCanvasElement {
   // ── Barcode ── right of the legal rail, well clear of every declaration
   barcode(ctx, 782, 392, 165, 50);
   ctx.fillStyle = "#3c2f20";
-  ctx.font = "500 12px 'JetBrains Mono', monospace";
+  ctx.font = "500 12px 'Times New Roman', Times, Georgia, serif";
   ctx.textAlign = "center";
   ctx.fillText("8 901234 567890", 864, 456);
   ctx.textAlign = "left";
@@ -305,11 +305,11 @@ export function drawLabelFace(): HTMLCanvasElement {
   ctx.fillStyle = "#1c2b1f";
   ctx.fillRect(nqX, nqY, nqW, H * 0.13);
   ctx.fillStyle = "#e9f0e6";
-  ctx.font = "700 22px Inter, Arial, sans-serif";
+  ctx.font = "700 22px 'Times New Roman', Times, Georgia, serif";
   ctx.fillText("NET QUANTITY", nqX + 18, nqY + 26);
-  ctx.font = "800 44px Inter, Arial, sans-serif";
+  ctx.font = "800 44px 'Times New Roman', Times, Georgia, serif";
   ctx.fillText("500 g", nqX + 18, nqY + 62);
-  ctx.font = "500 16px Inter, Arial, sans-serif";
+  ctx.font = "500 16px 'Times New Roman', Times, Georgia, serif";
   ctx.fillStyle = "rgba(233,240,230,0.75)";
   ctx.fillText("When packed. Store in a cool, dry place.", nqX + 208, nqY + 62);
 
@@ -320,11 +320,11 @@ export function drawLabelFace(): HTMLCanvasElement {
   ctx.lineWidth = 1.5;
   ctx.strokeRect(ccX, ccY, W * 0.42, H * 0.13);
   ctx.fillStyle = INK;
-  ctx.font = "700 21px Inter, Arial, sans-serif";
+  ctx.font = "700 21px 'Times New Roman', Times, Georgia, serif";
   ctx.fillText("CUSTOMER CARE", ccX + 16, ccY + 26);
-  ctx.font = "600 27px 'JetBrains Mono', monospace";
+  ctx.font = "600 27px 'Times New Roman', Times, Georgia, serif";
   ctx.fillText("1800-266-XXXX", ccX + 16, ccY + 58);
-  ctx.font = "500 16px Inter, Arial, sans-serif";
+  ctx.font = "500 16px 'Times New Roman', Times, Georgia, serif";
   ctx.fillStyle = "#4a3a26";
   ctx.fillText("care@shudhahaar.example  ·  Mon–Sat 10:00–18:00", ccX + 16, ccY + 84);
 
@@ -395,7 +395,7 @@ export function tagTexture(text: string, accent: string): THREE.CanvasTexture {
   ctx.fillStyle = accent;
   ctx.fillRect(0, 30, 6, 68);
   ctx.fillStyle = "#f0f2f5";
-  ctx.font = "600 40px 'JetBrains Mono', monospace";
+  ctx.font = "600 40px 'Times New Roman', Times, Georgia, serif";
   ctx.textBaseline = "middle";
   ctx.fillText(text.toUpperCase(), 24, 66);
   const tex = new THREE.CanvasTexture(c);

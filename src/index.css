@@ -14,10 +14,10 @@
   --color-issue: #ef4444;
   --color-paper: #f5f0e6;
 
-  --font-display: "Playfair Display", ui-serif, Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-quote: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-display: "Times New Roman", Times, Georgia, serif;
+  --font-sans: "Times New Roman", Times, Georgia, serif;
+  --font-mono: "Times New Roman", Times, Georgia, serif;
+  --font-quote: "Times New Roman", Times, Georgia, serif;
 }
 
 /* ── App shell theme tokens (runtime-switchable) ── */
@@ -34,9 +34,9 @@
   --app-edge-mid:    rgba(255, 255, 255, 0.15);
   --app-edge-hi:     rgba(255, 255, 255, 0.25);
 
-  --app-ink:         #f0f2f5;
-  --app-ink-dim:     #94a3b8;
-  --app-ink-faint:   #64748b;
+  --app-ink:         #ffffff;
+  --app-ink-dim:     #f4f6f8;
+  --app-ink-faint:   #e8edf2;
 
   --app-hover:       rgba(255, 255, 255, 0.05);
   --app-hover-hi:    rgba(255, 255, 255, 0.10);
@@ -99,9 +99,11 @@
   --color-app-edge:       var(--app-edge);
   --color-app-edge-mid:   var(--app-edge-mid);
   --color-app-edge-hi:    var(--app-edge-hi);
-  --color-app-ink:        var(--app-ink);
-  --color-app-ink-dim:    var(--app-ink-dim);
-  --color-app-ink-faint:  var(--app-ink-faint);
+  --color-app-ink:             var(--app-ink);
+  --color-app-ink-dim:         var(--app-ink-dim);
+  --color-app-ink-faint:       var(--app-ink-faint);
+  --color-app-text:            var(--app-ink);
+  --color-app-text-secondary:  var(--app-ink-dim);
   --color-app-hover:      var(--app-hover);
   --color-app-hover-hi:   var(--app-hover-hi);
   --color-app-ghost:      var(--app-ghost);
@@ -110,6 +112,11 @@
   --color-app-accent-bd:   var(--app-accent-bd);
   --color-app-accent-bd-h: var(--app-accent-bd-h);
   --color-app-accent-bg-h: var(--app-accent-bg-h);
+}
+
+html {
+  /* 16px → 18px so rem-based type (most of the UI) is easier to read. */
+  font-size: 112.5%;
 }
 
 html,
@@ -146,8 +153,23 @@ body {
   }
 }
 
+html,
+body,
+button,
+input,
+select,
+textarea,
+code,
+pre,
+kbd,
+samp,
+html *,
+html *::before,
+html *::after {
+  font-family: "Times New Roman", Times, Georgia, serif !important;
+}
+
 body {
-  font-family: var(--font-sans);
   margin: 0;
   overscroll-behavior-y: none;
 }
@@ -294,10 +316,36 @@ a {
 
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.34em;
+  font-size: 0.88rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: #ffffff;
+}
+
+/* Lift the smallest captions, badges, and mono labels so they stay readable. */
+.text-\[0\.5rem\],
+.text-\[0\.52rem\],
+.text-\[0\.54rem\],
+.text-\[0\.55rem\],
+.text-\[0\.56rem\],
+.text-\[0\.58rem\],
+.text-\[0\.6rem\] {
+  font-size: 0.85rem !important;
+}
+
+.text-\[0\.62rem\],
+.text-\[0\.64rem\],
+.text-\[0\.65rem\],
+.text-\[0\.66rem\],
+.text-\[0\.68rem\],
+.text-\[0\.7rem\] {
+  font-size: 0.88rem !important;
+}
+
+.text-\[0\.72rem\],
+.text-\[0\.75rem\],
+.text-xs {
+  font-size: 0.9rem !important;
 }
 
 .rule-line {
@@ -406,6 +454,34 @@ a {
     animation: none !important;
     background-image: none;
   }
+}
+
+/* ── Dark mode: keep small / muted copy near-white ────────────────────────
+   Slate labels wash out over the 3D scene and dark panels. Force them to
+   a readable white unless we are in light theme or on a paper card.
+   ──────────────────────────────────────────────────────────────────────── */
+html:not([data-theme="light"]) .text-\[\#94A3B8\],
+html:not([data-theme="light"]) .text-\[\#A0AEC0\],
+html:not([data-theme="light"]) .text-\[\#64748B\],
+html:not([data-theme="light"]) .text-\[\#475569\],
+html:not([data-theme="light"]) .text-\[\#334155\],
+html:not([data-theme="light"]) .text-\[\#CBD5E1\],
+html:not([data-theme="light"]) .text-app-ink-dim,
+html:not([data-theme="light"]) .text-app-ink-faint,
+html:not([data-theme="light"]) .text-app-text-secondary {
+  color: #ffffff !important;
+}
+
+html:not([data-theme="light"]) .paper .text-\[\#94A3B8\],
+html:not([data-theme="light"]) .paper .text-\[\#64748B\],
+html:not([data-theme="light"]) .paper .text-\[\#475569\],
+html:not([data-theme="light"]) .paper .text-\[\#CBD5E1\] {
+  color: inherit !important;
+}
+
+#story :is(p, span, li, h1, h2, h3, dt, dd, button, a, label),
+footer :is(p, span, li, button, a) {
+  text-shadow: 0 1px 10px rgba(8, 12, 20, 0.8);
 }
 
 /* ── Light mode: global dark-palette corrections ──────────────────────────

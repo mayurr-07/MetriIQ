@@ -35,10 +35,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd focus-visible:ring-offset-2 focus-visible:ring-offset-app-bg",
           "cursor-pointer disabled:cursor-not-allowed",
           // sizes
-          size === "sm" && "min-h-[36px] px-3 text-[0.68rem]",
-          size === "md" && "min-h-[44px] px-5 text-[0.75rem]",
-          size === "lg" && "min-h-[50px] px-7 text-[0.8rem]",
-          size === "icon" && "h-10 w-10 p-0 text-[0.75rem]",
+          size === "sm" && "min-h-[40px] px-3.5 text-[0.78rem]",
+          size === "md" && "min-h-[46px] px-5 text-[0.86rem]",
+          size === "lg" && "min-h-[54px] px-7 text-[0.92rem]",
+          size === "icon" && "h-11 w-11 p-0 text-[0.86rem]",
           // variants
           variant === "primary" &&
           "border border-app-accent-bd bg-app-accent-bg text-app-accent hover:border-app-accent-bd-h hover:bg-app-accent-bg-h",

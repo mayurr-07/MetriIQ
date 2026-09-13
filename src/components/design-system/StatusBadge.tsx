@@ -22,7 +22,7 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 border px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.18em]",
+        "inline-flex items-center gap-1.5 border px-2.5 py-1 font-mono text-[0.72rem] uppercase tracking-[0.16em]",
         config.badgeClass,
         className,
       )}

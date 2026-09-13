@@ -61,21 +61,21 @@ export default function Navbar({ onOpenContact }: { onOpenContact: () => void })
       <nav className="border-b border-white/[0.07] bg-[#080C14]/80 backdrop-blur-xl">
         {/* 3-column grid keeps the act links optically centred regardless of
             how wide the brand block or the right-hand controls become. */}
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-4 px-5 py-2.5 md:px-10">
+        <div className="mx-auto grid w-full max-w-[90rem] grid-cols-[auto_1fr_auto] items-center gap-6 px-5 py-5 md:px-10">
           {/* ── brand ── */}
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-3 text-left"
+            className="flex items-center gap-4 text-left"
           >
-            <span className="grid h-9 w-9 shrink-0 place-items-center border border-[#F59E0B]/30 bg-[#F59E0B]/[0.07]">
-              <Scale className="h-[15px] w-[15px] text-[#F59E0B]" />
+            <span className="grid h-14 w-14 shrink-0 place-items-center border border-[#F59E0B]/30 bg-[#F59E0B]/[0.07]">
+              <Scale className="h-7 w-7 text-[#F59E0B]" />
             </span>
             <span className="hidden flex-col justify-center sm:flex">
-              <span className="font-display text-[1rem] leading-[1.1] text-[#F0F2F5]">
+              <span className="font-display text-[1.85rem] leading-[1.1] text-[#F0F2F5] md:text-[2.15rem]">
                 Legal Metrology
               </span>
-              <span className="mt-1 font-mono text-[0.5rem] uppercase leading-none tracking-[0.26em] text-[#94A3B8]">
+              <span className="mt-1.5 font-display text-[0.85rem] uppercase leading-none tracking-[0.16em] text-[#94A3B8]">
                 AI Inspection Assistant
               </span>
             </span>
@@ -91,12 +91,12 @@ export default function Navbar({ onOpenContact }: { onOpenContact: () => void })
                   type="button"
                   onClick={() => go(a.id)}
                   aria-current={active ? "step" : undefined}
-                  className={`group relative flex min-h-[44px] items-center gap-2 px-3 font-mono text-[0.6rem] uppercase tracking-[0.2em] transition-colors ${
+                  className={`group relative flex min-h-[52px] items-center gap-2 px-3.5 font-display text-[1.05rem] uppercase tracking-[0.12em] transition-colors ${
                     active ? "text-[#F59E0B]" : "text-[#94A3B8] hover:text-[#F0F2F5]"
                   }`}
                 >
                   <span
-                    className={`text-[0.55rem] tabular-nums transition-colors ${
+                    className={`text-[0.72rem] tabular-nums transition-colors ${
                       active ? "text-[#F59E0B]" : "text-[#475569]"
                     }`}
                   >
@@ -116,7 +116,7 @@ export default function Navbar({ onOpenContact }: { onOpenContact: () => void })
           {/* ── right controls ── */}
           <div className="flex items-center justify-end gap-3">
             {/* Fixed width prevents layout shift as the caption text changes. */}
-            <span className="hidden w-[184px] text-right font-mono text-[0.53rem] uppercase leading-none tracking-[0.2em] text-[#64748B] xl:block">
+            <span className="hidden w-[220px] text-right font-mono text-[0.7rem] uppercase leading-none tracking-[0.18em] text-[#64748B] xl:block">
               <span className="text-[#F59E0B]">{ACTS[act].index}</span>
               <span className="mx-1.5 text-white/15">/</span>
               {ACTS[act].caption}
@@ -147,7 +147,7 @@ export default function Navbar({ onOpenContact }: { onOpenContact: () => void })
             <button
               type="button"
               onClick={onOpenContact}
-              className="hidden min-h-[38px] items-center border border-white/12 bg-white/5 px-3 font-mono text-[0.58rem] uppercase leading-none tracking-[0.2em] text-[#94A3B8] transition hover:border-white/25 hover:text-[#F0F2F5] sm:inline-flex"
+              className="hidden min-h-[42px] items-center border border-white/12 bg-white/5 px-3.5 font-mono text-[0.72rem] uppercase leading-none tracking-[0.18em] text-[#94A3B8] transition hover:border-white/25 hover:text-[#F0F2F5] sm:inline-flex"
             >
               Request access
             </button>
@@ -178,7 +178,7 @@ export default function Navbar({ onOpenContact }: { onOpenContact: () => void })
                   className="flex min-h-[52px] w-full items-center gap-3 border-b border-white/[0.06] text-left"
                 >
                   <span
-                    className={`font-mono text-[0.6rem] tabular-nums ${
+                    className={`font-mono text-[0.75rem] tabular-nums ${
                       active ? "text-[#F59E0B]" : "text-[#475569]"
                     }`}
                   >
@@ -186,13 +186,13 @@ export default function Navbar({ onOpenContact }: { onOpenContact: () => void })
                   </span>
                   <span className="flex min-w-0 flex-col">
                     <span
-                      className={`font-mono text-[0.66rem] uppercase leading-none tracking-[0.2em] ${
+                      className={`font-display text-[1.05rem] uppercase leading-none tracking-[0.12em] ${
                         active ? "text-[#F59E0B]" : "text-[#F0F2F5]"
                       }`}
                     >
                       {a.title}
                     </span>
-                    <span className="mt-1.5 truncate text-[0.62rem] leading-none text-[#64748B]">
+                    <span className="mt-1.5 truncate text-[0.78rem] leading-none text-[#64748B]">
                       {a.caption}
                     </span>
                   </span>
@@ -238,7 +238,7 @@ export default function Navbar({ onOpenContact }: { onOpenContact: () => void })
                   setOpen(false);
                   onOpenContact();
                 }}
-                className="flex min-h-[44px] w-full items-center justify-center border border-white/12 bg-white/5 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#94A3B8]"
+                className="flex min-h-[44px] w-full items-center justify-center border border-white/12 bg-white/5 font-mono text-[0.75rem] uppercase tracking-[0.18em] text-[#94A3B8]"
               >
                 Request access
               </button>

@@ -22,17 +22,17 @@ export default function UnderstandSection() {
                 Act II · 04 — Understand
               </span>
             </div>
-            <h2 data-reveal className="mt-4 font-display text-[2.1rem] leading-tight text-[#F0F2F5]">
+            <h2 data-reveal className="mt-4 font-display text-[2.45rem] leading-tight text-[#F0F2F5]">
               The model reads the label,
               <br />
               not a description of it.
             </h2>
-            <p data-reveal className="mt-4 text-[0.92rem] leading-relaxed text-[#94A3B8]">
+            <p data-reveal className="mt-4 text-[1.05rem] leading-relaxed text-[#94A3B8]">
               Spatial understanding places a region on each declaration exactly where it is printed
               — top-right price panel, bottom-left quantity block, manufacture date, consumer care
               line. Nothing is guessed from text alone.
             </p>
-            <ul data-reveal className="mt-5 space-y-2 font-mono text-[0.68rem] text-[#94A3B8]">
+            <ul data-reveal className="mt-5 space-y-2 font-mono text-[0.8rem] text-[#94A3B8]">
               {DECLARATIONS.map((d) => (
                 <li key={d.id} className="flex items-center gap-3">
                   <span className={`h-1.5 w-1.5 ${TONE[d.status].dot}`} />
@@ -57,7 +57,7 @@ export default function UnderstandSection() {
                 05 — Rules check
               </span>
             </div>
-            <h2 data-reveal className="mt-4 mb-6 font-display text-[2.1rem] leading-tight text-[#F0F2F5]">
+            <h2 data-reveal className="mt-4 mb-6 font-display text-[2.45rem] leading-tight text-[#F0F2F5]">
               Every declaration,
               <br />
               against the Rule.

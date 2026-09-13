@@ -20,17 +20,17 @@ export default function MetricCard({ metric }: { metric: Metric }) {
 
   return (
     <Card className="p-4 md:p-5">
-      <p className="font-mono text-[0.64rem] uppercase tracking-[0.2em] text-app-text-secondary">
+      <p className="font-mono text-[0.76rem] uppercase tracking-[0.18em] text-app-text-secondary">
         {metric.label}
       </p>
       {metric.value === null ? (
-        <p className="mt-3 font-mono text-[0.84rem] text-app-text-secondary">Awaiting data</p>
+        <p className="mt-3 font-mono text-[0.95rem] text-app-text-secondary">Awaiting data</p>
       ) : (
-        <p className={cn("mt-2 font-display text-[2rem] leading-none tabular-nums", tone)}>
+        <p className={cn("mt-2 font-display text-[2.25rem] leading-none tabular-nums", tone)}>
           {metric.value.toLocaleString()}
         </p>
       )}
-      {metric.hint && <p className="mt-2 text-[0.8rem] text-app-text-secondary">{metric.hint}</p>}
+      {metric.hint && <p className="mt-2 text-[0.92rem] text-app-text-secondary">{metric.hint}</p>}
     </Card>
   );
 }

@@ -74,7 +74,7 @@ export default function ContactModal({
   };
 
   const field =
-    "w-full border border-white/12 bg-[#0B111C] px-3 py-2.5 font-mono text-[0.72rem] text-[#F0F2F5] outline-none transition focus:border-[#F59E0B]/60";
+    "w-full border border-white/12 bg-[#0B111C] px-3 py-2.5 font-mono text-[0.86rem] text-[#F0F2F5] outline-none transition focus:border-[#F59E0B]/60";
 
   return (
     <AnimatePresence>
@@ -106,7 +106,7 @@ export default function ContactModal({
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="eyebrow">Official correspondence</p>
-                <h3 className="mt-2 font-display text-[1.6rem] leading-tight text-[#F0F2F5]">
+                <h3 className="mt-2 font-display text-[1.9rem] leading-tight text-[#F0F2F5]">
                   Request department access
                 </h3>
               </div>
@@ -126,8 +126,8 @@ export default function ContactModal({
               <div className="flex items-start gap-3 border border-[#10B981]/35 bg-[#10B981]/8 px-4 py-4">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#10B981]" />
                 <div>
-                  <p className="text-[0.92rem] text-[#F0F2F5]">Request logged with the department.</p>
-                  <p className="mt-2 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#94A3B8]">
+                  <p className="text-[1.05rem] text-[#F0F2F5]">Request logged with the department.</p>
+                  <p className="mt-2 font-mono text-[0.75rem] uppercase tracking-[0.18em] text-[#94A3B8]">
                     Reference LM-REQ-{String(reference).padStart(4, "0")} · response within 3 working
                     days
                   </p>
@@ -137,38 +137,38 @@ export default function ContactModal({
               <form onSubmit={submit} className="space-y-3">
                 <div className="grid gap-3 sm:grid-cols-2">
                   <label className="block">
-                    <span className="mb-1.5 block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-[#94A3B8]">
+                    <span className="mb-1.5 block font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[#94A3B8]">
                       Full name *
                     </span>
                     <input className={field} value={form.fullName} onChange={update("fullName")} required />
                   </label>
                   <label className="block">
-                    <span className="mb-1.5 block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-[#94A3B8]">
+                    <span className="mb-1.5 block font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[#94A3B8]">
                       Designation
                     </span>
                     <input className={field} value={form.designation} onChange={update("designation")} />
                   </label>
                   <label className="block">
-                    <span className="mb-1.5 block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-[#94A3B8]">
+                    <span className="mb-1.5 block font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[#94A3B8]">
                       Department *
                     </span>
                     <input className={field} value={form.department} onChange={update("department")} required />
                   </label>
                   <label className="block">
-                    <span className="mb-1.5 block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-[#94A3B8]">
+                    <span className="mb-1.5 block font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[#94A3B8]">
                       District
                     </span>
                     <input className={field} value={form.district} onChange={update("district")} />
                   </label>
                 </div>
                 <label className="block">
-                  <span className="mb-1.5 block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-[#94A3B8]">
+                  <span className="mb-1.5 block font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[#94A3B8]">
                     Official email *
                   </span>
                   <input type="email" className={field} value={form.email} onChange={update("email")} required />
                 </label>
                 <label className="block">
-                  <span className="mb-1.5 block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-[#94A3B8]">
+                  <span className="mb-1.5 block font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[#94A3B8]">
                     Requirement
                   </span>
                   <textarea rows={3} className={field} value={form.message} onChange={update("message")} />
@@ -177,11 +177,11 @@ export default function ContactModal({
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="mt-2 inline-flex min-h-[44px] w-full items-center justify-center gap-2 border border-[#F59E0B]/45 bg-[#F59E0B]/10 px-5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#F59E0B] transition hover:bg-[#F59E0B]/20 disabled:opacity-60"
+                  className="mt-2 inline-flex min-h-[44px] w-full items-center justify-center gap-2 border border-[#F59E0B]/45 bg-[#F59E0B]/10 px-5 text-[0.86rem] font-semibold uppercase tracking-[0.18em] text-[#F59E0B] transition hover:bg-[#F59E0B]/20 disabled:opacity-60"
                 >
                   {status === "sending" ? "Transmitting…" : "Submit request"}
                 </button>
-                <p className="font-mono text-[0.58rem] leading-relaxed text-[#64748B]">
+                <p className="font-mono text-[0.75rem] leading-relaxed text-[#64748B]">
                   Records handled under the Legal Metrology (Packaged Commodities) Rules, 2011.
                 </p>
               </form>

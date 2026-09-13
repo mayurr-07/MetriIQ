@@ -50,36 +50,36 @@ export default function AppShellChrome({
     <div className="min-h-screen bg-app-bg text-app-ink">
       {/* ── top header ── */}
       <header className="fixed inset-x-0 top-0 z-50 border-b border-app-edge bg-app-bg-90 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 md:px-10">
-          <div className="flex min-w-0 items-center gap-3">
+        <div className="mx-auto flex h-24 w-full max-w-[90rem] items-center justify-between px-5 md:px-10">
+          <div className="flex min-w-0 items-center gap-4">
             <button
               type="button"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
               aria-expanded={mobileOpen}
-              className="grid h-10 w-10 shrink-0 place-items-center border border-app-edge text-app-ink-dim transition hover:border-app-edge-mid hover:text-app-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd md:hidden"
+              className="grid h-12 w-12 shrink-0 place-items-center border border-app-edge text-app-ink-dim transition hover:border-app-edge-mid hover:text-app-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd md:hidden"
             >
-              {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
             <Link
               to="/"
-              className="flex min-w-0 items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd"
+              className="flex min-w-0 items-center gap-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd"
             >
-              <Scale className="h-5 w-5 shrink-0 text-app-accent" />
-              <span className="truncate font-display text-lg text-app-ink">Legal Metrology</span>
+              <Scale className="h-8 w-8 shrink-0 text-app-accent" />
+              <span className="truncate font-display text-[1.85rem] leading-tight text-app-ink md:text-[2.15rem]">Legal Metrology</span>
             </Link>
-            <span className="hidden h-4 w-px shrink-0 bg-app-edge-mid md:block" />
-            <span className="hidden shrink-0 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-app-accent md:inline">
+            <span className="hidden h-6 w-px shrink-0 bg-app-edge-mid md:block" />
+            <span className="hidden shrink-0 font-display text-[1.05rem] uppercase tracking-[0.12em] text-app-accent md:inline">
               {roleLabel}
             </span>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2.5">
             <RoleSwitcher fallback={fallbackRole} />
 
             <div className="hidden text-right sm:block">
-              <p className="font-mono text-[0.75rem] text-app-ink">{user?.name}</p>
-              <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-app-ink-dim">
+              <p className="font-display text-[1.05rem] text-app-ink">{user?.name}</p>
+              <p className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-app-ink-dim">
                 {user?.badgeNumber || user?.district || "Demo access"}
               </p>
             </div>
@@ -102,10 +102,10 @@ export default function AppShellChrome({
       </header>
 
       {/* ── main layout with sidebar ── */}
-      <div className="mx-auto flex w-full max-w-7xl pt-16">
-        <aside className="fixed inset-y-0 left-0 top-16 z-40 hidden w-64 overflow-y-auto border-r border-app-edge bg-app-bg-95 pb-8 pt-6 backdrop-blur-md md:block">
+      <div className="mx-auto flex w-full max-w-[90rem] pt-24">
+        <aside className="fixed inset-y-0 left-0 top-24 z-40 hidden w-72 overflow-y-auto border-r border-app-edge bg-app-bg-95 pb-8 pt-6 backdrop-blur-md md:block">
           <div className="px-5">
-            <p className="font-mono text-[0.62rem] uppercase tracking-[0.28em] text-app-ink-faint">
+            <p className="font-mono text-[0.75rem] uppercase tracking-[0.24em] text-app-ink-faint">
               {navHeading}
             </p>
             <nav className="mt-4 space-y-0.5">
@@ -118,7 +118,7 @@ export default function AppShellChrome({
                     key={item.path}
                     to={href}
                     aria-current={active ? "page" : undefined}
-                    className={`group relative flex min-h-[40px] items-center gap-3 px-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd ${
+                    className={`group relative flex min-h-[44px] items-center gap-3 px-3 font-mono text-[0.82rem] uppercase tracking-[0.14em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-accent-bd ${
                       active
                         ? "bg-app-accent-bg text-app-accent"
                         : "text-app-ink-dim hover:bg-app-hover hover:text-app-ink"
@@ -139,7 +139,7 @@ export default function AppShellChrome({
 
         {/* mobile menu */}
         {mobileOpen && (
-          <div className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-app-bg-98 p-5 backdrop-blur-xl md:hidden">
+          <div className="fixed inset-x-0 bottom-0 top-24 z-40 overflow-y-auto bg-app-bg-98 p-5 backdrop-blur-xl md:hidden">
             <nav className="space-y-1.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -149,7 +149,7 @@ export default function AppShellChrome({
                   <Link
                     key={item.path}
                     to={href}
-                    className={`flex min-h-[48px] items-center gap-3 px-4 font-mono text-[0.7rem] uppercase tracking-[0.2em] transition ${
+                    className={`flex min-h-[52px] items-center gap-3 px-4 font-mono text-[0.82rem] uppercase tracking-[0.16em] transition ${
                       active
                         ? "border border-app-accent-bd bg-app-accent-bg text-app-accent"
                         : "border border-app-edge bg-app-hover text-app-ink-dim"
@@ -165,7 +165,7 @@ export default function AppShellChrome({
         )}
 
         {/* content area */}
-        <main className="min-h-[calc(100vh-4rem)] w-full flex-1 px-5 py-8 md:ml-64 md:px-10">
+        <main className="min-h-[calc(100vh-6rem)] w-full flex-1 px-5 py-8 md:ml-72 md:px-10">
           {children}
         </main>
       </div>

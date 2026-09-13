@@ -36,7 +36,7 @@ export default function VerifySection() {
             </div>
             <h2
               data-reveal
-              className="mt-5 font-display text-[clamp(1.8rem,4.6vw,3rem)] leading-tight text-[#F0F2F5]"
+              className="mt-5 font-display text-[clamp(2.1rem,5vw,3.4rem)] leading-tight text-[#F0F2F5]"
             >
               {ISSUE.title}
             </h2>
@@ -139,7 +139,7 @@ export default function VerifySection() {
             <span className="font-mono text-[0.62rem] uppercase tracking-[0.3em] text-[#94A3B8]">
               08 — Inspection complete
             </span>
-            <h2 className="mt-3 font-display text-[clamp(1.7rem,4vw,2.6rem)] text-[#F0F2F5]">
+            <h2 className="mt-3 font-display text-[clamp(2rem,4.4vw,3rem)] text-[#F0F2F5]">
               Result recorded against{" "}
               <span className="font-mono text-[#F59E0B]">{PRODUCT.inspectionId}</span>
             </h2>

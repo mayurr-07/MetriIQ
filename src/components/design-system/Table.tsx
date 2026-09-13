@@ -17,7 +17,7 @@ export function Table({ columns, children, className }: TableProps) {
               <th
                 key={col}
                 scope="col"
-                className="px-4 py-3 font-mono text-[0.68rem] font-medium uppercase tracking-[0.16em] text-app-ink-dim"
+                className="px-4 py-3.5 font-mono text-[0.8rem] font-medium uppercase tracking-[0.14em] text-app-ink-dim"
               >
                 {col}
               </th>
@@ -38,7 +38,7 @@ export function TableRow({ children, className }: { children: ReactNode; classNa
 
 export function TableCell({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <td className={cn("px-4 py-3.5 align-middle text-[0.885rem] text-app-ink", className)}>
+    <td className={cn("px-4 py-3.5 align-middle text-[1rem] text-app-ink", className)}>
       {children}
     </td>
   );
@@ -66,8 +66,8 @@ export function TableEmptyRow({
               {icon}
             </div>
           )}
-          <p className="mt-4 font-display text-[1.125rem] text-app-ink">{title}</p>
-          <p className="mt-1.5 text-[0.875rem] leading-relaxed text-app-ink-dim">{description}</p>
+          <p className="mt-4 font-display text-[1.3rem] text-app-ink">{title}</p>
+          <p className="mt-1.5 text-[1rem] leading-relaxed text-app-ink-dim">{description}</p>
           {action && <div className="mt-5">{action}</div>}
         </div>
       </td>
