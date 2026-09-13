@@ -484,6 +484,63 @@ a {
   background-color: var(--app-hover-hi) !important;
 }
 
+/* Hardcoded dark backgrounds → theme-aware light surface */
+[data-theme="light"] .bg-\[\#0B111C\],
+[data-theme="light"] .bg-\[\#0b111c\],
+[data-theme="light"] .bg-\[\#080C14\],
+[data-theme="light"] .bg-\[\#080c14\],
+[data-theme="light"] .bg-\[\#0E1521\],
+[data-theme="light"] .bg-\[\#0e1521\],
+[data-theme="light"] .bg-\[\#111827\],
+[data-theme="light"] .bg-\[\#161F2E\],
+[data-theme="light"] .bg-\[\#0f172a\],
+[data-theme="light"] .bg-\[\#1e293b\],
+[data-theme="light"] .bg-\[\#1f2937\] {
+  background-color: var(--app-surface) !important;
+}
+
+/* Hardcoded translucent dark backgrounds → light ghost/hover tints */
+[data-theme="light"] .bg-black\/20,
+[data-theme="light"] .bg-black\/30,
+[data-theme="light"] .bg-black\/40,
+[data-theme="light"] .bg-black\/50,
+[data-theme="light"] .bg-black\/60 {
+  background-color: var(--app-ghost) !important;
+}
+
+[data-theme="light"] .bg-\[\#111827\]\/20,
+[data-theme="light"] .bg-\[\#111827\]\/40,
+[data-theme="light"] .bg-\[\#111827\]\/70 {
+  background-color: var(--app-hover) !important;
+}
+
+/* Explicit form controls styling for light mode */
+[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+  color: var(--app-ink) !important;
+  border-color: var(--app-edge-mid) !important;
+}
+
+[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):focus,
+[data-theme="light"] select:focus,
+[data-theme="light"] textarea:focus {
+  border-color: var(--app-accent) !important;
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] option {
+  background-color: #ede8dc !important;
+  color: #1a1612 !important;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: var(--app-ink-faint) !important;
+  opacity: 0.8;
+}
+
 /* Ring offset on focus rings */
 [data-theme="light"] .focus-visible\:ring-offset-\[\#080C14\]:focus-visible {
   --tw-ring-offset-color: var(--app-bg) !important;
