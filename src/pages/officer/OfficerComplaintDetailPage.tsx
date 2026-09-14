@@ -186,7 +186,7 @@ export default function OfficerComplaintDetailPage() {
       />
 
       <div className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
-        <div className="space-y-6">
+        <div className="order-2 space-y-6 lg:order-1">
           {/* Main Case Card */}
           <Card>
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/8 pb-4">
@@ -309,7 +309,7 @@ export default function OfficerComplaintDetailPage() {
         </div>
 
         {/* Side Panel for Actions */}
-        <aside className="space-y-6">
+        <aside className="order-1 space-y-6 lg:order-2">
           <Card>
             <h3 className="font-display text-base text-[#F0F2F5] mb-3">Case Actions</h3>
             {isClosed ? (

@@ -14,10 +14,10 @@
   --color-issue: #ef4444;
   --color-paper: #f5f0e6;
 
-  --font-display: "Times New Roman", Times, Georgia, serif;
-  --font-sans: "Times New Roman", Times, Georgia, serif;
-  --font-mono: "Times New Roman", Times, Georgia, serif;
-  --font-quote: "Times New Roman", Times, Georgia, serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-quote: "Instrument Serif", ui-serif, Georgia, serif;
 }
 
 /* ── App shell theme tokens (runtime-switchable) ── */
@@ -34,9 +34,9 @@
   --app-edge-mid:    rgba(255, 255, 255, 0.15);
   --app-edge-hi:     rgba(255, 255, 255, 0.25);
 
-  --app-ink:         #ffffff;
-  --app-ink-dim:     #f4f6f8;
-  --app-ink-faint:   #e8edf2;
+  --app-ink:         #f0f2f5;
+  --app-ink-dim:     #94a3b8;
+  --app-ink-faint:   #64748b;
 
   --app-hover:       rgba(255, 255, 255, 0.05);
   --app-hover-hi:    rgba(255, 255, 255, 0.10);
@@ -99,11 +99,9 @@
   --color-app-edge:       var(--app-edge);
   --color-app-edge-mid:   var(--app-edge-mid);
   --color-app-edge-hi:    var(--app-edge-hi);
-  --color-app-ink:             var(--app-ink);
-  --color-app-ink-dim:         var(--app-ink-dim);
-  --color-app-ink-faint:       var(--app-ink-faint);
-  --color-app-text:            var(--app-ink);
-  --color-app-text-secondary:  var(--app-ink-dim);
+  --color-app-ink:        var(--app-ink);
+  --color-app-ink-dim:    var(--app-ink-dim);
+  --color-app-ink-faint:  var(--app-ink-faint);
   --color-app-hover:      var(--app-hover);
   --color-app-hover-hi:   var(--app-hover-hi);
   --color-app-ghost:      var(--app-ghost);
@@ -112,26 +110,6 @@
   --color-app-accent-bd:   var(--app-accent-bd);
   --color-app-accent-bd-h: var(--app-accent-bd-h);
   --color-app-accent-bg-h: var(--app-accent-bg-h);
-}
-
-html {
-  font-size: 100%;
-  --app-header-h: 4.25rem;
-}
-
-@media (min-width: 640px) {
-  html {
-    font-size: 106.25%;
-    --app-header-h: 5.25rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  html {
-    /* 16px → 18px on desktop so rem-based type stays readable. */
-    font-size: 112.5%;
-    --app-header-h: 6rem;
-  }
 }
 
 html,
@@ -168,23 +146,8 @@ body {
   }
 }
 
-html,
-body,
-button,
-input,
-select,
-textarea,
-code,
-pre,
-kbd,
-samp,
-html *,
-html *::before,
-html *::after {
-  font-family: "Times New Roman", Times, Georgia, serif !important;
-}
-
 body {
+  font-family: var(--font-sans);
   margin: 0;
   overscroll-behavior-y: none;
 }
@@ -196,32 +159,6 @@ body {
 
 * {
   -webkit-tap-highlight-color: transparent;
-}
-
-#root {
-  overflow-x: clip;
-  max-width: 100%;
-}
-
-img,
-video,
-svg {
-  max-width: 100%;
-}
-
-table {
-  max-width: 100%;
-}
-
-.overflow-x-auto {
-  -webkit-overflow-scrolling: touch;
-}
-
-@media (max-width: 639px) {
-  .eyebrow {
-    letter-spacing: 0.16em;
-    overflow-wrap: anywhere;
-  }
 }
 
 button,
@@ -357,36 +294,10 @@ a {
 
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.88rem;
-  letter-spacing: 0.28em;
+  font-size: 0.66rem;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: #ffffff;
-}
-
-/* Lift the smallest captions, badges, and mono labels so they stay readable. */
-.text-\[0\.5rem\],
-.text-\[0\.52rem\],
-.text-\[0\.54rem\],
-.text-\[0\.55rem\],
-.text-\[0\.56rem\],
-.text-\[0\.58rem\],
-.text-\[0\.6rem\] {
-  font-size: 0.85rem !important;
-}
-
-.text-\[0\.62rem\],
-.text-\[0\.64rem\],
-.text-\[0\.65rem\],
-.text-\[0\.66rem\],
-.text-\[0\.68rem\],
-.text-\[0\.7rem\] {
-  font-size: 0.88rem !important;
-}
-
-.text-\[0\.72rem\],
-.text-\[0\.75rem\],
-.text-xs {
-  font-size: 0.9rem !important;
+  color: #94a3b8;
 }
 
 .rule-line {
@@ -497,34 +408,6 @@ a {
   }
 }
 
-/* ── Dark mode: keep small / muted copy near-white ────────────────────────
-   Slate labels wash out over the 3D scene and dark panels. Force them to
-   a readable white unless we are in light theme or on a paper card.
-   ──────────────────────────────────────────────────────────────────────── */
-html:not([data-theme="light"]) .text-\[\#94A3B8\],
-html:not([data-theme="light"]) .text-\[\#A0AEC0\],
-html:not([data-theme="light"]) .text-\[\#64748B\],
-html:not([data-theme="light"]) .text-\[\#475569\],
-html:not([data-theme="light"]) .text-\[\#334155\],
-html:not([data-theme="light"]) .text-\[\#CBD5E1\],
-html:not([data-theme="light"]) .text-app-ink-dim,
-html:not([data-theme="light"]) .text-app-ink-faint,
-html:not([data-theme="light"]) .text-app-text-secondary {
-  color: #ffffff !important;
-}
-
-html:not([data-theme="light"]) .paper .text-\[\#94A3B8\],
-html:not([data-theme="light"]) .paper .text-\[\#64748B\],
-html:not([data-theme="light"]) .paper .text-\[\#475569\],
-html:not([data-theme="light"]) .paper .text-\[\#CBD5E1\] {
-  color: inherit !important;
-}
-
-#story :is(p, span, li, h1, h2, h3, dt, dd, button, a, label),
-footer :is(p, span, li, button, a) {
-  text-shadow: 0 1px 10px rgba(8, 12, 20, 0.8);
-}
-
 /* ── Light mode: global dark-palette corrections ──────────────────────────
    Page components still use hardcoded dark-mode colors. These overrides
    remap them to theme-aware values so every screen is readable on cream.
@@ -601,61 +484,10 @@ footer :is(p, span, li, button, a) {
   background-color: var(--app-hover-hi) !important;
 }
 
-/* Hardcoded dark backgrounds → theme-aware light surface */
+/* Form input / select backgrounds */
 [data-theme="light"] .bg-\[\#0B111C\],
-[data-theme="light"] .bg-\[\#0b111c\],
-[data-theme="light"] .bg-\[\#080C14\],
-[data-theme="light"] .bg-\[\#080c14\],
-[data-theme="light"] .bg-\[\#0E1521\],
-[data-theme="light"] .bg-\[\#0e1521\],
-[data-theme="light"] .bg-\[\#111827\],
-[data-theme="light"] .bg-\[\#161F2E\],
-[data-theme="light"] .bg-\[\#0f172a\],
-[data-theme="light"] .bg-\[\#1e293b\],
-[data-theme="light"] .bg-\[\#1f2937\] {
+[data-theme="light"] .bg-\[\#111827\] {
   background-color: var(--app-surface) !important;
-}
-
-/* Hardcoded translucent dark backgrounds → light ghost/hover tints */
-[data-theme="light"] .bg-black\/20,
-[data-theme="light"] .bg-black\/30,
-[data-theme="light"] .bg-black\/40,
-[data-theme="light"] .bg-black\/50,
-[data-theme="light"] .bg-black\/60 {
-  background-color: var(--app-ghost) !important;
-}
-
-[data-theme="light"] .bg-\[\#111827\]\/20,
-[data-theme="light"] .bg-\[\#111827\]\/40,
-[data-theme="light"] .bg-\[\#111827\]\/70 {
-  background-color: var(--app-hover) !important;
-}
-
-/* Explicit form controls styling for light mode */
-[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]),
-[data-theme="light"] select,
-[data-theme="light"] textarea {
-  background-color: rgba(255, 255, 255, 0.75) !important;
-  color: var(--app-ink) !important;
-  border-color: var(--app-edge-mid) !important;
-}
-
-[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):focus,
-[data-theme="light"] select:focus,
-[data-theme="light"] textarea:focus {
-  border-color: var(--app-accent) !important;
-  background-color: #ffffff !important;
-}
-
-[data-theme="light"] option {
-  background-color: #ede8dc !important;
-  color: #1a1612 !important;
-}
-
-[data-theme="light"] input::placeholder,
-[data-theme="light"] textarea::placeholder {
-  color: var(--app-ink-faint) !important;
-  opacity: 0.8;
 }
 
 /* Ring offset on focus rings */

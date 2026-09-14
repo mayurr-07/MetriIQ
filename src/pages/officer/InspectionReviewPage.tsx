@@ -57,7 +57,7 @@ export default function InspectionReviewPage() {
       {draft.isDemo && <div className="mb-5"><DemoBanner /></div>}
 
       <div className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
-        <div className="space-y-4">
+        <div className="order-2 space-y-4 lg:order-1">
           <Card>
             <h2 className="font-display text-xl text-[#F0F2F5]">Captured evidence</h2>
             {draft.evidence.length === 0 ? (
@@ -118,7 +118,7 @@ export default function InspectionReviewPage() {
           )}
         </div>
 
-        <aside className="space-y-4">
+        <aside className="order-1 space-y-4 lg:order-2">
           <Card>
             <p className="font-mono text-[0.58rem] uppercase tracking-[0.18em] text-[#94A3B8]">Inspection status</p>
             <div className="mt-3"><WorkflowStatusBadge state={draft.workflowState} /></div>

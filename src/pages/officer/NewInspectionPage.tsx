@@ -290,22 +290,27 @@ export default function NewInspectionPage() {
 
       {error && <p className="mt-4 text-sm text-[#EF4444]">{error}</p>}
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/8 pt-5">
-        <Button variant="ghost" disabled={step === 1} onClick={() => goTo(Math.max(1, step - 1))}>
-          Back
-        </Button>
-        <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#64748B]">
+      <div className="mt-6 border-t border-white/8 pt-5">
+        <p className="mb-3 text-center font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#64748B] sm:hidden">
           Step {step} of {INSPECTION_STEPS.length} · {draft.reference}
         </p>
-        {step < 6 ? (
-          <Button variant="primary" disabled={!canAdvance || busy} onClick={() => goTo(step + 1)}>
-            Continue
+        <div className="flex items-center justify-between gap-3">
+          <Button variant="ghost" disabled={step === 1} onClick={() => goTo(Math.max(1, step - 1))}>
+            Back
           </Button>
-        ) : (
-          <Button variant="primary" disabled={!draft.decision.decision} onClick={() => setConfirmOpen(true)}>
-            Review submission
-          </Button>
-        )}
+          <p className="hidden font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#64748B] sm:block">
+            Step {step} of {INSPECTION_STEPS.length} · {draft.reference}
+          </p>
+          {step < 6 ? (
+            <Button variant="primary" disabled={!canAdvance || busy} onClick={() => goTo(step + 1)}>
+              Continue
+            </Button>
+          ) : (
+            <Button variant="primary" disabled={!draft.decision.decision} onClick={() => setConfirmOpen(true)}>
+              Review submission
+            </Button>
+          )}
+        </div>
       </div>
 
       <Dialog
@@ -430,7 +435,7 @@ function EvidenceStep({
                 <h2 className="font-display text-xl text-[#F0F2F5]">{slot.title}</h2>
                 <p className="mt-1 text-sm text-[#94A3B8]">{slot.hint}</p>
               </div>
-              <label className="inline-flex min-h-[44px] cursor-pointer items-center gap-2 border border-[#F59E0B]/40 bg-[#F59E0B]/10 px-4 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#F59E0B]">
+              <label className="flex min-h-[44px] w-full cursor-pointer items-center justify-center gap-2 border border-[#F59E0B]/40 bg-[#F59E0B]/10 px-4 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#F59E0B] sm:w-auto sm:justify-start">
                 <ImagePlus className="h-4 w-4" />
                 Upload image
                 <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={handle(slot.kind)} />

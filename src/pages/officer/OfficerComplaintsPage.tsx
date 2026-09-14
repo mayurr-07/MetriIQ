@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ShieldAlert, Search } from "lucide-react";
+import { ArrowRight, ShieldAlert, Search } from "lucide-react";
 import { PageHeader } from "@/components/design-system/PageHeader";
+import { Card } from "@/components/design-system/Card";
 import { Table, TableCell, TableEmptyRow, TableRow } from "@/components/design-system/Table";
 import { StatusBadge } from "@/components/design-system/StatusBadge";
 import { complaintService } from "@/services/inspection/complaintService";
@@ -59,6 +60,7 @@ export default function OfficerComplaintsPage() {
         description="Review and investigate product complaints submitted by consumers with photographic evidence."
       />
 
+      {/* Filters */}
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
         <label className="relative min-w-0 flex-1">
           <span className="sr-only">Search complaints</span>
@@ -70,82 +72,115 @@ export default function OfficerComplaintsPage() {
             className="w-full border border-white/12 bg-[#0B111C] py-2.5 pl-10 pr-3 font-mono text-xs text-[#F0F2F5] outline-none focus:border-[#F59E0B]/60"
           />
         </label>
-
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value as (typeof FILTERS)[number]["value"])}
-          className="border border-white/12 bg-[#0B111C] px-3 py-2.5 font-mono text-xs text-[#F0F2F5] outline-none"
+          className="w-full border border-white/12 bg-[#0B111C] px-3 py-2.5 font-mono text-xs text-[#F0F2F5] outline-none lg:w-auto"
         >
           {FILTERS.map((item) => (
-            <option key={item.value} value={item.value}>
-              {item.label}
-            </option>
+            <option key={item.value} value={item.value}>{item.label}</option>
           ))}
         </select>
-
         <select
           value={issueType}
           onChange={(e) => setIssueType(e.target.value as (typeof ISSUE_FILTERS)[number]["value"])}
-          className="border border-white/12 bg-[#0B111C] px-3 py-2.5 font-mono text-xs text-[#F0F2F5] outline-none"
+          className="w-full border border-white/12 bg-[#0B111C] px-3 py-2.5 font-mono text-xs text-[#F0F2F5] outline-none lg:w-auto"
         >
           {ISSUE_FILTERS.map((item) => (
-            <option key={item.value} value={item.value}>
-              {item.label}
-            </option>
+            <option key={item.value} value={item.value}>{item.label}</option>
           ))}
         </select>
-
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value as "date" | "id")}
-          className="border border-white/12 bg-[#0B111C] px-3 py-2.5 font-mono text-xs text-[#F0F2F5] outline-none"
+          className="w-full border border-white/12 bg-[#0B111C] px-3 py-2.5 font-mono text-xs text-[#F0F2F5] outline-none lg:w-auto"
         >
           <option value="date">Sort: last updated</option>
           <option value="id">Sort: complaint ID</option>
         </select>
       </div>
 
-      <Table columns={["Complaint ID", "Product", "Issue Category", "Status", "Action"]}>
+      {/* Mobile card list */}
+      <div className="space-y-2 md:hidden">
         {filtered.length === 0 ? (
-          <TableEmptyRow
-            colSpan={5}
-            icon={<ShieldAlert className="h-5 w-5" />}
-            title="No complaints found"
-            description="No grievances matching your active search/filter criteria are currently registered."
-          />
+          <Card>
+            <div className="py-8 text-center">
+              <ShieldAlert className="mx-auto h-8 w-8 text-[#F59E0B] opacity-60" />
+              <p className="mt-3 font-display text-lg text-[#F0F2F5]">No complaints found</p>
+              <p className="mt-1 text-sm text-[#94A3B8]">No grievances matching your active filters.</p>
+            </div>
+          </Card>
         ) : (
           filtered.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>
-                <p className="font-mono text-[0.72rem] text-[#F0F2F5]">{item.complaintId}</p>
-                {item.isDemo && (
-                  <p className="mt-1 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-[#F59E0B]">
-                    Demo
+            <Link key={item.id} to={`/officer/complaints/${item.id}`} className="block">
+              <Card interactive className="p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#64748B]">{item.complaintId}</p>
+                      {item.isDemo && (
+                        <span className="font-mono text-[0.55rem] uppercase tracking-[0.16em] text-[#F59E0B]">Demo</span>
+                      )}
+                    </div>
+                    <p className="mt-1 truncate text-[#F0F2F5]">{item.productName}</p>
+                    <p className="text-[0.75rem] text-[#94A3B8]">{item.brand}</p>
+                  </div>
+                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[#64748B]" />
+                </div>
+                <div className="mt-3 flex items-center justify-between gap-2">
+                  <StatusBadge status={item.status} />
+                  <p className="font-mono text-[0.6rem] text-[#64748B]">
+                    {ISSUE_TYPE_LABELS[item.issueType]}
                   </p>
-                )}
-              </TableCell>
-              <TableCell>
-                <p>{item.productName}</p>
-                <p className="text-[0.75rem] text-[#94A3B8]">{item.brand}</p>
-              </TableCell>
-              <TableCell className="font-mono text-[0.72rem] text-[#94A3B8]">
-                {ISSUE_TYPE_LABELS[item.issueType]}
-              </TableCell>
-              <TableCell>
-                <StatusBadge status={item.status} />
-              </TableCell>
-              <TableCell>
-                <Link
-                  to={`/officer/complaints/${item.id}`}
-                  className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#F59E0B]"
-                >
-                  Investigate
-                </Link>
-              </TableCell>
-            </TableRow>
+                </div>
+              </Card>
+            </Link>
           ))
         )}
-      </Table>
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden md:block">
+        <Table columns={["Complaint ID", "Product", "Issue Category", "Status", "Action"]}>
+          {filtered.length === 0 ? (
+            <TableEmptyRow
+              colSpan={5}
+              icon={<ShieldAlert className="h-5 w-5" />}
+              title="No complaints found"
+              description="No grievances matching your active search/filter criteria are currently registered."
+            />
+          ) : (
+            filtered.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>
+                  <p className="font-mono text-[0.72rem] text-[#F0F2F5]">{item.complaintId}</p>
+                  {item.isDemo && (
+                    <p className="mt-1 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-[#F59E0B]">Demo</p>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <p>{item.productName}</p>
+                  <p className="text-[0.75rem] text-[#94A3B8]">{item.brand}</p>
+                </TableCell>
+                <TableCell className="font-mono text-[0.72rem] text-[#94A3B8]">
+                  {ISSUE_TYPE_LABELS[item.issueType]}
+                </TableCell>
+                <TableCell>
+                  <StatusBadge status={item.status} />
+                </TableCell>
+                <TableCell>
+                  <Link
+                    to={`/officer/complaints/${item.id}`}
+                    className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#F59E0B]"
+                  >
+                    Investigate
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
+        </Table>
+      </div>
     </div>
   );
 }

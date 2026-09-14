@@ -46,8 +46,8 @@ export default function OfficerDashboard() {
         title="Field Dashboard"
         description="Start a new inspection or resume a draft saved on this device."
         action={
-          <Link to="/officer/inspections/new">
-            <Button variant="primary">
+          <Link to="/officer/inspections/new" className="w-full sm:w-auto">
+            <Button variant="primary" className="w-full sm:w-auto">
               <ScanSearch className="h-4 w-4" />
               Start New Inspection
             </Button>
@@ -63,16 +63,16 @@ export default function OfficerDashboard() {
             {user?.name ?? "Officer"}, this workspace is built for field inspection. AI will assist later;
             the final decision stays with you.
           </CardDescription>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/officer/inspections/new">
-              <Button variant="primary">Start New Inspection</Button>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Link to="/officer/inspections/new" className="w-full sm:w-auto">
+              <Button variant="primary" className="w-full sm:w-auto">Start New Inspection</Button>
             </Link>
             {resume ? (
-              <Link to={`/officer/inspections/${resume.id}`}>
-                <Button variant="secondary">Continue Inspection</Button>
+              <Link to={`/officer/inspections/${resume.id}`} className="w-full sm:w-auto">
+                <Button variant="secondary" className="w-full sm:w-auto">Continue Inspection</Button>
               </Link>
             ) : (
-              <Button variant="outline" disabled>
+              <Button variant="outline" disabled className="w-full sm:w-auto">
                 No draft to continue
               </Button>
             )}
@@ -108,13 +108,13 @@ export default function OfficerDashboard() {
           <div className="space-y-2">
             {drafts.slice(0, 4).map((item) => (
               <Link key={item.id} to={`/officer/inspections/${item.id}`} className="block">
-                <Card interactive className="flex flex-wrap items-center justify-between gap-3 p-4 md:p-4">
-                  <div>
+                <Card interactive className="flex flex-wrap items-center justify-between gap-3 p-4">
+                  <div className="min-w-0 flex-1">
                     <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[#64748B]">{item.reference}</p>
-                    <p className="mt-1 text-[#F0F2F5]">{item.productName}</p>
+                    <p className="mt-1 truncate text-[#F0F2F5]">{item.productName}</p>
                     <p className="text-[0.78rem] text-[#94A3B8]">{item.brand}</p>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex shrink-0 items-center gap-3">
                     {item.isDemo && (
                       <span className="font-mono text-[0.55rem] uppercase tracking-[0.16em] text-[#F59E0B]">Demo</span>
                     )}
