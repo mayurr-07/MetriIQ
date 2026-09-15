@@ -81,13 +81,15 @@ export const complianceService = {
     demo: boolean,
     backendImageUrls?: string[],
     productContext?: { name?: string; location?: string; category?: string },
-    fileKeys?: EvidenceForUpload[]
+    fileKeys?: EvidenceForUpload[],
+    rawLabelData?: unknown
   ): Promise<ComplianceResponse> {
     // Real pipeline: call backend when image URLs from MinIO are available.
     if (backendImageUrls && backendImageUrls.length > 0) {
       try {
         const data = await apiClient.post<RunFullResponse>("/api/inspections/run-full", {
           imageUrls: backendImageUrls,
+          labelData: rawLabelData,
           productContext,
           fileKeys,
         });

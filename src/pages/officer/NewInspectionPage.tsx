@@ -149,6 +149,7 @@ export default function NewInspectionPage() {
       let quality: ImageQualityResult;
       let extractionStatus: ServiceAvailability;
       let extracted: ExtractedLabel | null;
+      let rawBackendLabel: unknown = null;
 
       if (hasBackend) {
         quality = { status: "READY", message: "Image uploaded and ready for analysis." };
@@ -158,6 +159,7 @@ export default function NewInspectionPage() {
             "/api/inspections/extract",
             { imageUrl: backendImageUrls[0] },
           );
+          rawBackendLabel = resp.labelData;
           extracted = mapLabelData(resp.labelData);
           extractionStatus = "AVAILABLE";
         } catch (err) {
@@ -187,6 +189,7 @@ export default function NewInspectionPage() {
         hasBackend ? backendImageUrls : undefined,
         hasBackend ? { name: draft.product.productName, location: draft.product.location, category: draft.product.category } : undefined,
         hasBackend ? fileKeys : undefined,
+        hasBackend ? rawBackendLabel : undefined,
       );
 
       update({

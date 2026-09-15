@@ -411,10 +411,17 @@ Return exactly this structure:
 
 // ── Public API ────────────────────────────────────────────────────────────────
 
+const LLM_BATCH_CODES = ["LM-01", "LM-09", "FS-03", "FS-20", "FS-21"] as const;
+
 export async function checkOcrRules(labelData: LabelData): Promise<RuleResult[]> {
   const [deterministicResults, llmResults] = await Promise.all([
     Promise.resolve(runDeterministicChecks(labelData)),
-    runLlmBatchChecks(labelData),
+    runLlmBatchChecks(labelData).catch((err: unknown) => {
+      console.error("[ocr] LLM batch check failed:", (err as Error).message);
+      return LLM_BATCH_CODES.map((code) =>
+        rule(code, "warning", "Automated check could not be completed — verify manually.")
+      );
+    }),
   ]);
 
   // Merge: deterministic results come first; LLM results fill in the remaining codes

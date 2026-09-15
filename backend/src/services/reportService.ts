@@ -128,7 +128,13 @@ export async function generateReport(
   const violationCategories = extractViolationCategories(failedRules, warningRules);
 
   // Summary generation (text only — fast call)
-  const summary = await generateSummary(failedRules, warningRules, complianceScore, riskLevel);
+  let summary: string;
+  try {
+    summary = await generateSummary(failedRules, warningRules, complianceScore, riskLevel);
+  } catch (err) {
+    console.error("[report] Summary generation failed:", (err as Error).message);
+    summary = `Compliance check complete. Score: ${complianceScore}/100 (${riskLevel} risk). ${failedRules.length} violation(s), ${warningRules.length} warning(s). Please review rule results manually.`;
+  }
 
   return {
     reportId: randomUUID(),
