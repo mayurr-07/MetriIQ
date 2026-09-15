@@ -105,22 +105,59 @@ export default function LoginPage() {
         )}
 
         <Card className="mt-8">
+          {/* One-tap demo access */}
+          <div className="mb-6">
+            <p className="mb-2 font-mono text-[0.7rem] uppercase tracking-wider text-[#64748B]">
+              Quick access — tap a role to enter instantly
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {ROLE_ORDER.map((role) => {
+                const def = ROLE_DEFINITIONS[role];
+                return (
+                  <button
+                    key={role}
+                    type="button"
+                    onClick={() => {
+                      setEmail(def.demoEmail);
+                      setPassword(def.demoPassword);
+                      setError(null);
+                      login({ email: def.demoEmail, password: def.demoPassword })
+                        .then((u) => navigate(from || getDefaultRouteForRole(u.role), { replace: true }))
+                        .catch((err) => setError(err instanceof Error ? err.message : "Login failed."));
+                    }}
+                    className="flex min-h-[52px] flex-col items-start border border-white/10 bg-white/[0.02] px-3 py-2 text-left transition hover:border-[#F59E0B]/30 hover:bg-[#F59E0B]/[0.05] active:scale-[0.98]"
+                  >
+                    <span className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-[#F59E0B]">{def.label}</span>
+                    <span className="mt-0.5 font-mono text-[0.6rem] text-[#64748B]">{def.demoEmail}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 text-[#475569]">
+            <div className="h-px flex-1 bg-white/8" />
+            <span className="font-mono text-[0.62rem] uppercase tracking-wider">or sign in manually</span>
+            <div className="h-px flex-1 bg-white/8" />
+          </div>
+
           {error && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               transition={{ duration: 0.2 }}
-              className="mb-6 flex items-start gap-3 border border-[#EF4444]/40 bg-[#EF4444]/10 p-4 text-sm text-[#EF4444]"
+              className="my-4 flex items-start gap-3 border border-[#EF4444]/40 bg-[#EF4444]/10 p-4 text-sm text-[#EF4444]"
             >
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
               <div>
                 <p className="font-mono font-semibold uppercase tracking-wider">Authentication Error</p>
                 <p className="mt-1 leading-relaxed text-[#F0F2F5]/90">{error}</p>
+                <p className="mt-2 text-xs text-[#94A3B8]">Use the quick-access buttons above to log in instantly.</p>
               </div>
             </motion.div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="mt-5 space-y-4">
             <div>
               <label
                 htmlFor="login-email"
@@ -166,26 +203,6 @@ export default function LoginPage() {
             <Button type="submit" variant="primary" size="md" loading={loading} className="mt-2 w-full">
               Sign In
             </Button>
-
-            <div className="mt-4 space-y-1.5 border-t border-white/8 pt-4">
-              <p className="font-mono text-[0.75rem] uppercase tracking-wider text-[#64748B]">
-                Demo accounts
-              </p>
-              {ROLE_ORDER.map((role) => {
-                const def = ROLE_DEFINITIONS[role];
-                return (
-                  <div
-                    key={role}
-                    className="flex flex-col gap-0.5 font-mono text-[0.75rem] text-[#64748B] sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-2"
-                  >
-                    <span className="text-[#94A3B8]">{def.label}</span>
-                    <span>
-                      {def.demoEmail} · {def.demoPassword}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
           </form>
         </Card>
       </main>
