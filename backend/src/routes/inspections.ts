@@ -132,8 +132,14 @@ router.post(
     } else {
       console.log(`[run-full] Step 1/3 — Extracting label data from front image...`);
       const t1 = Date.now();
-      labelData = await extractLabelData(imageUrls[0]);
-      console.log(`[run-full] Extraction done in ${Date.now() - t1}ms`);
+      try {
+        labelData = await extractLabelData(imageUrls[0]);
+        console.log(`[run-full] Extraction done in ${Date.now() - t1}ms`);
+      } catch (err) {
+        console.error(`[run-full] Extraction failed:`, (err as Error).message);
+        res.status(422).json({ error: "Could not read label data from the image. Please ensure the image is clear and well-lit, then try again." });
+        return;
+      }
     }
 
     // Step 2: Run OCR rules and vision rules in parallel
