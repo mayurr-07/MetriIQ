@@ -89,7 +89,7 @@ function runDeterministicChecks(d: LabelData): RuleResult[] {
   const validUnits = ["g", "kg", "ml", "l", "nos", "pieces", "number"];
   if (!d.netQuantity) {
     results.push(rule("LM-02", "fail", "Net quantity not found on label."));
-  } else if (!validUnits.includes(d.netQuantity.unit.toLowerCase())) {
+  } else if (!validUnits.includes((d.netQuantity.unit ?? "").toLowerCase())) {
     results.push(
       rule(
         "LM-02",
