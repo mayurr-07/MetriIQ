@@ -82,7 +82,11 @@ function parseJsonResponse(raw: string): LabelData {
     .replace(/^```(?:json)?/m, "")
     .replace(/```$/m, "")
     .trim();
-  return JSON.parse(text) as LabelData;
+  try {
+    return JSON.parse(text) as LabelData;
+  } catch {
+    throw new Error(`Label data JSON malformed or truncated — response started: ${text.slice(0, 120)}`);
+  }
 }
 
 // ── Main extraction ───────────────────────────────────────────────────────────
